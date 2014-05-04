@@ -120,6 +120,8 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
+//app config data
+ni.org.petstore.email = "amakenadog@gmail.com"
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'ni.org.petstore.User'

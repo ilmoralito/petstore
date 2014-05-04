@@ -27,6 +27,26 @@ class BootStrap {
         }
 
         assert Client.count() == 1
+
+        //providers
+        def provider1 = new Provider(name:"Provider1", contactName:"Juan Perez", contactTelephoneNumber:"23118855")
+
+        if (!provider1.save()) {
+          provider1.errors.allErrors.each {
+            println it
+          }
+        }
+
+        def provider2 = new Provider(name:"Provider2", contactName:"Juan Perez Lopez", contactTelephoneNumber:"23188855")
+
+        if (!provider2.save()) {
+          provider2.errors.allErrors.each {
+            println it
+          }
+        }
+
+        assert Provider.count() == 2
+
    		break
    	}
   }

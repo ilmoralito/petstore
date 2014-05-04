@@ -7,7 +7,13 @@ class ClientController {
 	static defaultAction = "list"
 	static allowedMethods = [
 		list:"GET",
-		create:["GET", "POST"]
+		create:["GET", "POST"],
+    delete:"GET",
+    edit:"GET",
+    update:"POST",
+    show:"GET",
+    history:["GET", "POST"],
+    sendMail:["GET", "POST"]
 	]
 
   def list() {
@@ -21,6 +27,8 @@ class ClientController {
   		if (!client.save()) {
   			return [client:client]
   		}
+
+      return
   	}
 
   	[client:client]
@@ -77,6 +85,28 @@ class ClientController {
   	}
 
   	[client:client]
+  }
+
+  def history(Integer id) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    [client:client]
+  }
+
+  def sendMail(Integer id) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    [client:client]
   }
 
 }

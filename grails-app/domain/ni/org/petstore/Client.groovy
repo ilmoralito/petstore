@@ -13,7 +13,7 @@ class Client {
   	storeName blank:false
   	address blank:false
   	city inList:["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"], maxSize:255
-  	telephone nullable:true, maxSize:8
+  	telephone nullable:true, unique:true, maxSize:8
   	email nullable:true, email:true, unique:true
   }
 

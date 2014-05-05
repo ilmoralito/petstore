@@ -22,7 +22,7 @@
 						<g:each in="${products}" var="product">
 							<tr>
 								<td>${product.price}</td>
-								<td><g:link action="show" id="${product.id}">${product}</g:link></td>
+								<td><g:link action="show" params="[id:product.id, providerId:params?.providerId]">${product}</g:link></td>
 								<td><g:link action="edit" params="[id:product.id, providerId:params?.providerId]"><span class="glyphicon glyphicon-pencil"></span></g:link></td>
 								<td><g:link action="delete" id="${product.id}"><span class="glyphicon glyphicon-remove"></span></g:link></td>
 							</tr>

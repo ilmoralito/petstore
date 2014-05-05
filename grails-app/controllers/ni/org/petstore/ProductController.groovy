@@ -10,15 +10,14 @@ class ProductController {
     show:"GET",
     delete:"GET",
     edit:"GET",
+    update:"POST",
     save:"POST"
 	]
 
   def list(Integer providerId) {
   	def provider = Provider.get(providerId)
 
-  	if (!provider) {
-  		response.sendError 404
-  	}
+  	if (!provider) { response.sendError 404 }
 
   	def products = Product.findAllByProvider(provider)
 
@@ -28,9 +27,7 @@ class ProductController {
   def show(Integer id) {
     def product = Product.get(id)
 
-    if (!product) {
-      response.sendError 404
-    }
+    if (!product) { response.sendError 404 }
 
     [product:product]
   }
@@ -38,12 +35,9 @@ class ProductController {
   def delete(Integer id) {
     def product = Product.get(id)
 
-    if (!product) {
-      response.sendError 404
-    }
+    if (!product) { response.sendError 404 }
 
     product.delete()
-
     redirect action:"list", params:[providerId:product.provider.id]
   }
 

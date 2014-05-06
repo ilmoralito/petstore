@@ -20,7 +20,14 @@
 					<tbody>
 						<g:each in="${products}" var="product">
 							<tr>
-								<td><g:link action="show" params="[id:product.id, providerId:params?.providerId]">${product}</g:link></td>
+								<td>
+									<g:if test="${product.id.toInteger() == params?.id.toInteger()}">
+										<ps:showProductPresentations/>
+										si
+									</g:if>
+									<g:else>
+										<g:link action="list" params="[id:product.id, providerId:params?.providerId]">${product}</g:link></td>
+									</g:else>
 								<td><g:link action="edit" params="[id:product.id, providerId:params?.providerId]"><span class="glyphicon glyphicon-pencil"></span></g:link></td>
 								<td><g:link action="delete" id="${product.id}"><span class="glyphicon glyphicon-remove"></span></g:link></td>
 							</tr>

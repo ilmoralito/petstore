@@ -16,4 +16,10 @@ class AppTagLib {
 			}
 		}
 	}
+
+	def showProductPresentations = { attrs, body ->
+		//Integer productId = attrs.int("productId")
+		//Integer
+		println params 
+	}
 }

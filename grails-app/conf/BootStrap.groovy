@@ -36,7 +36,7 @@ class BootStrap {
         }
 
         //products
-        def item1 = new Product(name:"item1",price:200)
+        def item1 = new Product(name:"item1")
 
         provider1.addToProducts(item1)
 
@@ -45,9 +45,9 @@ class BootStrap {
         }
 
         //Prensenations
-        def presentation1 = new Presentation(presentation:"Inyeccion", quantity:15)
-        def presentation2 = new Presentation(presentation:"Pildora", quantity:100)
-        def presentation3 = new Presentation(presentation:"Jarabe", quantity:100)
+        def presentation1 = new Presentation(presentation:"Crema", quantity:15, price:125.5)
+        def presentation2 = new Presentation(presentation:"Tableta", quantity:100, price:120)
+        def presentation3 = new Presentation(presentation:"Inyectable", quantity:78, price:150)
 
         item1.addToPresentations presentation1
         item1.addToPresentations presentation2
@@ -59,10 +59,7 @@ class BootStrap {
 
         assert item1.presentations.size() == 3
 
-        def item2 = new Product(
-          name:"item2",
-          price:300
-        )
+        def item2 = new Product(name:"item2")
 
         provider1.addToProducts(item2)
 

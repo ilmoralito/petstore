@@ -58,7 +58,7 @@ class ProductController {
     def provider = Provider.get(providerId)
     if (!provider) { response.sendError 404 }
 
-    product.properties = params
+    product.name = params?.name
 
     flash.message = (!product.save()) ? "A ocurrido un error" : "Actualizado correctamente"
     redirect action:"edit", params:[id:id, providerId:providerId]
@@ -68,9 +68,7 @@ class ProductController {
     def product = new Product(params)
     def provider = Provider.get(providerId)
 
-    if (!provider) {
-      response.sendError 404
-    }
+    if (!provider) { response.sendError 404 }
 
     provider.addToProducts product
 

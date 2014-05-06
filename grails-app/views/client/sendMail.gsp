@@ -12,7 +12,7 @@
 		<div class="col-md-6">
 			<g:form action="sendMail">
 				<div class="form-group">
-					<div class="form-control"><b>De</b> ${grailsApplication.config.ni.org.petstore.email}</div>
+					<div class="form-control"><b>De</b> ${grailsApplication.config.ni.org.petstore.owner.email}</div>
 				</div>
 				<div class="form-group">
 					<div class="form-control"><b>Para</b> ${client.email}</div>

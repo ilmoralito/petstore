@@ -35,7 +35,12 @@ class PresentationController {
       response.sendError 404
     }
 
-    presentation.delete()
+    def product = Product.get(productId)
+
+    if (product) {
+      presentation.delete()
+      product.removeFromPresentations presentation
+    }
 
     redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
   }

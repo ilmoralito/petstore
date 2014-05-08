@@ -4,23 +4,39 @@ import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(["ROLE_ADMIN"])
 class PresentationController {
-	static defaultAction = "update"
+	static defaultAction = "save"
 	static allowedMethods = [
-		update:"POST"
+		save:"POST",
+    delete:"GET"
 	]
 
-  def update(Integer id, Integer providerId, String pres) {
-  	def product = Product.get(id)
-  	if (!product) { response.sendError 404 }
+  def save(Integer id, Integer providerId) {
+  	def presentation = new Presentation(params)
+    def product = Product.get(id)
 
-  	def presentation = Presentation.findByProductAndPresentation(product, pres)
+    if (!product) {
+      response.sendError 404
+    }
 
-  	println "hello world"
+    product.addToPresentations presentation
 
-  	if (!presentation) { response.sendError 404 }
+    if (!presentation.save()) {
+      presentation.errors.allErrors.each { println it }
+    }
 
-  	//presentation.properties["quantity"] = params?.quantity
+    flash.message = (!presentation.save()) ? "A ocurrido un error. Intentalo otravez" : "Presentacion agregado"
+    redirect controller:"product", action:"list", params:[id:id, providerId:providerId]
+  }
 
-  	redirect controller:"product", action:"show", params:[providerId:providerId]
+  def delete(Integer id, Integer productId, Integer providerId) {
+    def presentation = Presentation.get(id)
+
+    if (!presentation) {
+      response.sendError 404
+    }
+
+    presentation.delete()
+
+    redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
   }
 }

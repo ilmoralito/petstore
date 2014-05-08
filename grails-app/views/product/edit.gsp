@@ -7,7 +7,7 @@
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
-	<h4>Actualizar datos de ${product.name.toUpperCase()}</h4>
+	<h4>${product.name.toUpperCase()}</h4>
 	<g:hasErrors bean="${product}"><g:renderErrors bean="${product}"></g:renderErrors></g:hasErrors>
 	<g:form action="update">
 		<g:hiddenField name="id" value="${params?.id}"/>

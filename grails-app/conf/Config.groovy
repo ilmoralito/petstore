@@ -122,7 +122,7 @@ log4j = {
 
 //app config data
 ni.org.petstore.owner = [email:"provetnicsa@yahoo.es", name:"Hector Salinas"]
-ni.ogr.petstore.presentations = ["Crema", "Spray", "Tableta", "Soluble", "Suspencion", "Inyectable"]
+ni.org.petstore.presentations = ["Crema", "Spray", "Tableta", "Soluble", "Suspencion", "Inyectable"]
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'ni.org.petstore.User'

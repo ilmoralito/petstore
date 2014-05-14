@@ -1,6 +1,6 @@
 package ni.org.petstore
 
-class Presentation {
+class Presentation implements Serializable {
 	String presentation
 	Integer quantity
 	BigDecimal price

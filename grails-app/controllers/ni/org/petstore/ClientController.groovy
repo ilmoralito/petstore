@@ -92,10 +92,11 @@ class ClientController {
 
     if (!client) {
       response.sendError 404
-      return
     }
 
-    [client:client]
+    def sales = Sale.findAllByClient(client).unique { it.client }
+
+    [sales:sales]
   }
 
   def sendMail(Integer id) {

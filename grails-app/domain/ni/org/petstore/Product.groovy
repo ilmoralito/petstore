@@ -1,6 +1,6 @@
 package ni.org.petstore
 
-class Product {
+class Product implements Serializable {
 	String name
 
   static constraints = {

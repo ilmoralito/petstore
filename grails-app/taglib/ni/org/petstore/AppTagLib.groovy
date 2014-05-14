@@ -17,9 +17,27 @@ class AppTagLib {
 		}
 	}
 
-	def showProductPresentations = { attrs, body ->
-		//Integer productId = attrs.int("productId")
-		//Integer
-		println params 
+	//TODO:find a better way to do this
+	def itemsQuantity = { attrs, body ->
+		def result = 0
+		def items = (session?.itemsCollection) ?: attrs.items
+
+		if (items) {
+			items.each { item -> result += item.quantity }
+		}
+
+		out << result
+	}
+
+	//TODO:find a better way to do this
+	def itemsTotal = { attrs, body ->
+		def result = 0
+		def items = (session?.itemsCollection) ?: attrs.items
+
+		if (items) {
+			items.each { item -> result += item.total }
+		}
+
+		out << result
 	}
 }

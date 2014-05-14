@@ -1,6 +1,6 @@
 package ni.org.petstore
 
-class Client {
+class Client implements Serializable {
 	String fullName
 	String storeName
 	String address

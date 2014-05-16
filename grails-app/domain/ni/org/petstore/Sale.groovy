@@ -10,11 +10,8 @@ class Sale implements Serializable {
 
 	static namedQueries = {
 		requestFromTo { from, to ->
-	    def f = new Date().parse("yyyy-MM-dd", from)
-	    def t = new Date().parse("yyyy-MM-dd", to)
-
-	    ge "dateCreated", f.clearTime()
-	    le "dateCreated", t.clearTime()
+	    ge "dateCreated", from
+	    le "dateCreated", to + 1
     }
 	}
 

@@ -13,14 +13,25 @@ class SaleController {
 		buildSale:["GET", "POST"]
 	]
 
-	def list(String from, String to) {
+	def list(FilterSaleCommand cmd) {
+      def from = params.date("from", "yyyy-MM-dd")
+      def to = params.date("to", "yyyy-MM-dd")
+
       if (request.method == "POST" || from || to) {
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { println it }
+          flash.message = "Los datos de fecha son necesarios para continuar"
+          return
+        }
+
         [sales:Sale.requestFromTo(from, to).list().unique { it.client }]
       }
 	}
 
-  def detail(Integer clientId, String from, String to) {
+  def detail(Integer clientId) {
     def client = Client.get(clientId)
+    def from = params.date("from", "yyyy-MM-dd")
+    def to = params.date("to", "yyyy-MM-dd")
 
     if (!client) {
       response.sendError 404
@@ -31,8 +42,8 @@ class SaleController {
       sale {
         eq "client", client
 
-        ge "dateCreated", new Date().parse("yyyy-MM-dd", from).clearTime()
-        le "dateCreated", new Date().parse("yyyy-MM-dd", to).clearTime() + 1
+        ge "dateCreated", from
+        le "dateCreated", to
       }
     }
 
@@ -179,9 +190,20 @@ class SaleController {
 
 @grails.validation.Validateable
 class AddQuantityCommand implements Serializable {
-	Integer quantity
+  Integer quantity
 
-	static constraints = {
-		quantity min:1, blank:false
-	}
+  static constraints = {
+    quantity min:1, blank:false
+  }
+}
+
+@grails.validation.Validateable
+class FilterSaleCommand {
+  String from
+  String to
+
+  static constraints = {
+    from blank:false
+    to blank:false
+  }
 }

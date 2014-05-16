@@ -36,5 +36,5 @@
 	</g:form>
 </g:if>
 <g:else>
-	<h1>...</h1>
+	<h4>...NADA QUE MOSTRAR...</h4>
 </g:else>

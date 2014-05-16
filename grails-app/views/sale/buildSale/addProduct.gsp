@@ -7,12 +7,12 @@
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
-	<g:render template="toolbar"/>
 	<div class="row">
 		<div class="col-md-9">
 			<g:render template="buildSale/itemsCollection"/>
 		</div>
 		<div class="col-md-3">
+			<g:render template="toolbar"/>
 			<g:form>
 				<g:if test="${products}">
 					<div class="form-group">

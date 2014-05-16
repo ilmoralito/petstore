@@ -7,7 +7,6 @@
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
-	<g:render template="toolbar"/>
 	<div class="row">
 		<div class="col-md-9">
 			<g:if test="${sales}">
@@ -36,6 +35,7 @@
 			</g:else>
 		</div>
 		<div class="col-md-3">
+			<g:render template="toolbar"/>
 			<h4>Filtrar</h4>
 			<g:form action="list">
 				<div class="form-group">
@@ -48,7 +48,7 @@
 			</g:form>
 			<g:if test="${params?.from}">
 				<br>
-				<div class="panel panel-default">
+				<div class="panel panel-info">
 					<div class="panel-heading">Totales</div>
 					<div class="panel-body">
 						<div class="row">

@@ -1,8 +1,8 @@
 package ni.org.petstore
 
 class AppTagLib {
-  static defaultEncodeAs = 'html'
-  //static encodeAsForTags = [tagName: 'raw']
+  static defaultEncodeAs = "html"
+  static encodeAsForTags = [productInStock: "raw"]
 
   static namespace = "ps"
 
@@ -39,5 +39,14 @@ class AppTagLib {
 		}
 
 		out << result
+	}
+
+	def productInStock = { attrs, body ->
+		def presentations = Presentation.findAllByQuantityLessThan(10)
+        
+    if (presentations && controllerName != "sale") {
+    	def presentationsGroupedByProduct = presentations.groupBy() { it.product }
+    	out << render(template: "/layouts/inStock", model:[presentationsGroupedByProduct:presentationsGroupedByProduct])
+    }
 	}
 }

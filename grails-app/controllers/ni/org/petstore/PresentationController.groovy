@@ -7,7 +7,9 @@ class PresentationController {
 	static defaultAction = "save"
 	static allowedMethods = [
 		save:"POST",
-    delete:"GET"
+    delete:"GET",
+    edit:"GET",
+    update:"POST"
 	]
 
   def save(Integer id, Integer providerId) {
@@ -44,4 +46,28 @@ class PresentationController {
 
     redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
   }
+
+  def edit(Integer id, Integer productId, Integer providerId) {
+    def presentation = Presentation.get(id)
+
+    if (!presentation) {
+      response.sendError 404
+    }
+
+    [presentation:presentation]
+  }
+
+  def update(Integer id, Integer productId, Integer providerId) {
+    def presentation = Presentation.get(id)
+
+    if (!presentation) {
+      response.sendError 404
+    }
+
+    presentation.properties["price", "quantity"] = params
+
+    flash.message = (!presentation.save()) ? "A ocurrido un error. Intentalo otravez" : "Actualizado correctamente"
+    redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
+  }
+
 }

@@ -46,7 +46,7 @@
 															<tbody>
 																<g:each in="${product?.presentations}" var="presentation">
 																	<tr>
-																		<td>${presentation}</td>
+																		<td><g:link controller="presentation" action="edit" params="[id:presentation?.id, productId:params?.id, providerId:params?.providerId]">${presentation}</g:link></td>
 																		<td>${presentation?.price}</td>
 																		<td>${presentation?.quantity}</td>
 																		<td><g:link controller="presentation" action="delete" params="[id:presentation?.id, productId:params?.id, providerId:params?.providerId]"><span class="glyphicon glyphicon-trash"></span></g:link></td>

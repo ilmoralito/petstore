@@ -3,34 +3,40 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="layout" content="no-main">
-	<title>Datos de ${client}</title>
+	<title>Datos</title>
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
 	<g:render template="navbar"/>
-	<table class="table">
-		<tbody>
-			<tr>
-				<td width="160"><b>Nombre completo</b></td>
-				<td>${client}</td>
-			</tr>
-			<tr>
-				<td><b>Nombre de la tienda</b></td>
-				<td>${client.storeName}</td>
-			</tr>
-			<tr>
-				<td><b>Direccion</b></td>
-				<td>${client.city}, ${client.address}</td>
-			</tr>
-			<tr>
-				<td><b>Telefono</b></td>
-				<td>${client.telephone}</td>
-			</tr>
-			<tr>
-				<td><b>Correo electronico</b></td>
-				<td>${client.email}</td>
-			</tr>
-		</tbody>
-	</table>
+	<p>
+		<div class="row">
+			<div class="col-md-2">Nombre completo</div>
+			<div class="col-md-10">${client.fullName}</div>
+		</div>
+	</p>
+	<p>
+		<div class="row">
+			<div class="col-md-2">Tienda</div>
+			<div class="col-md-10">${client.storeName}</div>
+		</div>
+	</p>
+	<p>
+		<div class="row">
+			<div class="col-md-2">Direccion</div>
+			<div class="col-md-10">${client.city}, ${client.address}</div>
+		</div>
+	</p>
+	<p>
+		<div class="row">
+			<div class="col-md-2">Telefono</div>
+			<div class="col-md-10">${client.telephone}</div>
+		</div>
+	</p>
+	<p>
+		<div class="row">
+			<div class="col-md-2">Correo electronico</div>
+			<div class="col-md-10">${client.email}</div>
+		</div>
+	</p>
 </body>
 </html>

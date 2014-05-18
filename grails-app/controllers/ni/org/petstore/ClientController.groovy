@@ -12,7 +12,7 @@ class ClientController {
     edit:"GET",
     update:"POST",
     show:"GET",
-    history:["GET", "POST"],
+    history:"GET",
     sendMail:["GET", "POST"]
 	]
 
@@ -94,9 +94,22 @@ class ClientController {
       response.sendError 404
     }
 
-    def sales = Sale.findAllByClient(client).unique { it.client }
+    if (!params?.dateCreated) {
+      def sales = Sale.findAllByClient(client).unique { it.dateCreated.clearTime() }
 
-    [sales:sales]
+      [sales:sales]
+    } else {
+      def dateCreated = params.date("dateCreated", "yyyy-MM-dd")
+      def criteria = Item.createCriteria()
+      def sales = criteria.list {
+        sale {
+          eq "dateCreated", dateCreated
+          eq "client", client
+        }
+      }
+
+      [sales:sales.groupBy() { it.product }]
+    }
   }
 
   def sendMail(Integer id) {

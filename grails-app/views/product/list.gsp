@@ -11,10 +11,10 @@
 	<div class="row">
 		<div class="col-md-9">
 			<g:if test="${products}">
-				<h4>${provider.name.toUpperCase()}</h4>
+				<h4>${provider}</h4>
 				<table class="table table-hover">
 					<thead>
-						<th>Producto</th>
+						<th>Productos</th>
 						<th width="1"></th>
 						<th width="1"></th>
 					</thead>
@@ -38,8 +38,8 @@
 													<div class="col-md-9">
 														<table class="table">
 															<thead>
-																<th>Presentacion</th>
-																<th>Precio</th>
+																<th width="5">Presentacion</th>
+																<th width="5">Precio</th>
 																<th>Cantidad</th>
 																<th width="1"></th>
 															</thead>
@@ -99,7 +99,7 @@
 				<div class="form-group">
 					<g:textField name="name" class="form-control" placeholder="Nombre del producto"/>
 				</div>
-				<g:submitButton name="send" value="Agregar" class="btn btn-default pull-right"/>
+				<g:submitButton name="send" value="Agregar" class="btn btn-primary btn-block"/>
 			</g:form>
 		</div>
 	</div>

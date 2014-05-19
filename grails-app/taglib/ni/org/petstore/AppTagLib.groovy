@@ -43,7 +43,7 @@ class AppTagLib {
 
 	def productInStock = { attrs, body ->
 		def presentations = Presentation.findAllByQuantityLessThan(10)
-        
+
     if (presentations && controllerName != "sale") {
     	def presentationsGroupedByProduct = presentations.groupBy() { it.product }
     	out << render(template: "/layouts/inStock", model:[presentationsGroupedByProduct:presentationsGroupedByProduct])

@@ -11,6 +11,7 @@
 		<div class="row">
 			<div class="col-md-4 col-md-offset-4">
 				<h1 class="center">${grails.util.Metadata.current.'app.name'} <small>${grails.util.Metadata.current.'app.version'}</small></h1>
+				<br>
 				<g:layoutBody/>
 				<g:if test='${flash.message}'>
 					<div class='alert alert-info'>${flash.message}</div>

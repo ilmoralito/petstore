@@ -18,7 +18,7 @@
 		</div>
 
 		<div class="form-group">
-			<input type='submit' id="submit" class="btn btn-default" value='${message(code: "springSecurity.login.button")}'/>
+			<input type='submit' id="submit" class="btn btn-primary" value='${message(code: "springSecurity.login.button")}'/>
 		</div>
 	</form>
 </body>

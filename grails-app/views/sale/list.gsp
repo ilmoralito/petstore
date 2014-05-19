@@ -46,18 +46,6 @@
 				</div>
 				<g:submitButton name="send" value="Buscar" class="btn btn-primary btn-block"/>
 			</g:form>
-			<g:if test="${params?.from}">
-				<br>
-				<div class="panel panel-info">
-					<div class="panel-heading">Totales</div>
-					<div class="panel-body">
-						<div class="row">
-							<div class="col-md-6">Dinero</div>
-							<div class="col-md-6">aa</div>
-						</div>
-					</div>
-				</div>
-			</g:if>
 		</div>
 	</div>
 </body>

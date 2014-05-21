@@ -31,13 +31,13 @@
 		</div>
 		<div class="col-md-4">
 			<h4>Email</h4>
-			<g:form action="addEmail">
+			<form action="addEmail" method="post" class="form-inline" role="form">
 				<g:hiddenField name="id" value="${client.id}"/>
 				<div class="form-group">
 					<g:textField name="email" class="form-control" placeholder="Email"/>
 				</div>
 				<g:submitButton name="send" value="Agregar" class="btn btn-primary"/>
-			</g:form>
+			</form>
 			<br>
 			<table class="table table-striped">
 				<tbody>

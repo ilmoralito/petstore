@@ -185,6 +185,17 @@ class ClientController {
       return
     }
 
+    if (request.method == "POST") {
+      sendMail {
+        to params.list("emails").toArray()
+        from grailsApplication.config.ni.org.petstore.owner.email
+        subject params?.subject
+        body params?.body
+      }
+
+      flash.message = "Mensaje enviado"
+    }
+
     [client:client]
   }
 

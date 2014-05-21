@@ -82,5 +82,6 @@ grails.project.dependency.resolution = {
         compile ":spring-security-core:2.0-RC2"
         compile ":twitter-bootstrap:3.1.1"
         compile ':webflow:2.0.8.1'
+        compile ":mail:1.0.5"
     }
 }

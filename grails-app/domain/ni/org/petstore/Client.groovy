@@ -13,9 +13,12 @@ class Client implements Serializable {
   	city inList:["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"], maxSize:255
   }
 
-  static hasMany = [emails:String]
+  static hasMany = [emails:String, telephones:Telephone]
 
-  static mapping = { version false }
+  static mapping = {
+    version false
+    telephones sort:"type", order:"desc"
+  }
 
   String toString() { fullName }
 }

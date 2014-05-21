@@ -117,6 +117,41 @@ class ClientController {
     redirect action:"show", params:[id:id]
   }
 
+  def addTelephone(Integer id, String type, String number) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    def telephone = new Telephone(type:type, number:number)
+    client.addToTelephones telephone
+    client.save()
+
+    redirect action:"show", params:[id:id]
+  }
+
+  def deleteTelephone(Integer id, Integer telephoneId) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    def telephone = Telephone.get(telephoneId)
+
+    if (!telephone) {
+      response.sendError 404
+      return
+    }
+
+    telephone.delete()
+
+    redirect action:"show", params:[id:id]
+  }
+
   def history(Integer id) {
     def client = Client.get(id)
 

@@ -20,9 +20,17 @@ class BootStrap {
         //clients
         def client1 = new Client(fullName: "Client one", storeName: "Store one", address:"Leon", city: "Leon")
 
+        //emails
         client1.addToEmails "client1@gmail.com"
         client1.addToEmails "client1@hotmail.com"
         client1.addToEmails "client1@yahoo.com"
+
+        //telephones
+        def telephone1 = new Telephone(type:"Movistar", number:"88997766")
+        def telephone2 = new Telephone(type:"Claro", number:"88557766")
+
+        client1.addToTelephones telephone1
+        client1.addToTelephones telephone2
 
         if (!client1.save()) {
           client1.errors.allErrors.each { println it }
@@ -30,6 +38,7 @@ class BootStrap {
 
         assert Client.count() == 1
         assert client1.emails.size() == 3
+        assert client1.telephones.size() == 2
 
         //providers
         def provider1 = new Provider(name:"Provider1", contactName:"Juan Perez", contactTelephoneNumber:"23118855")

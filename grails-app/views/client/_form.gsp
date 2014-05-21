@@ -14,7 +14,7 @@
 		</div>
 		<div class="form-group">
 			<label for="city">Ciudad</label>
-			<g:select name="city" from="${client?.constraints?.city?.inList}" value="${client?.city}" class="form-control"/>
+			<g:select name="city" from="${grailsApplication.config.ni.org.petstore.cities}" value="${client?.city}" class="form-control"/>
 		</div>
 	</div>
 </div>

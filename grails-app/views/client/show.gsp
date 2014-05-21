@@ -8,35 +8,62 @@
 </head>
 <body>
 	<g:render template="navbar"/>
-	<p>
-		<div class="row">
-			<div class="col-md-2">Nombre completo</div>
-			<div class="col-md-10">${client.fullName}</div>
+	<div class="row">
+		<div class="col-md-8">
+			<p>
+				<div class="row">
+					<div class="col-md-2">Nombre</div>
+					<div class="col-md-10">${client.fullName}</div>
+				</div>
+			</p>
+			<p>
+				<div class="row">
+					<div class="col-md-2">Tienda</div>
+					<div class="col-md-10">${client.storeName}</div>
+				</div>
+			</p>
+			<p>
+				<div class="row">
+					<div class="col-md-2">Direccion</div>
+					<div class="col-md-10">${client.city}, ${client.address}</div>
+				</div>
+			</p>
 		</div>
-	</p>
-	<p>
-		<div class="row">
-			<div class="col-md-2">Tienda</div>
-			<div class="col-md-10">${client.storeName}</div>
+		<div class="col-md-4">
+			<h4>Email</h4>
+			<g:form action="addEmail">
+				<g:hiddenField name="id" value="${client.id}"/>
+				<div class="form-group">
+					<g:textField name="email" class="form-control" placeholder="Email"/>
+				</div>
+				<g:submitButton name="send" value="Agregar" class="btn btn-primary"/>
+			</g:form>
+			<br>
+			<table class="table table-striped">
+				<tbody>
+					<g:each in="${client.emails}" var="email">
+						<tr>
+							<td>${email}</td>
+							<td width="1">
+								<g:link action="deleteEmail" params="[id:client.id, email:email]">
+									<span class="glyphicon glyphicon-trash"></span>
+								</g:link>
+							</td>
+						</tr>
+					</g:each>
+				</tbody>
+			</table>
+			<h4>Telefonos</h4>
+				<g:form action="addTelephone">
+					<div class="form-group">
+						<g:select name="type" from="${['Movistar', 'Claro', 'Convencional']}" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<g:textField name="telephone" class="form-control" placeholder="Telefono"/>
+					</div>
+					<g:submitButton name="send" value="Agregar" class="btn btn-primary pull-right"/>
+				</g:form>
 		</div>
-	</p>
-	<p>
-		<div class="row">
-			<div class="col-md-2">Direccion</div>
-			<div class="col-md-10">${client.city}, ${client.address}</div>
-		</div>
-	</p>
-	<p>
-		<div class="row">
-			<div class="col-md-2">Telefono</div>
-			<div class="col-md-10">${client.telephone}</div>
-		</div>
-	</p>
-	<p>
-		<div class="row">
-			<div class="col-md-2">Correo electronico</div>
-			<div class="col-md-10">${client.email}</div>
-		</div>
-	</p>
+	</div>
 </body>
 </html>

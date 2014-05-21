@@ -12,6 +12,8 @@ class ClientController {
     edit:"GET",
     update:"POST",
     show:"GET",
+    addEmail:"POST",
+    deleteEmail:"GET",
     history:"GET",
     sendMail:["GET", "POST"]
 	]
@@ -85,6 +87,34 @@ class ClientController {
   	}
 
   	[client:client]
+  }
+
+  def addEmail(Integer id, String email) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    client.addToEmails email
+    client.save()
+
+    redirect action:"show", params:[id:id]
+  }
+
+  def deleteEmail(Integer id, String email) {
+    def client = Client.get(id)
+
+    if (!client) {
+      response.sendError 404
+      return
+    }
+
+    client.removeFromEmails email
+    client.save()
+
+    redirect action:"show", params:[id:id]
   }
 
   def history(Integer id) {

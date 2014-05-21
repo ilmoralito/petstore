@@ -18,15 +18,18 @@ class BootStrap {
 				assert UserRole.count() == 1
 
         //clients
-        def client1 = new Client(fullName: "Client one", storeName: "Store one", address:"Leon", city: "Leon", telephone:"23114455", email:"clientone@email.com")
+        def client1 = new Client(fullName: "Client one", storeName: "Store one", address:"Leon", city: "Leon")
+
+        client1.addToEmails "client1@gmail.com"
+        client1.addToEmails "client1@hotmail.com"
+        client1.addToEmails "client1@yahoo.com"
 
         if (!client1.save()) {
-          client1.errors.allErrors.each {
-            println it
-          }
+          client1.errors.allErrors.each { println it }
         }
 
         assert Client.count() == 1
+        assert client1.emails.size() == 3
 
         //providers
         def provider1 = new Provider(name:"Provider1", contactName:"Juan Perez", contactTelephoneNumber:"23118855")

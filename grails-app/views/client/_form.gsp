@@ -16,13 +16,5 @@
 			<label for="city">Ciudad</label>
 			<g:select name="city" from="${client?.constraints?.city?.inList}" value="${client?.city}" class="form-control"/>
 		</div>
-		<div class="form-group">
-			<label for="telephone">Telefono</label>
-			<g:textField name="telephone" value="${client?.telephone}" class="form-control"/>
-		</div>
-		<div class="form-group">
-			<label for="email">Email</label>
-			<g:textField name="email" type="email" value="${client?.email}" class="form-control"/>
-		</div>
 	</div>
 </div>

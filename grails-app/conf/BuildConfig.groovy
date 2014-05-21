@@ -45,6 +45,7 @@ grails.project.dependency.resolution = {
         //mavenRepo "http://download.java.net/maven/2/"
         //mavenRepo "http://repository.jboss.com/maven2/"
         mavenRepo 'http://repo.spring.io/milestone'
+        mavenRepo "http://repo.grails.org/grails/core"
     }
 
     dependencies {
@@ -83,5 +84,6 @@ grails.project.dependency.resolution = {
         compile ":twitter-bootstrap:3.1.1"
         compile ':webflow:2.0.8.1'
         compile ":mail:1.0.5"
+        compile ":searchable:0.6.7"
     }
 }

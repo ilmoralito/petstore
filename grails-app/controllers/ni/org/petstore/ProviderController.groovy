@@ -1,20 +1,32 @@
 package ni.org.petstore
 
 import grails.plugin.springsecurity.annotation.Secured
+import org.compass.core.engine.SearchEngineQueryParseException
 
 @Secured(["ROLE_ADMIN"])
 class ProviderController {
 	static defaultAction = "list"
 	static allowedMethods = [
-		list:"GET",
+		list:["GET", "POST"],
 		create:["GET", "POST"],
 		edit:"GET",
 		update:"POST",
 		delete:"GET"
 	]
 
+  def searchableService
+
   def list() {
-  	[providers:Provider.list()]
+    if (!params?.query) {
+  	 [providers:Provider.list()]
+    } else {
+      try {
+        [providers:searchableService.search(params.query, params).results]
+      }
+      catch(SearchEngineQueryParseException ex) {
+        [parseException: true]
+      }
+    }
   }
 
   def create() {

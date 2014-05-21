@@ -13,6 +13,8 @@ class Client implements Serializable {
   	city inList:["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"], maxSize:255
   }
 
+  static searchable = true
+
   static hasMany = [emails:String, telephones:Telephone]
 
   static mapping = {

@@ -11,6 +11,8 @@ class Provider {
   	contactTelephoneNumber nullable:true, unqiue:true, maxSize:8, minSize:8
   }
 
+  static searchable = true
+
   static hasMany = [ products : Product ]
 
   static mapping = { version false }

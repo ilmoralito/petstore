@@ -1,5 +1,7 @@
 package ni.org.petstore
 
+import grails.util.Holders
+
 class Client implements Serializable {
 	String fullName
 	String storeName
@@ -10,7 +12,7 @@ class Client implements Serializable {
   	fullName blank:false
   	storeName blank:false
   	address blank:false
-  	city inList:["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"], maxSize:255
+  	city inList:Holders.config.ni.org.petstore.cities, maxSize:255
   }
 
   static searchable = true

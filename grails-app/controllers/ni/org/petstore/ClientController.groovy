@@ -42,7 +42,7 @@ class ClientController {
   			return [client:client]
   		}
 
-      return
+      return [:]
   	}
 
   	[client:client]

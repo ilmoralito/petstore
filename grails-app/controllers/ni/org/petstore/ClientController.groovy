@@ -198,14 +198,16 @@ class ClientController {
     }
 
     if (request.method == "POST") {
-      sendMail {
-        to params.list("emails").toArray()
-        from grailsApplication.config.ni.org.petstore.owner.email
-        subject params?.subject
-        body params?.body
+      if (params?.emails) {
+        sendMail {
+          to params.list("emails").toArray()
+          from grailsApplication.config.ni.org.petstore.owner.email
+          subject params?.subject
+          body params?.body
+        }
       }
 
-      flash.message = "Mensaje enviado"
+      flash.message =  (params?.emails) ? "Mensaje enviado" : "No hay emails registrados para este cliente"
     }
 
     [client:client]

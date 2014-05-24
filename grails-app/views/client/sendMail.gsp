@@ -8,6 +8,7 @@
 </head>
 <body>
 	<g:render template="navbar"/>
+	<g:if test="${client?.emails}">
 	<div class="row">
 		<div class="col-md-6">
 			<g:form action="sendMail">
@@ -16,13 +17,18 @@
 					<div class="form-control"><b>De</b> ${grailsApplication.config.ni.org.petstore.owner.email}</div>
 				</div>
 				<div class="form-group">
-					<g:each in="${client?.emails}" var="email">
-						<div class="checkbox">
-							<label>
-								<g:checkBox name="emails" value="${email}" checked="false"/> ${email}
-							</label>
-						</div>
-					</g:each>
+					<g:if test="${client.emails.size() == 1}">
+						<div class="form-control"><b>Para</b> ${client.emails.first()}</div>
+					</g:if>
+					<g:else>
+						<g:each in="${client.emails}" var="email">
+							<div class="checkbox">
+								<label>
+									<g:checkBox name="emails" value="${email}" checked="false"/> ${email}
+								</label>
+							</div>
+						</g:each>
+					</g:else>
 				</div>
 				<div class="form-group">
 					<g:textField name="subject" class="form-control" placeholder="Asunto"/>
@@ -34,5 +40,9 @@
 			</g:form>
 		</div>
 	</div>
+	</g:if>
+	<g:else>
+		<h4>No hay email registrados para este cliente</h4>
+	</g:else>
 </body>
 </html>

@@ -1,13 +1,13 @@
 import ni.org.petstore.*
-import grails.util.GrailsUtil
+import grails.util.Environment
 
 class BootStrap {
   def init = { servletContext ->
-  	def adminRole = new Role(authority: "ROLE_ADMIN").save()
-    def userRole = new Role(authority: "ROLE_USER").save()
+  	def adminRole = Role.findByAuthority("ROLE_ADMIN") ?: new Role(authority: "ROLE_ADMIN").save()
+    def userRole = Role.findByAuthority("ROLE_USER") ?: new Role(authority: "ROLE_USER").save()
 
-   	switch(GrailsUtil.environment) {
-   		case "development":
+   	switch(Environment.current) {
+   		case Environment.DEVELOPMENT:
    			def testUser = new User(username: "me", password: "password")
    			testUser.save()
 
@@ -88,8 +88,18 @@ class BootStrap {
         }
 
         assert Provider.count() == 2
-
    		break
+      case Environment.PRODUCTION:
+        def adminUser = User.findByUsername("adminUser") ?: new User(username:"adminUser", password:"h&p").save()
+
+        if (adminUser.hasErrors()) {
+          adminUser.errors.allErrors.each { println it }
+        }
+
+        if (!UserRole.findByUserAndRole(adminUser, adminRole)) {
+          UserRole.create adminUser, adminRole, true
+        }
+      break
    	}
   }
   def destroy = {

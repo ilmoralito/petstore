@@ -1,9 +1,14 @@
 package ni.org.petstore
 
 import grails.util.Holders
+import org.grails.databinding.BindUsing
 
 class Client implements Serializable {
+  @BindUsing({ obj, source ->
+    source["fullName"]?.tokenize(" ")*.capitalize().join(" ")
+  })
 	String fullName
+
 	String storeName
 	String address
 	String city

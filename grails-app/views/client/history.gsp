@@ -26,6 +26,7 @@
 		</g:if>
 		<g:else>
 			<!--Datos agrupados por producto-->
+			<h4>Compras de ${client} el ${params?.dateCreated}</h4>
 			<g:each in="${sales.keySet()}" var="item">
 				<div class="row">
 					<div class="col-md-12">
@@ -48,6 +49,11 @@
 										<td>${presentation.total}</td>
 									</tr>
 								</g:each>
+								<tr>
+									<td><b><ps:itemsQuantity items="${sales[item]}"/><b></td>
+									<td></td>
+									<td><b><ps:itemsTotal items="${sales[item]}"/></b></td>
+								</tr>
 							</tbody>
 						</table>
 					</div>

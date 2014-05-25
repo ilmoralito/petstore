@@ -180,12 +180,13 @@ class ClientController {
       def criteria = Item.createCriteria()
       def sales = criteria.list {
         sale {
-          eq "dateCreated", dateCreated
+          ge "dateCreated", dateCreated
+          le "dateCreated", dateCreated + 1
           eq "client", client
         }
       }
 
-      [sales:sales.groupBy() { it.product }]
+      [sales:sales, sales:sales.groupBy() { it.product }, client:client]
     }
   }
 

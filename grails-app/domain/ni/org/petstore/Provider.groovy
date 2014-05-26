@@ -1,7 +1,16 @@
 package ni.org.petstore
 
+import org.grails.databinding.BindUsing
+
 class Provider {
+  @BindUsing({ obj, source ->
+    source["name"]?.capitalize()
+  })
 	String name
+
+  @BindUsing({ obj, source ->
+    source["contactName"]?.tokenize(" ")*.capitalize()?.join(" ")
+  })
 	String contactName
 	String contactTelephoneNumber
 

@@ -5,7 +5,7 @@
 			<g:textField name="fullName" value="${client?.fullName}" class="form-control" autofocus="true"/>
 		</div>
 		<div class="form-group">
-			<label for="storeName">Nombre de la tienda</label>
+			<label for="storeName">Nombre de agroservicio</label>
 			<g:textField name="storeName" value="${client?.storeName}" class="form-control"/>
 		</div>
 		<div class="form-group">

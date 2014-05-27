@@ -6,6 +6,9 @@
 	</div>
 </g:if>
 <div class="form-group">
+	<g:select name="measure" from="${}" value="${presentation?.measure}" class="form-control"/>
+</div>
+<div class="form-group">
 	<g:textField name="price" class="form-control" value="${presentation?.price}" placeholder="Precio"/>
 </div>
 <div class="form-group">

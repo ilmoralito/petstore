@@ -122,7 +122,20 @@ log4j = {
 
 //app config data
 ni.org.petstore.owner = [email:"provetnicsa@yahoo.es", name:"Hector Salinas"]
-ni.org.petstore.presentations = ["Crema", "Spray", "Tableta", "Soluble", "Suspencion", "Inyectable"]
+ni.org.petstore.presentations = [
+  "Crema":
+    ["1ml", "2ml", "3ml","5ml"],
+  "Spray":
+    ["Habracadabra", "b", "c", "d"],
+  "Tableta":
+    ["123", "456"],
+  "Soluble":
+    ["1234567", "001"],
+  "Suspencion":
+    ["Oz", "GOKU"],
+  "Inyectable":
+    ["locations", "plugins"]
+]
 ni.org.petstore.cities = ["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"]
 
 // Added by the Spring Security Core plugin:

@@ -4,10 +4,10 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="no-main">
 	<title>Productos</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules="bootstrap-css, appJs"/>
 </head>
 <body>
-	<g:set var="presentations" value="${grailsApplication.config.ni.org.petstore.presentations}"/>
+	<g:set var="presentations" value="${grailsApplication.config.ni.org.petstore.presentations.keySet()}"/>
 	<div class="row">
 		<div class="col-md-9">
 			<g:if test="${products}">

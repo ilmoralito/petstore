@@ -1,9 +1,10 @@
 modules = {
-    application {
-        resource url:'js/application.js'
-    }
+  app {
+  	resource url:"css/app.css"
+  }
 
-    app {
-    	resource url:"css/app.css"
-    }
+  appJs {
+  	dependsOn "app, jquery"
+  	resource url:"js/application.js"
+  }
 }

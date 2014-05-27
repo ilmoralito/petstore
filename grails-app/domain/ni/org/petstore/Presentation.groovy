@@ -4,13 +4,9 @@ import grails.util.Holders
 
 class Presentation implements Serializable {
 	String presentation
-	Integer quantity
-	BigDecimal price
 
   static constraints = {
-  	presentation inList:Holders.config.ni.org.petstore.presentations, maxSize:255
-  	quantity min:0
-  	price min:1.0
+  	presentation inList:Holders.config.ni.org.petstore.presentations.keySet() as List, maxSize:255
   }
 
   static belongsTo = [product:Product]

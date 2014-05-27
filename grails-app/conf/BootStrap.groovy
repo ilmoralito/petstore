@@ -1,5 +1,6 @@
 import ni.org.petstore.*
 import grails.util.Environment
+import grails.util.Holders
 
 class BootStrap {
   def init = { servletContext ->
@@ -56,10 +57,12 @@ class BootStrap {
           item1.errors.allErrors.each { println it }
         }
 
+        def presentations = Holders.config.ni.org.petstore.presentations.keySet()
+
         //Prensenations
-        def presentation1 = new Presentation(presentation:"Crema", quantity:15, price:125.5)
-        def presentation2 = new Presentation(presentation:"Tableta", quantity:100, price:120)
-        def presentation3 = new Presentation(presentation:"Inyectable", quantity:78, price:150)
+        def presentation1 = new Presentation(presentation:presentations[0])
+        def presentation2 = new Presentation(presentation:presentations[0])
+        def presentation3 = new Presentation(presentation:presentations[1])
 
         item1.addToPresentations presentation1
         item1.addToPresentations presentation2

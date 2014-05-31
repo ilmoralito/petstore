@@ -11,6 +11,9 @@ class Presentation implements Serializable {
 
   static belongsTo = [product:Product]
 
+  List details
+  static hasMany = [details:Detail]
+
   static mapping = { version false }
 
   String toString() { presentation }

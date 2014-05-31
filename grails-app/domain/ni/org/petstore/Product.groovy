@@ -1,6 +1,11 @@
 package ni.org.petstore
 
+import org.grails.databinding.BindUsing
+
 class Product implements Serializable {
+	@BindUsing({ obj, source ->
+		source["name"]?.toUpperCase()
+	})
 	String name
 
   static constraints = {

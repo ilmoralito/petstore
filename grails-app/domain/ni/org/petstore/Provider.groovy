@@ -2,7 +2,7 @@ package ni.org.petstore
 
 import org.grails.databinding.BindUsing
 
-class Provider {
+class Provider implements Serializable {
   @BindUsing({ obj, source ->
     source["name"]?.capitalize()
   })

@@ -61,18 +61,27 @@ class BootStrap {
 
         //Prensenations
         def presentation1 = new Presentation(presentation:presentations[0])
-        def presentation2 = new Presentation(presentation:presentations[0])
-        def presentation3 = new Presentation(presentation:presentations[1])
+        def presentation2 = new Presentation(presentation:presentations[1])
 
         item1.addToPresentations presentation1
         item1.addToPresentations presentation2
-        item1.addToPresentations presentation3
 
         if (!presentation1.save()) { presentation1.errors.allErrors.each { println it } }
-        if (!presentation2.save()) { presentation2.errors.allErrors.each { println it } }
-        if (!presentation3.save()) { presentation3.errors.allErrors.each { println it } }
+        if (!presentation2.save()) { presentation3.errors.allErrors.each { println it } }
 
-        assert item1.presentations.size() == 3
+        assert item1.presentations.size() == 2
+
+        //presentation details
+        def detail1 = new Detail(measure:"1ml", quantity:200, price:15.5)
+        def detail2 = new Detail(measure:"2ml", quantity:80, price:17.6)
+        def detail3 = new Detail(measure:"Habracadabra", quantity:80, price:17.6)
+
+        presentation1.addToDetails detail1
+        presentation1.addToDetails detail2
+        presentation2.addToDetails detail3
+
+        assert presentation1.details.size() == 2
+        assert presentation2.details.size() == 1
 
         def item2 = new Product(name:"item2")
 

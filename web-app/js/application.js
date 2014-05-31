@@ -1,6 +1,3 @@
-var presentation = $("#presentation");
-presentation.on("change", function(text) {
-	ajax.load {
-		
-	}
-});
+$(".presentations").on("click", function(e){
+	$(this).parent().next().toggle()
+})

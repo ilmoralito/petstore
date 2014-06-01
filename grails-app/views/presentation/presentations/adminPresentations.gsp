@@ -30,6 +30,7 @@
 			</tbody>
 		</table>
 		<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
+		<g:link event="listProducts" class="btn btn-default">Regresar</g:link>
 	</g:form>
 </body>
 </html>

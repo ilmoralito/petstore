@@ -40,6 +40,8 @@ class PresentationController {
           }
         }
       }.to "adminPresentationsDetail"
+
+      on("listProducts").to "done"
     }
 
     adminPresentationsDetail {
@@ -55,6 +57,16 @@ class PresentationController {
         presentation.addToDetails presentationDetail
         presentationDetail.save()
       }.to "adminPresentationsDetail"
+
+      on("editPresentationDetail") {
+        def detail = Detail.get(params.int("id"))
+
+        if (!detail) {
+          response.sendError 404
+        }
+
+        [detail:detail, flag:true]
+      }.to "editPresentationDetail"
 
       on("deletePresentation") {
         def presentation = Presentation.findByProductAndPresentation(flow.product, params?.presentation)
@@ -76,70 +88,30 @@ class PresentationController {
       on("goBackToAdminPresentation").to "adminPresentations"
     }
 
+    editPresentationDetail {
+      on("confirm") { DetailCommand cmd ->
+        if (!cmd.validate()) {
+          error()
+          return
+        }
+
+        flow.detail.properties["quantity", "price"] = params
+
+        if (!flow.detail.save()) {
+          flash.message = "A ocurrido un error. Porfavor intentalo otravez"
+        }
+      }.to "editPresentationDetail"
+
+      on("goBackToAdminPresentationDetail"){
+        flow.flag = !flow.flag
+        flow.detail = [:]
+      }.to "adminPresentationsDetail"
+    }
+
     done() {
-      redirect action:"presentations"
+      redirect controller:"product", action:"list", params:[providerId:flow.provider.id]
     }
   }
-
-  /*
-  def save(Integer id, Integer providerId) {
-  	def presentation = new Presentation(params)
-    def product = Product.get(id)
-
-    if (!product) {
-      response.sendError 404
-    }
-
-    product.addToPresentations presentation
-
-    if (!presentation.save()) {
-      presentation.errors.allErrors.each { println it }
-    }
-
-    flash.message = (!presentation.save()) ? "A ocurrido un error. Intentalo otravez" : "Presentacion agregado"
-    redirect controller:"product", action:"list", params:[id:id, providerId:providerId]
-  }
-
-  def delete(Integer id, Integer productId, Integer providerId) {
-    def presentation = Presentation.get(id)
-
-    if (!presentation) {
-      response.sendError 404
-    }
-
-    def product = Product.get(productId)
-
-    if (product) {
-      presentation.delete()
-      product.removeFromPresentations presentation
-    }
-
-    redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
-  }
-
-  def edit(Integer id, Integer productId, Integer providerId) {
-    def presentation = Presentation.get(id)
-
-    if (!presentation) {
-      response.sendError 404
-    }
-
-    [presentation:presentation]
-  }
-
-  def update(Integer id, Integer productId, Integer providerId) {
-    def presentation = Presentation.get(id)
-
-    if (!presentation) {
-      response.sendError 404
-    }
-
-    presentation.properties["price", "quantity"] = params
-
-    flash.message = (!presentation.save()) ? "A ocurrido un error. Intentalo otravez" : "Actualizado correctamente"
-    redirect controller:"product", action:"list", params:[id:productId, providerId:providerId]
-  }
-  */
 
 }
 

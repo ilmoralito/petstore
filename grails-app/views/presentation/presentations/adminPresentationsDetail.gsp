@@ -31,7 +31,7 @@
 										<tbody>
 											<g:each in="${presentation.details}" var="detail">
 												<tr>
-													<td>${detail.measure}</td>
+													<td><g:link event="editPresentationDetail" id="${detail.id}">${detail.measure}</g:link></td>
 													<td>${detail.quantity}</td>
 													<td>${detail.price}</td>
 													<td><g:link event="deleteDetail" params="[id:detail.id, presentation:presentation]" id="${detail.id}"><span class="glyphicon glyphicon-trash"></span></g:link></td>
@@ -46,15 +46,8 @@
 								<g:if test="${availableMeasure}">
 									<g:form>
 										<g:hiddenField name="presentation" value="${presentation}"/>
-										<div class="form-group">
-											<g:select name="measure" from="${availableMeasure}" class="form-control"/>
-										</div>
-										<div class="form-group">
-											<g:textField name="quantity" class="form-control" placeholder="Cantidad"/>
-										</div>
-										<div class="form-group">
-											<g:textField name="price" class="form-control" placeholder="Precio"/>
-										</div>
+										<g:render template="/presentation/presentations/form"/>
+
 										<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary btn-block"/>
 									</g:form>
 								</g:if>

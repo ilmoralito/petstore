@@ -5,12 +5,6 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(["ROLE_ADMIN"])
 class PresentationController {
 	static defaultAction = "list"
-	static allowedMethods = [
-		save:"POST",
-    delete:"GET",
-    edit:"GET",
-    update:"POST"
-	]
 
   def presentationsFlow = {
     init {

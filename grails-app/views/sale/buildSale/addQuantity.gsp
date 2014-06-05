@@ -15,7 +15,7 @@
 			<g:form>
 				<div class="form-group">
 					<label for="quantity">Cantidad</label>
-					<input type="number" name="quantity" id="quantity" min="1" max="${detail.quantity}" autofocus="true" placeholder="${detail.quantity}" class="form-control">
+					<input type="number" name="quantity" id="quantity" min="1" max="${quantity ?: detail.quantity}" autofocus="true" placeholder="${quantity ?: detail.quantity}" class="form-control">
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 			</g:form>

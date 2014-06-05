@@ -6,35 +6,29 @@
 			<th>Producto</th>
 		</thead>
 		<tbody>
-				<g:each in="${saleDetail.keySet()}" var="product">
-					<tr>
-						<td>${product}</td>
-					</tr>
-					<tr>
-						<td style="padding:0;">
-							<table class="table table-hover">
-								<thead>
-									<th>Presentacion</th>
-									<th>Medida</th>
-									<th>Cantidad</th>
-									<th>Total</th>
-									<th width="1"></th>
-								</thead>
-								<tbody>
-									<g:each in="${saleDetail[product]}" var="detail">
-										<tr>
-											<td>${detail.presentation}</td>
-											<td>${detail.measure}</td>
-											<td>${detail.quantity}</td>
-											<td>${detail.total}</td>
-											<td><g:link event="deleteDetail"><span class="glyphicon glyphicon-trash"></span></g:link></td>
-										</tr>
-									</g:each>
-								</tbody>
-							</table>
-						</td>
-					</tr>
-				</g:each>
+			<g:each in="${saleDetail.keySet()}" var="product" status="i">
+				<tr>
+					<td>${product}</td>
+				</tr>
+				<tr>
+					<td style="padding:0;">
+						<table class="table table-hover" style="margin-bottom:0;">
+							<tbody>
+								<g:each in="${saleDetail[product]}" var="detail">
+									<tr>
+										<td>${detail.quantity} <b>${detail.presentation}</b> de ${detail.measure}</td>
+										<td width="1">${detail.total}</td>
+										<td width="1"><g:link event="deleteDetail"><span class="glyphicon glyphicon-trash"></span></g:link></td>
+									</tr>
+								</g:each>
+							</tbody>
+						</table>
+					</td>
+				</tr>
+			</g:each>
+			<tr>
+				<td>TOTAL <span class="pull-right">${sales.total.sum()}</span></td>
+			</tr>
 		</tbody>
 	</table>
 	<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>

@@ -101,22 +101,22 @@ class SaleController {
         }
 
         def detail = q2.find()
-        def measure = detail.measure
 
-        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}
-        if (flow.sales && target) {
-          flow.detail.quantity = flow.detail.quantity - flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}.quantity.toInteger()
+        //calc current product in presentation and measure quantity
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
+        def quantity
+
+        if (target) {
+          quantity = detail.quantity - target.quantity.toInteger()
         }
 
-        [detail:detail, measure:measure]
+        [detail:detail, quantity:quantity]
       }.to "addQuantity"
     }
 
     addQuantity {
       on("confirm") {
-        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}
-
-        println target
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.detail.measure }
 
         if (target) {
           target.quantity = target.quantity.toInteger() + params?.quantity?.toInteger()
@@ -124,7 +124,7 @@ class SaleController {
         } else {
           session.sale["product"] = flow.product
           session.sale["presentation"] = flow.presentation
-          session.sale["measure"] = flow.measure
+          session.sale["measure"] = flow.detail.measure
           session.sale["quantity"] = params?.quantity
           session.sale["total"] = flow.detail.price * params.int("quantity")
 

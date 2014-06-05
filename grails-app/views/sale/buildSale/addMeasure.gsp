@@ -18,6 +18,7 @@
 					<g:select name="measure" from="${measures}" class="form-control"/>
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
+				<g:link event="cancel" class="btn btn-warning">Cancelar</g:link>
 			</g:form>
 		</div>
 	</div>

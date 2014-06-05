@@ -18,6 +18,7 @@
 					<input type="number" name="quantity" id="quantity" min="1" max="${quantity ?: detail.quantity}" autofocus="true" placeholder="${quantity ?: detail.quantity}" class="form-control">
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
+				<g:link event="cancel" class="btn btn-warning">Cancelar</g:link>
 			</g:form>
 		</div>
 	</div>

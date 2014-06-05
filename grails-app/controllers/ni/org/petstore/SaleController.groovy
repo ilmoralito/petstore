@@ -80,6 +80,8 @@ class SaleController {
 
         [product:product, presentations:product.presentations]
       }.to "addPresentation"
+
+      on("cancel").to "done"
     }
 
     addPresentation {
@@ -88,6 +90,8 @@ class SaleController {
 
         [presentation:presentation, measures:presentation.details.measure]
       }.to "addMeasure"
+
+      on("cancel").to "addProduct"
     }
 
     addMeasure {
@@ -112,6 +116,8 @@ class SaleController {
 
         [detail:detail, quantity:quantity]
       }.to "addQuantity"
+
+      on("cancel").to "addPresentation"
     }
 
     addQuantity {
@@ -133,6 +139,12 @@ class SaleController {
 
         [saleDetail:flow.sales.groupBy(){ it.product }]
       }.to "addProduct"
+
+      on("cancel").to "addMeasure"
+    }
+
+    done() {
+      redirect action:"buildSale"
     }
   }
 }

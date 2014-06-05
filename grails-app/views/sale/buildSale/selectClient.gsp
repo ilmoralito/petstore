@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="layout" content="no-main">
-	<title>Agregar cantidad</title>
+	<title>Selecciona cliente</title>
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
@@ -14,8 +14,8 @@
 		<div class="col-md-3">
 			<g:form>
 				<div class="form-group">
-					<label for="quantity">Cantidad</label>
-					<input type="number" name="quantity" id="quantity" min="1" max="${detail.quantity}" autofocus="true" placeholder="${detail.quantity}" class="form-control">
+					<label for="client">Cliente</label>
+					<g:select name="client" from="${clients}" optionKey="id" class="form-control"/>
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 			</g:form>

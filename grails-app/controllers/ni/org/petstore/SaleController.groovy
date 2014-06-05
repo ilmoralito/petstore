@@ -51,159 +51,88 @@ class SaleController {
   }
 
 	def buildSaleFlow = {
-		init {
-			action {
-				flow.items = [:]
-   			session.itemsCollection = []
+    init {
+      action {
+        def clients = Client.list()
+        session.sale = [:]
+        flow.sales = []
 
-				[clients:Client.list()]
-			}
-			on("success").to "addClient"
-			on(Exception).to "done"
-		}
+        [clients:clients]
+      }
 
-		addClient {
-			on("confirm") {
-				def client = Client.get(params.int("clientId"))
-				def products = Product.findAll { presentations.size() > 0 && presentations.quantity > 0 }
+      on("success").to "selectClient"
+    }
 
-				[client:client, products:products]
-			}.to "addProduct"
-		}
-
-   	addProduct {
-   		on("confirm") {
-   			def product = Product.get(params.int("productId"))
-   			def presentations = product.presentations.findAll { it.quantity > 0 }
-
-   			[presentations:presentations, product:product]
-   		}.to "addPresentation"
-   		on("cancel") {
-        if (session.itemsCollection) {
-          if (presentationService.rollingBackPresentationQuantity(session.itemsCollection)) {
-            flash.message = "Se deshizo la venta"
-          }
+    selectClient {
+      on("confirm") {
+        def client = Client.get(params?.client)
+        def products = Product.where {
+          presentations.size() > 0
         }
-      }.to "done"
-   		on("removeItem").to "removeItem"
-   		on("confirmSale").to "confirmSale"
-   	}
 
-   	addPresentation {
-   		on("confirm") {
-   			def presentation = Presentation.get(params.int("presentationId"))
+        [client:client, products:products.list()]
+      }.to "addProduct"
+    }
 
-   			[presentation:presentation]
-   		}.to "addQuantity"
-   		on("cancel").to "addProduct"
-   		on("removeItem").to "removeItem"
-   	}
+    addProduct {
+      on("confirm") {
+        def product = Product.get(params?.product)
 
-   	addQuantity {
-   		on("confirm") { AddQuantityCommand cmd ->
-   			def quantity = cmd.quantity
+        [product:product, presentations:product.presentations]
+      }.to "addPresentation"
+    }
 
-   			//validate inputs
-   			if (!cmd.validate()) { 
-   				return
-   			}
+    addPresentation {
+      on("confirm"){
+        def presentation = Presentation.get(params?.presentation)
 
-   			//validate presentation quantity
-   			if (quantity > presentationService.getQuantity(flow.product, flow.presentation)) {
-   				return
-   			}
+        [presentation:presentation, measures:presentation.details.measure]
+      }.to "addMeasure"
+    }
 
-   			//update product presentation quantity
-   			flow.presentation.quantity = flow.presentation.quantity - quantity
-   			!flow.presentation.save(flush:true) ? error() : success()
+    addMeasure {
+      on("confirm") {
+        def q1 = Detail.where {
+          presentation { presentation == flow.presentation.presentation } && measure == params?.measure
+        }
 
-   			//add flow instance to items
-   			flow.items.put("product", flow.product)
-   			flow.items.put("presentation", flow.presentation)
-   			flow.items.put("quantity", quantity)
-   			flow.items.put("total", quantity * flow.presentation.price)
+        def q2 = q1.where {
+          presentation.product.name == flow.product.name
+        }
 
-   			//add new items map to itemsColl
-   			session.itemsCollection.add(flow.items)
+        def detail = q2.find()
+        def measure = detail.measure
 
-            //overwrites flow.products variable with products with presentations
-            //this is done in addClient action state but need to be call it here, just after adding a new item
-            flow.products = Product.findAll { presentations.size() > 0 && presentations.quantity > 0 }
-   		}.to "addProduct"
-   		on("cancel").to "addPresentation"
-   		on("removeItem").to "removeItem"
-   	}
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}
+        if (flow.sales && target) {
+          flow.detail.quantity = flow.detail.quantity - flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}.quantity.toInteger()
+        }
 
-   	removeItem {
-   		action {
-   			Integer index = params.int("index")
-   			def element = session.itemsCollection.get index
-   			def product = Product.findByName(element.product)
-   			def presentation = Presentation.findByPresentation(element.presentation)
-   			def targetPresentation = Presentation.findByProductAndPresentation(product, presentation)
+        [detail:detail, measure:measure]
+      }.to "addQuantity"
+    }
 
-   			targetPresentation.quantity = targetPresentation.quantity + element.quantity.toInteger()
-   			
-   			!targetPresentation.save() ? error() : success()
+    addQuantity {
+      on("confirm") {
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.measure}
 
-   			session.itemsCollection.remove index
-   		}
-   		on("success").to "addProduct"
-   		on("error").to "addProduct"
-   	}
+        println target
 
-   	confirmSale {
-   		action {
-   			//create new sale
-   			def sale = new Sale(client:flow.client)
-   			if (!sale.save()) {
-          sale.errors.allErrors.each {
-            println it
-          }
-   				return
-   			}
+        if (target) {
+          target.quantity = target.quantity.toInteger() + params?.quantity?.toInteger()
+          target.total = flow.detail.price * target.quantity.toInteger()
+        } else {
+          session.sale["product"] = flow.product
+          session.sale["presentation"] = flow.presentation
+          session.sale["measure"] = flow.measure
+          session.sale["quantity"] = params?.quantity
+          session.sale["total"] = flow.detail.price * params.int("quantity")
 
-   			//add items
-   			//use transactions here
-   			session.itemsCollection.each {
-   				def item = new Item(product:it.product, presentation:it.presentation, quantity:it.quantity, total:it.total)
+          flow.sales.add(session.sale)
+        }
 
-          sale.addToItems(item)
-
-   				if (!item.save()) {
-            sale.errors.allErrors.each {
-              println it
-            }
-   					return
-   				}
-   			}
-   		}
-   		on("success").to "done"
-   		on(Exception).to "addProduct"
-   	}
-
-		done() {
-			redirect action:"buildSale"
-		}
-	}
-}
-
-@grails.validation.Validateable
-class AddQuantityCommand implements Serializable {
-  Integer quantity
-
-  static constraints = {
-    quantity min:1, blank:false
-  }
-}
-
-@grails.validation.Validateable
-class FilterSaleCommand {
-  String from
-  String to
-
-  static constraints = {
-    from blank:false
-    to blank:false
+        [saleDetail:flow.sales.groupBy(){ it.product }]
+      }.to "addProduct"
+    }
   }
 }

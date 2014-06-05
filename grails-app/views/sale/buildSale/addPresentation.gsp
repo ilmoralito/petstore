@@ -9,17 +9,15 @@
 <body>
 	<div class="row">
 		<div class="col-md-9">
-			<g:render template="buildSale/itemsCollection"/>
+			<g:render template="buildSale/sales"/>
 		</div>
 		<div class="col-md-3">
-			<g:render template="toolbar"/>
 			<g:form>
 				<div class="form-group">
-					<label for="presentationId">Presentacion</label>
-					<g:select name="presentationId" from="${presentations}" optionKey="id" class="form-control"/>
+					<label for="presentation">Presentaciones</label>
+					<g:select name="presentation" from="${presentations}" optionKey="id" class="form-control"/>
 				</div>
-				<g:submitButton name="confirm" value="Confirmar" class="btn btn-default"/>
-				<g:submitButton name="cancel" value="Otro producto" class="btn btn-primary"/>
+				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 			</g:form>
 		</div>
 	</div>

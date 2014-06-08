@@ -13,19 +13,23 @@ class SaleController {
 		buildSale:["GET", "POST"]
 	]
 
-	def list(FilterSaleCommand cmd) {
-      def from = params.date("from", "yyyy-MM-dd")
-      def to = params.date("to", "yyyy-MM-dd")
+	def list() {
+    if (request.method == "POST") {
+      def client = Client.get(params.int("client"))
 
-      if (request.method == "POST" || from || to) {
-        if (cmd.hasErrors()) {
-          cmd.errors.allErrors.each { println it }
-          flash.message = "Los datos de fecha son necesarios para continuar"
-          return
-        }
-
-        [sales:Sale.requestFromTo(from, to).list().unique { it.client }]
+      if (!client) {
+        response.sendError 404
       }
+
+      def query = Sale.where {
+        client == client && status == params.boolean("status")
+      }
+
+      //todo:find a better way to do this
+      return [clients:Client.list(), sales:query.list()]
+    }
+
+    [clients:Client.list()]
 	}
 
   def detail(Integer clientId) {
@@ -80,6 +84,52 @@ class SaleController {
 
         [product:product, presentations:product.presentations]
       }.to "addPresentation"
+
+      on("pay") { PaymentCommand cmd ->
+        if (cmd.hasErrors()) {
+          return error()
+        }
+
+        def totalToPay = flow.sales.total.sum()
+        if (cmd.payment <= totalToPay) {
+          //insert new sale
+          def sale = new Sale(client:flow.client, status:cmd.payment == totalToPay ? true : false)
+
+          if (!sale.save()) {
+            flash.message = "A ocurrido un error al intentar crear una venta"
+            return error()
+          }
+
+          //add items to new sale
+          flow.sales.each {
+            def item = new Item(
+              product:it.product,
+              presentation:it.presentation,
+              quantity:it.quantity,
+              total:it.total
+            )
+
+            sale.addToItems item
+
+            if (!item.save()) {
+              flash.message = "A ocurrido un error al intentar crear una venta"
+              return error()
+            }
+          }
+
+          //add payment
+          def payment = new Payment(payment:cmd.payment)
+
+          sale.addToPayments payment
+
+          if (!payment.save()) {
+            flash.message = "A ocurrido un error al intentar crear una venta"
+            return error()
+          }
+        } else {
+          return error()
+        }
+      }.to "done"
 
       on("cancel").to "done"
     }
@@ -153,5 +203,14 @@ class SaleController {
     done() {
       redirect action:"buildSale"
     }
+  }
+}
+
+
+class PaymentCommand {
+  BigDecimal payment
+
+  static constraints = {
+    payment nullable:false, min:0.1
   }
 }

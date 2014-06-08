@@ -10,42 +10,38 @@
 	<div class="row">
 		<div class="col-md-9">
 			<g:if test="${sales}">
-				<h4>Resultados</h4>
-				<table class="table table-hover">
+				<div class="table">
 					<thead>
-						<th width="1">#</th>
 						<th>Cliente</th>
 					</thead>
 					<tbody>
-						<g:each in="${sales}" var="sale" status="i">
+						<g:each in="${sales}" var="sale">
 							<tr>
-								<td>${i + 1}</td>
-								<td>
-									<g:link action="detail" params="[clientId:sale.client.id, from:params?.from, to:params?.to]">
-										${sale}
-									</g:link>
-								</td>
+								<td>${sale.client}</td>
 							</tr>
 						</g:each>
 					</tbody>
-				</table>
+				</div>
 			</g:if>
-			<g:else>
-				<h4>...NADA QUE MOSTRAR...</h4>
-			</g:else>
 		</div>
 		<div class="col-md-3">
-			<g:render template="toolbar"/>
-			<h4>Filtrar</h4>
-			<g:form action="list">
-				<div class="form-group">
-					<g:textField name="from" value="${params?.from}" class="form-control" placeholder="Desde"/>
-				</div>
-				<div class="form-group">
-					<g:textField name="to" value="${params?.to}" class="form-control" placeholder="Hasta"/>
-				</div>
-				<g:submitButton name="send" value="Buscar" class="btn btn-primary btn-block"/>
-			</g:form>
+			<ul class="nav nav-tabs">
+			  <li class="active"><g:link action="list">Cliente</g:link></li>
+			  <li><g:link action="#">Fecha</g:link></li>
+			</ul>
+			<p>
+				<g:form action="list">
+					<div class="form-group">
+						<label for="client">Cliente</label>
+						<g:select name="client" from="${clients}" optionKey="id" value="${params?.client}" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<label for="status">Estado</label>
+						<g:select name="status" from="[true, false]" value="${params.boolean('status')}" class="form-control"/>
+					</div>
+					<g:submitButton name="send" value="Listar" class="btn btn-primary"/>
+				</g:form>
+			</p>
 		</div>
 	</div>
 </body>

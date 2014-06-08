@@ -20,6 +20,15 @@
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 				<g:link event="cancel" class="btn btn-warning">Cancelar</g:link>
 			</g:form>
+			<g:if test="${sales}">
+				<br>
+				<g:form>
+					<div class="form-group">
+						<g:textField name="payment" class="form-control" placeholder="Pago"/>
+					</div>
+					<g:submitButton name="pay" value="Confirmar" class="btn btn-primary"/>
+				</g:form>
+			</g:if>
 		</div>
 	</div>
 </body>

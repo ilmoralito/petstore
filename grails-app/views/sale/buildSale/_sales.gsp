@@ -32,7 +32,6 @@
 			</tr>
 		</tbody>
 	</table>
-	<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 </g:if>
 <g:else>
 	<h1>...</h1>

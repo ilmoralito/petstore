@@ -23,7 +23,7 @@ class Sale implements Serializable {
   static mapping = { version false }
 
   List items
-  static hasMany = [items:Item]
+  static hasMany = [ items:Item, payments:Payment ]
 
   String toString() { client }
 }

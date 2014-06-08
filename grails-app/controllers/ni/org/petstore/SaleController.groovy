@@ -55,7 +55,7 @@ class SaleController {
       action {
         def clients = Client.list()
         session.sale = [:]
-        flow.sales = []
+        flow.sales = [] as List
 
         [clients:clients]
       }
@@ -108,11 +108,7 @@ class SaleController {
 
         //calc current product in presentation and measure quantity
         def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
-        def quantity
-
-        if (target) {
-          quantity = detail.quantity - target.quantity.toInteger()
-        }
+        def quantity = target ? detail.quantity - target.quantity.toInteger() : null
 
         [detail:detail, quantity:quantity]
       }.to "addQuantity"
@@ -139,6 +135,17 @@ class SaleController {
 
         [saleDetail:flow.sales.groupBy(){ it.product }]
       }.to "addProduct"
+
+      on("deleteDetail") {
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.detail.measure }
+
+      }.to "addQuantity"
+
+      on("saveDetail") {
+        flow.sales.each { sale ->
+          
+        }
+      }.to "done"
 
       on("cancel").to "addMeasure"
     }

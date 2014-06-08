@@ -1,10 +1,7 @@
 <g:if test="${saleDetail}">
-	<h4>${client}</h4>
-	<h5>${new Date().format("yyyy-MM-dd")}</h5>
+	<h4>${client} <small>${new Date().format("yyyy-MM-dd")}</small></h4>
+	<br>
 	<table class="table">
-		<thead>
-			<th>Producto</th>
-		</thead>
 		<tbody>
 			<g:each in="${saleDetail.keySet()}" var="product" status="i">
 				<tr>
@@ -18,7 +15,11 @@
 									<tr>
 										<td>${detail.quantity} <b>${detail.presentation}</b> de ${detail.measure}</td>
 										<td width="1">${detail.total}</td>
-										<td width="1"><g:link event="deleteDetail"><span class="glyphicon glyphicon-trash"></span></g:link></td>
+										<td width="1">
+											<g:link event="deleteDetail">
+												<span class="glyphicon glyphicon-trash"></span>
+											</g:link>
+										</td>
 									</tr>
 								</g:each>
 							</tbody>

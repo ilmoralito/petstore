@@ -40,16 +40,17 @@ class PresentationController {
 
     adminPresentationsDetail {
       on("confirm") { DetailCommand cmd ->
-        if (!cmd.validate()) {
-          error()
-          return
+        if (cmd.hasErrors()) {
+          return error()
         }
 
         def presentation = Presentation.findByProductAndPresentation(flow.product, params?.presentation)
         def presentationDetail = new Detail(measure:cmd?.measure, quantity:cmd?.quantity, price:cmd?.price)
 
         presentation.addToDetails presentationDetail
-        presentationDetail.save()
+        if (!presentationDetail.save()) {
+          return error()
+        }
       }.to "adminPresentationsDetail"
 
       on("editPresentationDetail") {

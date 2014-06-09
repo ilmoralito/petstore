@@ -8,7 +8,7 @@
 </head>
 <body>
 	<g:link event="goBackToAdminPresentation" class="pull-right">Regresar</g:link>
-	<br><br>
+	<h4>${product}</h4>
 	<table class="table table-hover">
 		<tbody>
 			<g:each in="${product?.presentations}" var="presentation">

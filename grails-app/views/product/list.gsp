@@ -26,7 +26,7 @@
 	<g:if test="${products}">
 		<table class="table table-hover">
 			<thead>
-				<td width="1"></td>
+				<th width="1"></th>
 				<th>Productos</th>
 				<th width="1"></th>
 				<th width="1"></th>

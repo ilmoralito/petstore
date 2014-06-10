@@ -91,12 +91,13 @@ class SaleController {
         }
 
         def totalToPay = flow.sales.total.sum()
+
         if (cmd.payment <= totalToPay) {
           //insert new sale
           def sale = new Sale(client:flow.client, status:cmd.payment == totalToPay ? true : false)
 
           if (!sale.save()) {
-            flash.message = "A ocurrido un error al intentar crear una venta"
+            flash.message = "A ocurrido un error"
             return error()
           }
 
@@ -112,7 +113,7 @@ class SaleController {
             sale.addToItems item
 
             if (!item.save()) {
-              flash.message = "A ocurrido un error al intentar crear una venta"
+              flash.message = "A ocurrido un error"
               return error()
             }
           }
@@ -123,9 +124,10 @@ class SaleController {
           sale.addToPayments payment
 
           if (!payment.save()) {
-            flash.message = "A ocurrido un error al intentar crear una venta"
+            flash.message = "A ocurrido un error"
             return error()
           }
+
         } else {
           return error()
         }
@@ -155,8 +157,6 @@ class SaleController {
         }
 
         def detail = q2.find()
-
-        //calc current product in presentation and measure quantity
         def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
         def quantity = target ? detail.quantity - target.quantity.toInteger() : null
 
@@ -167,8 +167,20 @@ class SaleController {
     }
 
     addQuantity {
-      on("confirm") {
+      on("confirm") { AddQuantityCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { println it.defaultMessage }
+          return error()
+        }
+
         def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.detail.measure }
+
+        //check if quantity is greater than current product/presentation/measure quantity
+        if (target) {
+          if (cmd.quantity > (flow.detail.quantity -  target.quantity.toInteger())) {
+            return error()
+          }
+        }
 
         if (target) {
           target.quantity = target.quantity.toInteger() + params?.quantity?.toInteger()
@@ -187,15 +199,15 @@ class SaleController {
       }.to "addProduct"
 
       on("deleteDetail") {
-        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == flow.detail.measure }
-
-      }.to "addQuantity"
-
-      on("saveDetail") {
-        flow.sales.each { sale ->
-          
+        def target = flow.sales.find { 
+          it.product.name == params.product && it.presentation.presentation == params.presentation && it.measure == params.measure
         }
-      }.to "done"
+        
+        flow.sales -= target
+
+        //this fix the problem but i do not like the solution
+        [saleDetail:flow.sales.groupBy(){ it.product }]
+      }.to "addQuantity"
 
       on("cancel").to "addMeasure"
     }
@@ -212,5 +224,13 @@ class PaymentCommand {
 
   static constraints = {
     payment nullable:false, min:0.1
+  }
+}
+
+class AddQuantityCommand {
+  Integer quantity
+
+  static constraints = {
+    quantity min:1, nullable:false
   }
 }

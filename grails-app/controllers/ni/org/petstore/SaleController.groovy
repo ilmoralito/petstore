@@ -9,13 +9,21 @@ class SaleController {
 	static defaultAction = "buildSale"
 	static allowedMethods = [
 		list:["GET", "POST"],
+    pay:"POST",
     detail:"GET",
 		buildSale:["GET", "POST"]
 	]
 
 	def list() {
-    if (request.method == "POST") {
-      def client = Client.get(params.int("client"))
+    def criteria = Sale.createCriteria()
+    def clients = criteria.list {
+      projections {
+        distinct "client"
+      }
+    }
+
+    if (request.method == "POST" || (params.status && params.clientId)) {
+      def client = Client.get(params.int("clientId"))
 
       if (!client) {
         response.sendError 404
@@ -25,12 +33,42 @@ class SaleController {
         client == client && status == params.boolean("status")
       }
 
-      //todo:find a better way to do this
-      return [clients:Client.list(), sales:query.list()]
+      return [clients:clients, sales:query.list()]
     }
 
-    [clients:Client.list()]
+    [clients:clients]
 	}
+
+  def pay(PayCommand cmd) {
+    if (cmd.hasErrors()) {
+      cmd.errors.allErrors.each { println it.defaultMessage }
+      redirect action:"list", params:[status:cmd.status, clientId:cmd.clientId]
+      return
+    }
+
+    def sale = Sale.get(cmd.saleId)
+
+    if (!sale) {
+      response.sendError 404
+    }
+
+    def paidUp = sale.payments.payment.sum() ?: 0
+    def debt = sale.items.total.sum() - paidUp
+
+    if (cmd.payment <= debt) {
+      if (cmd.payment == debt) {
+        sale.status = true
+      }
+
+      def payment = new Payment(payment:cmd.payment)
+
+      sale.addToPayments payment
+
+      sale.save()
+    }
+
+    redirect action:"list", params:[status:cmd.status, clientId:cmd.clientId]
+  }
 
   def detail(Integer clientId) {
     def client = Client.get(clientId)
@@ -59,7 +97,7 @@ class SaleController {
       action {
         def clients = Client.list()
         session.sale = [:]
-        flow.sales = [] as List
+        flow.sales = []
 
         [clients:clients]
       }
@@ -93,7 +131,6 @@ class SaleController {
         def totalToPay = flow.sales.total.sum()
 
         if (cmd.payment <= totalToPay) {
-          //insert new sale
           def sale = new Sale(client:flow.client, status:cmd.payment == totalToPay ? true : false)
 
           if (!sale.save()) {
@@ -101,11 +138,11 @@ class SaleController {
             return error()
           }
 
-          //add items to new sale
           flow.sales.each {
             def item = new Item(
               product:it.product,
               presentation:it.presentation,
+              measure:it.measure,
               quantity:it.quantity,
               total:it.total
             )
@@ -118,16 +155,24 @@ class SaleController {
             }
           }
 
-          //add payment
+          //update product detail
+          flow.sales.each {
+            it.detail.quantity = it.detail.quantity.toInteger() - it.quantity.toInteger()
+            
+            if (!it.detail.save()) {
+              it.detail.errors.allErrors.each { println it.defaultMessage }  
+            }
+          }
+
           def payment = new Payment(payment:cmd.payment)
 
           sale.addToPayments payment
 
           if (!payment.save()) {
+            payment.errors.allErrors.each { println it.defaultMessage }
             flash.message = "A ocurrido un error"
             return error()
           }
-
         } else {
           return error()
         }
@@ -148,15 +193,8 @@ class SaleController {
 
     addMeasure {
       on("confirm") {
-        def q1 = Detail.where {
-          presentation { presentation == flow.presentation.presentation } && measure == params?.measure
-        }
+        def detail = Detail.findByPresentationAndMeasure(flow.presentation, params?.measure)
 
-        def q2 = q1.where {
-          presentation.product.name == flow.product.name
-        }
-
-        def detail = q2.find()
         def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
         def quantity = target ? detail.quantity - target.quantity.toInteger() : null
 
@@ -191,8 +229,11 @@ class SaleController {
           session.sale["measure"] = flow.detail.measure
           session.sale["quantity"] = params?.quantity
           session.sale["total"] = flow.detail.price * params.int("quantity")
+          session.sale["detail"] = flow.detail
 
           flow.sales.add(session.sale)
+
+          println flow.sales
         }
 
         [saleDetail:flow.sales.groupBy(){ it.product }]
@@ -223,7 +264,7 @@ class PaymentCommand {
   BigDecimal payment
 
   static constraints = {
-    payment nullable:false, min:0.1
+    payment nullable:false, min:0.0
   }
 }
 
@@ -232,5 +273,19 @@ class AddQuantityCommand {
 
   static constraints = {
     quantity min:1, nullable:false
+  }
+}
+
+class PayCommand {
+  BigDecimal payment
+
+  Integer clientId
+  Integer saleId
+  Boolean status
+
+  static constraints = {
+    payment nullable:false, min:1.0
+    clientId nullable:false
+    saleId nullable:false
   }
 }

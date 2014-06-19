@@ -9,21 +9,19 @@ class Sale implements Serializable {
 	@BindingFormat("yyyy-MM-dd")
 	Date dateCreated
 
-	static namedQueries = {
-		requestFromTo { from, to ->
-	    ge "dateCreated", from
-	    le "dateCreated", to + 1
-    }
-	}
-
 	static constraints = {
-		client blank:false
+		client nullable:false
+		payments nullable:true
   }
 
-  static mapping = { version false }
+  static mapping = {
+  	version false
+  	payments sort: "dateCreated", order: "asc"
+  }
 
   List items
+  List payments
   static hasMany = [ items:Item, payments:Payment ]
 
-  String toString() { client }
+  String toString() { "by $client at $dateCreated" }
 }

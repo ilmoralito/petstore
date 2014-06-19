@@ -24,7 +24,7 @@
 				<br>
 				<g:form>
 					<div class="form-group">
-						<g:textField name="payment" class="form-control" placeholder="Pago"/>
+						<input type="number" name="payment" id="payment" min="0.0" step="0.5" max="${sales.total.sum()}" class="form-control" placeholder="Pago">
 					</div>
 					<g:submitButton name="pay" value="Confirmar" class="btn btn-primary"/>
 				</g:form>

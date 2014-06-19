@@ -6,7 +6,7 @@ class Payment implements Serializable {
 	Date lastUpdated
 
   static constraints = {
-  	payment min:0.1, nullable:false
+  	payment nullable:true, min:0.0
   }
 
   static belongsTo = [sale:Sale]

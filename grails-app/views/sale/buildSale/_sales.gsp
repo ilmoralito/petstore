@@ -16,7 +16,7 @@
 										<td>${detail.quantity} <b>${detail.presentation}</b> de ${detail.measure}</td>
 										<td width="1">${detail.total}</td>
 										<td width="1">
-											<g:link event="deleteDetail">
+											<g:link event="deleteDetail" params="[product:detail.product, presentation:detail.presentation, measure:detail.measure]">
 												<span class="glyphicon glyphicon-trash"></span>
 											</g:link>
 										</td>

@@ -120,8 +120,11 @@ class SaleController {
     addProduct {
       on("confirm") {
         def product = Product.get(params?.product)
+        def presentations = Presentation.where {
+          details.quantity > 0
+        }
 
-        [product:product, presentations:product.presentations]
+        [product:product, presentations:presentations.list()]
       }.to "addPresentation"
 
       on("pay") { PaymentCommand cmd ->
@@ -186,7 +189,7 @@ class SaleController {
       on("confirm"){
         def presentation = Presentation.get(params?.presentation)
 
-        [presentation:presentation, measures:presentation.details.measure]
+        [presentation:presentation, measures:presentation.details.findAll { it.quantity > 0 }.measure]
       }.to "addMeasure"
 
       on("cancel").to "addProduct"
@@ -197,7 +200,7 @@ class SaleController {
         def detail = Detail.findByPresentationAndMeasure(flow.presentation, params?.measure)
 
         def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
-        def quantity = target ? detail.quantity - target.quantity.toInteger() : null
+        def quantity = target ? detail.quantity - target.quantity.toInteger() : detail.quantity
 
         [detail:detail, quantity:quantity]
       }.to "addQuantity"
@@ -233,8 +236,6 @@ class SaleController {
           session.sale["detail"] = flow.detail
 
           flow.sales.add(session.sale)
-
-          println flow.sales
         }
 
         [saleDetail:flow.sales.groupBy(){ it.product }]

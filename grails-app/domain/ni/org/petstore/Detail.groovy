@@ -7,7 +7,7 @@ class Detail implements Serializable {
 
   static constraints = {
   	measure blank:false
-  	quantity min:1, nullable:false
+  	quantity min:0, nullable:false
   	price min:1.0, nullable:false
   }
 

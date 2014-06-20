@@ -22,7 +22,7 @@
 												</g:link>
 											</g:if>
 											<g:else>
-												&nbsp;
+												<span class="glyphicon glyphicon-trash" style="color:#EEE;"></span>
 											</g:else>
 										</td>
 									</tr>

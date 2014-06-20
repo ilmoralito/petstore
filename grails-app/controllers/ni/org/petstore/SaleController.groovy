@@ -42,29 +42,30 @@ class SaleController {
   def pay(PayCommand cmd) {
     if (cmd.hasErrors()) {
       cmd.errors.allErrors.each { println it.defaultMessage }
-      redirect action:"list", params:[status:cmd.status, clientId:cmd.clientId]
-      return
-    }
+    } else {
+      def sale = Sale.get(cmd.saleId)
 
-    def sale = Sale.get(cmd.saleId)
-
-    if (!sale) {
-      response.sendError 404
-    }
-
-    def paidUp = sale.payments.payment.sum() ?: 0
-    def debt = sale.items.total.sum() - paidUp
-
-    if (cmd.payment <= debt) {
-      if (cmd.payment == debt) {
-        sale.status = true
+      if (!sale) {
+        response.sendError 404
       }
 
-      def payment = new Payment(payment:cmd.payment)
+      def paidUp = sale.payments.payment.sum() ?: 0
+      def debt = sale.items.total.sum() - paidUp
 
-      sale.addToPayments payment
+      if (cmd.payment <= debt) {
+        if (cmd.payment == debt) {
+          sale.status = true
+        }
 
-      sale.save()
+        def payment = new Payment(payment:cmd.payment)
+
+        sale.addToPayments payment
+
+        if (!sale.save()) {
+          sale.errors.allErrors.each { println it.defaultMessage }
+          redirect action:"list"
+        }
+      }
     }
 
     redirect action:"list", params:[status:cmd.status, clientId:cmd.clientId]

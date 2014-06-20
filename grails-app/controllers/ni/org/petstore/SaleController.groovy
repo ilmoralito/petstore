@@ -124,6 +124,9 @@ class SaleController {
           details.quantity > 0
         }
 
+        //state
+        flow.state = false
+
         [product:product, presentations:presentations.list()]
       }.to "addPresentation"
 
@@ -182,17 +185,32 @@ class SaleController {
         }
       }.to "done"
 
+      on("deleteDetail") {
+        def target = flow.sales.find { 
+          it.product.name == params.product && it.presentation.presentation == params.presentation && it.measure == params.measure
+        }
+        
+        flow.sales -= target
+
+        //this fix the problem but i do not like the solution
+        [saleDetail:flow.sales.groupBy(){ it.product }]
+      }.to "addProduct"
+
       on("cancel").to "done"
     }
 
     addPresentation {
-      on("confirm"){
+      on("confirm") {
         def presentation = Presentation.get(params?.presentation)
+
+        flow.state = false
 
         [presentation:presentation, measures:presentation.details.findAll { it.quantity > 0 }.measure]
       }.to "addMeasure"
 
-      on("cancel").to "addProduct"
+      on("cancel") {
+        flow.state = true
+      }.to "addProduct"
     }
 
     addMeasure {
@@ -238,21 +256,14 @@ class SaleController {
           flow.sales.add(session.sale)
         }
 
+        flow.state = true
+
         [saleDetail:flow.sales.groupBy(){ it.product }]
       }.to "addProduct"
 
-      on("deleteDetail") {
-        def target = flow.sales.find { 
-          it.product.name == params.product && it.presentation.presentation == params.presentation && it.measure == params.measure
-        }
-        
-        flow.sales -= target
-
-        //this fix the problem but i do not like the solution
-        [saleDetail:flow.sales.groupBy(){ it.product }]
-      }.to "addQuantity"
-
-      on("cancel").to "addMeasure"
+      on("cancel") {
+        flow.state == false
+      }.to "addMeasure"
     }
 
     done() {

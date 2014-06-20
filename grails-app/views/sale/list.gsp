@@ -37,20 +37,23 @@
 						<div class="col-md-4">
 							<table class="table table-striped">
 								<thead>
-									<th>Fecha de pago</th>
+									<th>Fecha abono</th>
 									<th width="1">Abono</th>
+									<th width="1"></th>
 								</thead>
 								<tbody>
 									<g:each in="${sale.payments}" var="payment">
 										<tr>
 											<td>${payment.dateCreated.format("yyyy-MM-dd")}</td>
 											<td>${payment.payment}</td>
+											<td><g:link><span class="glyphicon glyphicon-trash"></span></g:link></td>
 										</tr>
 									</g:each>
 									<g:if test="${!sale.status}">
 										<tr>
 											<td>Pendiente</td>
 											<td>${sale.items.total.sum() - sale.payments.payment.sum()}</td>
+											<td></td>
 										</tr>
 									</g:if>
 								</tbody>

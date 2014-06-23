@@ -39,20 +39,30 @@
 								<thead>
 									<th>Fecha abono</th>
 									<th width="1">Abono</th>
-									<th width="1"></th>
+									<!--Display only in credit-->
+									<g:if test="${!params?.status?.toBoolean()}">
+										<th width="1"></th>
+									</g:if>
 								</thead>
 								<tbody>
 									<g:each in="${sale.payments}" var="payment">
 										<tr>
 											<td>${payment.dateCreated.format("yyyy-MM-dd")}</td>
 											<td>${payment.payment}</td>
-											<td><g:link><span class="glyphicon glyphicon-trash"></span></g:link></td>
+											<!--Display only in credit sale-->
+											<g:if test="${!params?.status?.toBoolean()}">
+												<td>
+												  <g:link action="deletePayment" params="[paymentId:payment.id, saleId:sale.id]">
+												    <span class="glyphicon glyphicon-trash"></span>
+												  </g:link>
+												</td>
+											</g:if>
 										</tr>
 									</g:each>
 									<g:if test="${!sale.status}">
 										<tr>
 											<td>Pendiente</td>
-											<td>${sale.items.total.sum() - sale.payments.payment.sum()}</td>
+											<td>${sale?.items?.total?.sum() - sale?.payments?.payment?.sum()}</td>
 											<td></td>
 										</tr>
 									</g:if>

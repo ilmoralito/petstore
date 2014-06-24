@@ -121,7 +121,7 @@ class SaleController {
       on("confirm") {
         def product = Product.get(params?.product)
         def presentations = Presentation.where {
-          details.quantity > 0
+          product == product && details.quantity > 0
         }
 
         //state
@@ -202,6 +202,10 @@ class SaleController {
     addPresentation {
       on("confirm") {
         def presentation = Presentation.get(params?.presentation)
+
+        if (!presentation) {
+          return error()
+        }
 
         flow.state = false
 

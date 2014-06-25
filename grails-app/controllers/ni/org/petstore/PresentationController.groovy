@@ -4,7 +4,7 @@ import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(["ROLE_ADMIN"])
 class PresentationController {
-	static defaultAction = "list"
+	static defaultAction = "presentations"
 
   def presentationsFlow = {
     init {
@@ -41,6 +41,7 @@ class PresentationController {
     adminPresentationsDetail {
       on("confirm") { DetailCommand cmd ->
         if (cmd.hasErrors()) {
+          flow.d = cmd
           return error()
         }
 
@@ -48,6 +49,7 @@ class PresentationController {
         def presentationDetail = new Detail(measure:cmd?.measure, quantity:cmd?.quantity, price:cmd?.price)
 
         presentation.addToDetails presentationDetail
+
         if (!presentationDetail.save()) {
           return error()
         }
@@ -110,7 +112,7 @@ class PresentationController {
 
 }
 
-class DetailCommand {
+class DetailCommand implements Serializable {
   String measure
   Integer quantity
   BigDecimal price

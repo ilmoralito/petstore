@@ -88,20 +88,25 @@
 		</div>
 		<div class="col-md-3">
 			<g:render template="tabs"/>
-			<g:form action="list">
-				<div class="form-group">
-					<label for="client">Cliente</label>
-					<g:select name="clientId" from="${clients}" optionKey="id" value="${params?.client}" class="form-control"/>
-				</div>
-				<div class="form-group">
-					<label for="status">Tipo de compra</label>
-					<br>
-					<g:radioGroup name="status" labels="['Cancelado', 'Credito']" values="[true, false]" value="${params?.status ?: true}">
-						${it.radio} <g:message code="${it.label}"/>
-					</g:radioGroup>
-				</div>
-				<g:submitButton name="send" value="Listar" class="btn btn-primary"/>
-			</g:form>
+			<g:if test="${clients}">
+				<g:form action="list">
+					<div class="form-group">
+						<label for="client">Cliente</label>
+						<g:select name="clientId" from="${clients}" optionKey="id" value="${params?.client}" class="form-control"/>
+					</div>
+					<div class="form-group">
+						<label for="status">Tipo de compra</label>
+						<br>
+						<g:radioGroup name="status" labels="['Cancelado', 'Credito']" values="[true, false]" value="${params?.status ?: true}">
+							${it.radio} <g:message code="${it.label}"/>
+						</g:radioGroup>
+					</div>
+					<g:submitButton name="send" value="Listar" class="btn btn-primary"/>
+				</g:form>
+			</g:if>
+			<g:else>
+				No existen ventas registradas aun en el sistema
+			</g:else>
 		</div>
 	</div>
 </body>

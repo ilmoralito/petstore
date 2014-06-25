@@ -15,7 +15,6 @@ class ClientController {
     show:"GET",
     addEmail:"POST",
     deleteEmail:"GET",
-    history:"GET",
     sendMail:["GET", "POST"]
 	]
 
@@ -162,32 +161,6 @@ class ClientController {
     telephone.delete()
 
     redirect action:"show", params:[id:id]
-  }
-
-  def history(Integer id) {
-    def client = Client.get(id)
-
-    if (!client) {
-      response.sendError 404
-    }
-
-    if (!params?.dateCreated) {
-      def sales = Sale.findAllByClient(client).unique { it.dateCreated.clearTime() }
-
-      [sales:sales]
-    } else {
-      def dateCreated = params.date("dateCreated", "yyyy-MM-dd")
-      def criteria = Item.createCriteria()
-      def sales = criteria.list {
-        sale {
-          ge "dateCreated", dateCreated
-          le "dateCreated", dateCreated + 1
-          eq "client", client
-        }
-      }
-
-      [sales:sales, sales:sales.groupBy() { it.product }, client:client]
-    }
   }
 
   def sendMail(Integer id) {

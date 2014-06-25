@@ -41,12 +41,14 @@ class AppTagLib {
 		out << result
 	}
 
-	def productInStock = { attrs, body ->
-		def presentations = Presentation.findAllByQuantityLessThan(10)
+	def productInStock = {
+		def details = Detail.findAllByQuantityLessThan(10)
 
-    if (presentations && controllerName != "sale") {
-    	def presentationsGroupedByProduct = presentations.groupBy() { it.product }
-    	out << render(template: "/layouts/inStock", model:[presentationsGroupedByProduct:presentationsGroupedByProduct])
+    if (details && actionName != "buildSale" && actionName != "presentations") {
+    	def detailsGroupedByPresentation = details.groupBy() { it.presentation }
+			def results = detailsGroupedByPresentation.keySet().groupBy() { it.product }
+
+	   	out << render(template: "/layouts/inStock", model:[results:results])
     }
 	}
 }

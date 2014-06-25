@@ -8,3 +8,4 @@
 		<li><g:link controller="logout">Salir</g:link></li>
 	</ul>
 </nav>
+<ps:productInStock/>

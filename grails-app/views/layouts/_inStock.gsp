@@ -1,16 +1,14 @@
-<h4>Pocas existencias</h4>
-<g:each in="${presentationsGroupedByProduct.keySet()}" var="product">
-	<div class="row">
-		<div class="col-md-12">${product.name.toUpperCase()}</div>
-	</div>
-	<g:each in="${presentationsGroupedByProduct[product]}" var="presentation">
-		<div class="row">
-			<div class="col-md-6">
-				<g:link controller="presentation" action="edit" params="[id:presentation?.id, productId:presentation?.product?.id, providerId:presentation?.product?.provider?.id]">
-					${presentation.presentation}
-				</g:link>
-			</div>
-			<div class="col-md-6">${presentation.quantity}</div>
-		</div>
+<g:each in="${results}" var="k">
+	<h4>${k.key}</h4>
+	<g:each in="${k.value}" var="v">
+		<table class="table table-striped">
+			<tbody>
+				<g:each in="${v.details.findAll { it.quantity <= 10 }}" var="l">
+					<tr>
+						<td>${l.quantity} ${v} ${l}</td>
+					</tr>
+				</g:each>
+			</tbody>
+		</table>
 	</g:each>
 </g:each>

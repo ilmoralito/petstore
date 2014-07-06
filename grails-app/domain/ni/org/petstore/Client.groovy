@@ -18,6 +18,8 @@ class Client implements Serializable {
   	storeName blank:false
   	address blank:false
   	city inList:Holders.config.ni.org.petstore.cities, maxSize:255
+    emails nullable:true
+    telephones nullable:true
   }
 
   static searchable = true

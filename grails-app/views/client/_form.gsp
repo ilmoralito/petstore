@@ -1,7 +1,7 @@
 <div class="row">
-	<div class="col-md-4">
+	<div class="col-md-8">
 		<div class="form-group">
-			<label for="fullName">Nombre completo</label>
+			<label for="fullName">Nombre del cliente</label>
 			<g:textField name="fullName" value="${client?.fullName}" class="form-control" autofocus="true"/>
 		</div>
 		<div class="form-group">

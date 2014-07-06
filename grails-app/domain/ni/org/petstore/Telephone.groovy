@@ -1,6 +1,6 @@
 package ni.org.petstore
 
-class Telephone {
+class Telephone implements Serializable {
 	String type
 	String number
 

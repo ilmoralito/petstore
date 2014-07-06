@@ -8,7 +8,6 @@ class ClientController {
 	static defaultAction = "list"
 	static allowedMethods = [
 		list:["GET", "POST"],
-		create:["GET", "POST"],
     delete:"GET",
     edit:"GET",
     update:"POST",
@@ -33,20 +32,74 @@ class ClientController {
     }
   }
 
-  def create() {
-  	def client = new Client(params)
+  def createClientFlow = {
+    init {
+      action {
+        flow.emails = []
+        flow.telephones = []
+      }
 
-  	if (request.method == "POST") {
-  		if (!client.save()) {
-  			return [client:client]
-  		}
+      on("success").to "addClient"
+    }
 
-      return [:]
-  	}
+    addClient {
+      on("addClient") {
+        def client = new Client(params)
 
-  	[client:client]
+        if (flow.emails) {
+          flow.emails.each { email -> client.addToEmails email }
+        }
+
+        if (flow.telephones) {
+          flow.telephones.each { telephone -> client.addToTelephones telephone }
+        }
+
+        if (!client.save()) {
+          client.errors.allErrors.each { println it }
+
+          flow.client = client
+          return error()
+        }
+      }.to "done"
+
+      //EMAIL
+      on("addEmail") { EmailCommand cmd ->
+        if (cmd.hasErrors()) {
+          return error()
+        }
+
+        flow.emails.add cmd.email
+      }.to "addClient"
+
+      on("deleteEmail") {
+        def index = params.int("id")
+
+        flow.emails.remove index
+      }.to "addClient"
+
+      //TELEPHONE
+      on("addTelephone") { TelephoneCommand cmd ->
+        if (cmd.hasErrors()) {
+          return error()
+        }
+
+        def telephone = new Telephone(type:cmd.type, number:cmd.number)
+
+        flow.telephones.add telephone
+      }.to "addClient"
+
+      on("deleteTelephone") {
+        def index = params.int("index")
+
+        flow.telephones.remove index
+      }.to "addClient"
+    }
+
+    done() {
+      redirect action:"createClient", params:[client:flow.client]
+    }
   }
-
+  
   def delete(Integer id) {
   	def client = Client.get(id)
 
@@ -187,4 +240,21 @@ class ClientController {
     [client:client]
   }
 
+}
+
+class EmailCommand {
+  String email
+
+  static constraints = {
+    email blank:false, email:true
+  }
+}
+
+class TelephoneCommand {
+  String type
+  String number
+
+  static constraints = {
+    importFrom Telephone
+  }
 }

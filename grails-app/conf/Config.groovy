@@ -136,7 +136,14 @@ ni.org.petstore.presentations = [
   "Inyectable":
     ["locations", "plugins"]
 ]
-ni.org.petstore.cities = ["Leon", "Matagalpa", "Chinandega", "Jinotega", "Esteli", "RAAN"]
+ni.org.petstore.cities = [
+  "Leon":["Achuapa", "El Jicaral", "El Sauce", "La Paz Centro", "Larreynaga", "Leon", "Nagarote", "Quezalguaque", "Santa Rosa del Penon", "Telica"],
+  "Matagalpa":["Ciudad Dario", "La Dalia", "Esquipulas", "Matagalpa", "Matiguas", "Muy Muy", "Rancho Grande", "Rio Blanco", "San Dionisio", "San Isidro", "San Ramon", "Sebaco", "Terrabona"],
+  "Chinandega":["Chichigalpa", "Chinandega", "Cinco Pinos", "Corinto", "El Realejo", "El Viejo", "Posoltega", "San Francisco del Norte", "San Pedro del Norte", "Santo Tomas del Norte", "Somotillo", "Puerto Morazan", "Villanueva"],
+  "Jinotega":["El Cua", "Jinotega", "La Concordia", "Bocay", "San Rafael del Norte", "Yali", "Santa Maria de Pantasma", "Wiwili"],
+  "Esteli":["Condega", "Esteli", "La Trinidad", "Pueblo Nuevo", "San Juan de Limay", "San Nicolas"],
+  "Atlantico Norte":["Bilwi", "Bonanza", "Mulukuku", "Prinzapolka", "Rosita", "Siuna", "Waslala", "Waspam"]
+]
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'ni.org.petstore.User'

@@ -17,7 +17,7 @@ class Client implements Serializable {
   	fullName blank:false
   	storeName blank:false
   	address blank:false
-  	city inList:Holders.config.ni.org.petstore.cities, maxSize:255
+  	city inList:Holders.config.ni.org.petstore.cities.keySet() as List, maxSize:255
     emails nullable:true
     telephones nullable:true
   }

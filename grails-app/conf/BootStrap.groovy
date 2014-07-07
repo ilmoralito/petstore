@@ -19,7 +19,7 @@ class BootStrap {
 				assert UserRole.count() == 1
 
         //clients
-        def client1 = new Client(fullName: "Client one", storeName: "Store one", address:"Leon", city: "Leon")
+        def client1 = new Client(fullName: "Client one", storeName: "Store one", address:"Edgar Lam 1/2 cuadra ariiba", city: "Leon")
 
         //emails
         client1.addToEmails "client1@gmail.com"

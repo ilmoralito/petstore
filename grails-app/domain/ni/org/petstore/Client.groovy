@@ -12,12 +12,16 @@ class Client implements Serializable {
 	String storeName
 	String address
 	String city
+  String town
 
   static constraints = {
   	fullName blank:false
   	storeName blank:false
   	address blank:false
   	city inList:Holders.config.ni.org.petstore.cities.keySet() as List, maxSize:255
+    town blank:false, maxSize:255, validator:{ val, obj ->
+      val in Holders.config.ni.org.petstore.cities[obj.city]
+    }
     emails nullable:true
     telephones nullable:true
   }

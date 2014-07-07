@@ -136,7 +136,7 @@ ni.org.petstore.presentations = [
   "Inyectable":
     ["locations", "plugins"]
 ]
-ni.org.petstore.cities = ["Leon", "Matagalpa", "Chinandega", "Corinto", "Esteli", "Granada"]
+ni.org.petstore.cities = ["Leon", "Matagalpa", "Chinandega", "Jinotega", "Esteli", "RAAN"]
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'ni.org.petstore.User'

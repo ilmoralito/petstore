@@ -4,23 +4,24 @@
 	<meta charset="UTF-8">
 	<meta name="layout" content="no-main">
 	<title>Crear cliente</title>
-	<r:require modules="bootstrap-css, app"/>
+	<r:require modules="bootstrap-css, appStorage"/>
 </head>
 <body>
-	<g:hasErrors bean="${client}"><g:renderErrors bean="${client}"></g:renderErrors></g:hasErrors>
 	<div class="row">
 		<div class="col-md-8">
 			<h4>Datos de cliente</h4>
-			<g:form>
+			<g:form name="addNewClientForm">
 				<g:render template="form"/>
 				<g:submitButton name="addClient" value="Guardar" class="btn btn-primary"/>
 				<g:link controller="client" action="list" class="btn btn-default">Cancelar</g:link>
 			</g:form>
+			<p>
+				<g:hasErrors bean="${client}"><g:renderErrors bean="${client}"></g:renderErrors></g:hasErrors>
+			</p>
 		</div>
 		<div class="col-md-4">
-			<h4>Datos de contacto</h4>
-			<h5>Emails</h5>
-			<g:form>
+			<h4>Emails</h4>
+			<g:form autocomplete="off">
 				<div class="form-group">
 					<g:textField name="email" class="form-control"/>
 				</div>
@@ -42,8 +43,8 @@
 				</table>
 			</g:if>
 
-			<h5>Telefonos</h5>
-			<g:form>
+			<h4>Telefonos</h4>
+			<g:form autocomplete="off">
 				<div class="form-group">
 					<div class="form-group">
 						<g:select name="type" from="['Convencional', 'Claro', 'Movistar']" value="${type}" class="form-control"/>

@@ -60,6 +60,8 @@ class ClientController {
           flow.client = client
           return error()
         }
+
+        session.city = client.city
       }.to "done"
 
       //EMAIL
@@ -96,7 +98,7 @@ class ClientController {
     }
 
     done() {
-      redirect action:"createClient", params:[client:flow.client]
+      redirect action:"createClient"
     }
   }
   

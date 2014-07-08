@@ -25,7 +25,7 @@
 				<div class="form-group">
 					<g:textField name="email" class="form-control"/>
 				</div>
-				<g:submitButton name="addEmail" value="Agregar" class="btn btn-primary"/>
+				<g:submitButton name="addEmail" value="Agregar email" class="btn btn-primary btn-sm"/>
 			</g:form>
 			<br>
 			<g:if test="${emails}">
@@ -52,7 +52,7 @@
 					<div class="form-group">
 						<g:textField name="number" class="form-control"/>
 					</div>
-					<g:submitButton name="addTelephone" value="Agregar" class="btn btn-primary"/>
+					<g:submitButton name="addTelephone" value="Agregar telefono" class="btn btn-primary btn-sm"/>
 				</div>
 			</g:form>
 			<g:if test="${telephones}">

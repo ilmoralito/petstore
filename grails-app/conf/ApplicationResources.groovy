@@ -11,5 +11,6 @@ modules = {
   appStorage {
   	dependsOn "app, jquery"
   	resource url:"js/storage.js"
+    resource url:"js/town.js"
   }
 }

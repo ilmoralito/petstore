@@ -1,6 +1,7 @@
 package ni.org.petstore
 
 import grails.plugin.springsecurity.annotation.Secured
+import grails.converters.JSON
 import org.compass.core.engine.SearchEngineQueryParseException
 
 @Secured(["ROLE_ADMIN"])
@@ -14,7 +15,8 @@ class ClientController {
     show:"GET",
     addEmail:"POST",
     deleteEmail:"GET",
-    sendMail:["GET", "POST"]
+    sendMail:["GET", "POST"],
+    townsByCity:"GET"
 	]
 
   def searchableService
@@ -240,6 +242,12 @@ class ClientController {
     }
 
     [client:client]
+  }
+
+  def townsByCity(String city) {
+    def towns = grailsApplication.config.ni.org.petstore.cities[city]
+
+    render towns as JSON
   }
 
 }

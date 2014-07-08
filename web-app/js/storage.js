@@ -37,6 +37,10 @@ $(document).ready(function(){
 		localStorage.setItem("city", $(this).val())
 	})
 
+	$("#town").change(function(){
+		localStorage.setItem("town", $(this).val())
+	})
+
 	$("#addNewClientForm").on("submit", function(e){
 		Component.clearClientStorage();
 	})

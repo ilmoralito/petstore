@@ -1,3 +1,5 @@
+<g:set var="cities" value="${grailsApplication.config.ni.org.petstore.cities.keySet().sort()}"/>
+
 <div class="row">
 	<div class="col-md-8">
 		<div class="form-group">
@@ -14,7 +16,11 @@
 		</div>
 		<div class="form-group">
 			<label for="city">Ciudad</label>
-			<g:select name="city" from="${grailsApplication.config.ni.org.petstore.cities.keySet()}" value="${session?.city ?: client?.city}" class="form-control"/>
+			<g:select name="city" from="${cities}" value="${session?.city ?: client?.city}" class="form-control"/>
+		</div>
+		<div class="form-group">
+			<label for="town">Municipio</label>
+			<select name="town" id="town" class="form-control"></select>
 		</div>
 	</div>
 </div>

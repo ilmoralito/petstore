@@ -149,24 +149,20 @@ class ClientController {
   def show(Integer id) {
   	def client = Client.get(id)
 
-  	if (!client) {
-  		response.sendError 404
-  		return
-  	}
+  	if (!client) { response.sendError 404 }
 
   	[client:client]
   }
 
-  def addEmail(Integer id, String email) {
-    def client = Client.get(id)
+  def addEmail(Integer id, EmailCommand cmd) {
+    if (cmd.validate()) {
+      def client = Client.get(id)
 
-    if (!client) {
-      response.sendError 404
-      return
-    }
+      if (!client) { response.sendError 404 }
 
-    client.addToEmails email
-    client.save()
+      client.addToEmails cmd.email
+      client.save()  
+    }  
 
     redirect action:"show", params:[id:id]
   }
@@ -174,10 +170,7 @@ class ClientController {
   def deleteEmail(Integer id, String email) {
     def client = Client.get(id)
 
-    if (!client) {
-      response.sendError 404
-      return
-    }
+    if (!client) { response.sendError 404 }
 
     client.removeFromEmails email
     client.save()
@@ -185,17 +178,16 @@ class ClientController {
     redirect action:"show", params:[id:id]
   }
 
-  def addTelephone(Integer id, String type, String number) {
-    def client = Client.get(id)
+  def addTelephone(Integer id, TelephoneCommand cmd) {
+    if (cmd.validate()) {
+      def client = Client.get(id)
 
-    if (!client) {
-      response.sendError 404
-      return
+      if (!client) { response.sendError 404 }
+
+      def telephone = new Telephone(type:cmd.type, number:cmd.number)
+      client.addToTelephones telephone
+      client.save()
     }
-
-    def telephone = new Telephone(type:type, number:number)
-    client.addToTelephones telephone
-    client.save()
 
     redirect action:"show", params:[id:id]
   }
@@ -203,17 +195,11 @@ class ClientController {
   def deleteTelephone(Integer id, Integer telephoneId) {
     def client = Client.get(id)
 
-    if (!client) {
-      response.sendError 404
-      return
-    }
+    if (!client) { response.sendError 404 }
 
     def telephone = Telephone.get(telephoneId)
 
-    if (!telephone) {
-      response.sendError 404
-      return
-    }
+    if (!telephone) { response.sendError 404 }
 
     telephone.delete()
 

@@ -26,7 +26,7 @@
 <g:form action="addTelephone">
 	<g:hiddenField name="id" value="${client.id}"/>
 	<div class="form-group">
-		<g:select name="type" from="${['Movistar', 'Claro', 'Convencional']}" class="form-control"/>
+		<g:select name="type" from="['Convencional', 'Claro', 'Movistar']" class="form-control"/>
 	</div>
 	<div class="form-group">
 		<g:textField name="number" class="form-control" placeholder="Telefono"/>

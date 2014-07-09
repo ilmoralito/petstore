@@ -2,10 +2,10 @@
 // config files can be ConfigSlurper scripts, Java properties files, or classes
 // in the classpath in ConfigSlurper format
 
-grails.config.locations = [ "classpath:${appName}-config.properties",
-                             "classpath:${appName}-config.groovy",
-                             "file:${userHome}/.grails/${appName}-config.properties",
-                             "file:${userHome}/.grails/${appName}-config.groovy"]
+//grails.config.locations = [ "classpath:${appName}-config.properties",
+//                             "classpath:${appName}-config.groovy",
+//                             "file:${userHome}/.grails/${appName}-config.properties",
+//                             "file:${userHome}/.grails/${appName}-config.groovy"]
 
 // if (System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
@@ -144,6 +144,18 @@ ni.org.petstore.cities = [
   "Esteli":["Condega", "Esteli", "La Trinidad", "Pueblo Nuevo", "San Juan de Limay", "San Nicolas"],
   "Atlantico Norte":["Bilwi", "Bonanza", "Mulukuku", "Prinzapolka", "Rosita", "Siuna", "Waslala", "Waspam"]
 ]
+
+grails {
+  mail {
+    host = "smtp.gmail.com"
+    port = 465
+    username = System.env.GMAIL_EMAIL
+    password = System.env.GMAIL_PASSWORD
+    props = ["mail.smtp.auth":"true", "mail.smtp.socketFactory.port":"465", "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory", "mail.smtp.socketFactory.fallback":"false"]
+  } 
+}
+
+grails.mail.default.from = "provetnicsa@yahoo.es"
 
 // Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'ni.org.petstore.User'

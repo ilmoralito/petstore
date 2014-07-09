@@ -206,25 +206,19 @@ class ClientController {
     redirect action:"show", params:[id:id]
   }
 
-  def sendMail(Integer id) {
+  def sendMail(Integer id, SendEmailCommand cmd) {
     def client = Client.get(id)
 
-    if (!client) {
-      response.sendError 404
-      return
-    }
-
-    if (request.method == "POST") {
-      if (params?.emails) {
-        sendMail {
-          to params.list("emails").toArray()
-          from grailsApplication.config.ni.org.petstore.owner.email
-          subject params?.subject
-          body params?.body
-        }
+    if (!client) { response.sendError 404 }
+    
+    if (cmd.validate() && request.method == "POST") {
+      sendMail {
+        to cmd.emails.toArray()
+        subject cmd.subject
+        body cmd.body
       }
 
-      flash.message =  (params?.emails) ? "Mensaje enviado" : "No hay emails registrados para este cliente"
+      flash.message = "Mensaje enviado"
     }
 
     [client:client]
@@ -252,5 +246,17 @@ class TelephoneCommand {
 
   static constraints = {
     importFrom Telephone
+  }
+}
+
+class SendEmailCommand {
+  List<String> emails
+  String subject
+  String body
+
+  static constraints = {
+    emails nullable:false
+    subject blank:false
+    body blank:false
   }
 }

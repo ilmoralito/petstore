@@ -9,7 +9,8 @@
 <body>
 	<g:render template="navbar"/>
 	<div class="row">
-		<div class="col-md-8">
+		<div class="col-md-7">
+			<h4>Cliente</h4>
 			<p>
 				<div class="row">
 					<div class="col-md-2">Propietario</div>
@@ -31,6 +32,9 @@
 		</div>
 		<div class="col-md-4">
 			<g:render template="contact"/>
+		</div>
+		<div class="col-md-1">
+			<g:link action="edit" id="${client.id}" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-pencil"></span></g:link>
 		</div>
 	</div>
 </body>

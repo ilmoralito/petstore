@@ -11,14 +11,12 @@
 	<g:if test="${clients}">
 		<table class="table table-hover">
 			<thead>
-				<th width="1"></th>
-				<th>Nombre</th>
+				<th>Clientes</th>
 				<th width="1"></th>
 			</thead>
 			<tbody>
 				<g:each in="${clients}" var="client">
 					<tr>
-						<td><g:link action="edit" params="[id:client.id]"><span class="glyphicon glyphicon-pencil"></span></g:link></td>
 						<td><g:link action="show" params="[id:client.id]">${client.fullName}, ${client.storeName}</g:link></td>
 						<td><g:link action="delete" params="[id:client.id]"><span class="glyphicon glyphicon-trash"></span></g:link></td>
 					</tr>

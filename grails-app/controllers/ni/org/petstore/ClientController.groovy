@@ -120,10 +120,7 @@ class ClientController {
   def edit(Integer id) {
   	def client = Client.get(id)
 
-  	if (!client) {
-  		response.sendError 404
-  		return
-  	}
+  	if (!client) { response.sendError 404 }
 
   	[client:client]
   }
@@ -131,18 +128,11 @@ class ClientController {
   def update(Integer id) {
   	def client = Client.get(id)
 
-  	if (!client) {
-  		response.sendError 404
-  		return
-  	}
+  	if (!client) { response.sendError 404 }
 
   	client.properties = params
 
-  	if (!client.save()) {
-  		render view:"edit", model:[client:client]
-  		return
-  	}
-
+  	flash.message = client.save() ? "Actualizado" : "A ocurrido un error"
   	redirect action:"edit", params:[id:id]
   }
 

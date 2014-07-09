@@ -7,10 +7,13 @@ var Town = (function() {
 			dataType:"JSON",
 			success:function(res) {
 				var town = $("#town");
+				var clientTown = localStorage.town || $("#clientTown").val();
 
 				town.find("option").remove();
+
 				for (var i = res.length - 1; i >= 0; i--) {
-					var opt = $("<option>", {value:res[i], text:res[i], selected:res[i] === localStorage.town});
+					var opt = $("<option>", {value:res[i], text:res[i], selected:res[i] === clientTown});
+
 					town.append(opt)
 				};
 			}

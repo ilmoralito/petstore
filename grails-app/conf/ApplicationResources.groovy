@@ -13,4 +13,9 @@ modules = {
   	resource url:"js/storage.js"
     resource url:"js/town.js"
   }
+
+  appTown {
+    dependsOn "app, jquery"
+    resource url:"js/town.js"
+  }
 }

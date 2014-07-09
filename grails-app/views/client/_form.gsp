@@ -1,5 +1,4 @@
 <g:set var="cities" value="${grailsApplication.config.ni.org.petstore.cities.keySet().sort()}"/>
-
 <div class="row">
 	<div class="col-md-8">
 		<div class="form-group">

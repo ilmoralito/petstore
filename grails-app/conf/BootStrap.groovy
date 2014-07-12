@@ -42,7 +42,14 @@ class BootStrap {
         assert client1.telephones.size() == 2
 
         //providers
-        def provider1 = new Provider(name:"Provider1", contactName:"Juan Perez", contactTelephoneNumber:"23118855")
+        def provider1 = new Provider(name:"Provider1", contactName:"Juan Perez")
+
+        //provider telephones
+        def providerTelephone1 = new ProviderTelephone(telephoneCarrier:"Movistar", number:"78911041")
+        def providerTelephone2 = new ProviderTelephone(telephoneCarrier:"Claro", number:"84386340")
+
+        provider1.addToProviderTelephones providerTelephone1
+        provider1.addToProviderTelephones providerTelephone2
 
         if (!provider1.save()) {
           provider1.errors.allErrors.each { println it }

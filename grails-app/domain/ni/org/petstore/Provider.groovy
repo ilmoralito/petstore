@@ -9,20 +9,19 @@ class Provider implements Serializable {
 	String name
 
   @BindUsing({ obj, source ->
-    source["contactName"]?.tokenize(" ")*.capitalize()?.join(" ")
+    source["contactName"]?.toLowerCase()?.tokenize(" ")*.capitalize()?.join(" ")
   })
 	String contactName
-	String contactTelephoneNumber
 
   static constraints = {
-  	name blank:false
+  	name blank:false, unique:true
   	contactName blank:false
-  	contactTelephoneNumber nullable:true, unqiue:true, maxSize:8, minSize:8
+    providerTelephones nullable:true
   }
 
   static searchable = true
 
-  static hasMany = [ products : Product ]
+  static hasMany = [ products:Product, providerTelephones:ProviderTelephone ]
 
   static mapping = { version false }
 

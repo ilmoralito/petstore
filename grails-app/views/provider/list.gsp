@@ -11,7 +11,6 @@
 	<g:if test="${providers}">
 		<table class="table table-hover">
 			<thead>
-				<th width="1"></th>
 				<th>Proveedores</th>
 				<th width="160"></th>
 				<th width="1"></th>
@@ -19,8 +18,7 @@
 			<tbody>
 				<g:each in="${providers}" var="provider">
 					<tr>
-						<td><g:link action="edit" id="${provider.id}"><span class="glyphicon glyphicon-pencil"></span></g:link></td>
-						<td>${provider}</td>
+						<td><g:link action="edit" id="${provider.id}">${provider}</g:link></td>
 						<td><g:link controller="product" params="[providerId:provider.id]">Administrar productos</g:link></td>
 						<td><g:link action="delete" id="${provider.id}"><span class="glyphicon glyphicon-trash"></span></g:link></td>
 					</tr>

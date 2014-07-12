@@ -8,7 +8,6 @@ class ProviderController {
 	static defaultAction = "list"
 	static allowedMethods = [
 		list:["GET", "POST"],
-		create:["GET", "POST"],
 		edit:"GET",
 		update:"POST",
 		delete:"GET"
@@ -29,18 +28,55 @@ class ProviderController {
     }
   }
 
-  def create() {
-  	def provider = new Provider(params)
+  def createProviderFlow = {
+  	init {
+      action {
+        flow.telephones = []
+      }
 
-  	if (request.method == "POST") {
-  		if (!provider.save()) {
-  			return [provider:provider]
-  		}
+      on("success").to "addProvider"
+    }
 
-  		return
-  	}
+    addProvider {
+      on("confirm") { ProviderCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { println it }
+          return error()
+        }
 
-  	[provider:provider]
+        Provider provider = new Provider(name:cmd.name, contactName:cmd.contactName)
+        
+        if (flow.telephones) {
+          flow.telephones.each { telephone ->  provider.addToProviderTelephones telephone }
+        }
+
+        provider.save()
+      }.to "done"
+
+      on("addTelephone") { TelephoneCommand cmd ->
+        if (cmd.hasErrors() || flow.telephones.find { it.number == cmd.number }) {
+          cmd.errors.allErrors.each { println it }
+          return error()
+        }
+        
+        ProviderTelephone telephone = new ProviderTelephone(
+          telephoneCarrier:cmd.telephoneCarrier,
+          number:cmd.number
+        )
+
+        flow.telephones.add telephone
+      }.to "addProvider"
+
+      on("deleteTelephone") {
+        def index = params.int("index")
+
+        flow.telephones.remove index
+      }.to "addProvider"
+    }
+
+    done() {
+      redirect action:"createProvider"
+    }
   }
 
   def edit(Integer id) {
@@ -80,5 +116,23 @@ class ProviderController {
   	provider.delete()
 
   	redirect action:"list"
+  }
+}
+
+class TelephoneCommand {
+  String telephoneCarrier
+  String number
+
+  static constraints = {
+    importFrom ProviderTelephone
+  }
+}
+
+class ProviderCommand {
+  String name
+  String contactName
+
+  static constraints = {
+    importFrom Provider
   }
 }

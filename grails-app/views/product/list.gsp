@@ -26,7 +26,6 @@
 	<g:if test="${products}">
 		<table class="table table-hover">
 			<thead>
-				<th width="1"></th>
 				<th>Productos</th>
 				<th width="1"></th>
 				<th width="1"></th>
@@ -34,8 +33,7 @@
 			<tbody>
 				<g:each in="${products}" var="product">
 						<tr>
-							<td><g:link action="edit" params="[id:product.id, providerId:params?.providerId]"><span class="glyphicon glyphicon-pencil"></span></g:link></td>
-							<td>${product}</td>
+							<td><g:link action="edit" params="[id:product.id, providerId:params?.providerId]">${product}</g:link></td>
 							<td><g:link controller="presentation" action="presentations" params="[id:product.id]"><span class="glyphicon glyphicon-align-justify"></span></g:link></td>
 							<td><g:link action="delete" id="${product.id}"><span class="glyphicon glyphicon-trash"></span></g:link></td>
 						</tr>

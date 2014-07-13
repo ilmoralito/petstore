@@ -95,7 +95,7 @@ class PresentationController {
         flow.detail.properties["quantity", "price"] = params
 
         if (!flow.detail.save()) {
-          flash.message = "A ocurrido un error. Porfavor intentalo otravez"
+          flash.message = "A ocurrido un error"
         }
       }.to "editPresentationDetail"
 

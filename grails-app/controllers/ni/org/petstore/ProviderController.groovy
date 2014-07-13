@@ -86,7 +86,7 @@ class ProviderController {
   		response.sendError 404
   	}
 
-  	[provider:provider]
+  	[provider:provider, telephones:provider?.providerTelephones]
   }
 
   def update(Integer id) {
@@ -106,12 +106,33 @@ class ProviderController {
   	redirect action:"edit", params:[id:id]
   }
 
+  def addTelephone(Integer id) {
+    def provider = Provider.get(id)
+
+    if (!provider) { response.sendError 404 }
+
+    def telephone = new ProviderTelephone(params)
+
+    provider.addToProviderTelephones telephone
+    provider.save()
+    
+    redirect action:"edit", id:id
+  }
+
+  def deleteTelephone(Integer id) {
+    ProviderTelephone providerTelephone = ProviderTelephone.get(id)
+
+    if (!providerTelephone) { response.sendError 404 }
+
+    providerTelephone.delete()
+
+    redirect action:"edit", id:providerTelephone.provider.id
+  }
+
   def delete(Integer id) {
   	def provider = Provider.get(id)
 
-  	if (!provider) {
-  		response.sendError 404
-  	}
+  	if (!provider) { response.sendError 404 }
 
   	provider.delete()
 

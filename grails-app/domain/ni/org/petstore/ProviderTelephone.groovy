@@ -14,5 +14,7 @@ class ProviderTelephone implements Serializable {
 
   static mapping = { version false }
 
+  static belongsTo = [provider:Provider]
+
   String toString() { "$telephoneCarrier $number" }
 }

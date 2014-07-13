@@ -21,6 +21,7 @@ class Provider implements Serializable {
 
   static searchable = true
 
+  List providerTelephones
   static hasMany = [ products:Product, providerTelephones:ProviderTelephone ]
 
   static mapping = { version false }

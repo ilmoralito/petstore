@@ -131,14 +131,12 @@ class SaleController {
       }.to "addPresentation"
 
       on("pay") { PaymentCommand cmd ->
-        if (cmd.hasErrors()) {
-          return error()
-        }
+        if (cmd.hasErrors()) { return error() }
 
         def totalToPay = flow.sales.total.sum()
 
         if (cmd.payment <= totalToPay) {
-          def sale = new Sale(client:flow.client, status:cmd.payment == totalToPay ? true : false)
+          def sale = new Sale(invoice:cmd.invoice, client:flow.client, status:cmd.payment == totalToPay ? true : false)
 
           if (!sale.save()) {
             flash.message = "A ocurrido un error"
@@ -297,10 +295,11 @@ class SaleController {
 
 
 class PaymentCommand {
+  String invoice
   BigDecimal payment
 
   static constraints = {
-    payment nullable:false, min:0.0
+    importFrom Sale
   }
 }
 

@@ -26,6 +26,9 @@
 					<div class="form-group">
 						<input type="number" name="payment" id="payment" min="0.0" step="0.5" max="${sales.total.sum()}" class="form-control" placeholder="Pago">
 					</div>
+					<div class="form-group">
+						<g:textField name="invoice" class="form-control" placeholder="Numero de factura"/>
+					</div>
 					<g:submitButton name="pay" value="Confirmar" class="btn btn-primary"/>
 				</g:form>
 			</g:if>

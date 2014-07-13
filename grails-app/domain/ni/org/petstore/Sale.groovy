@@ -3,6 +3,7 @@ package ni.org.petstore
 import org.grails.databinding.BindingFormat
 
 class Sale implements Serializable {
+  String invoice
 	Client client
 	Boolean status = false
 
@@ -10,8 +11,9 @@ class Sale implements Serializable {
 	Date dateCreated
 
 	static constraints = {
+    invoice blank:false, unique:true
 		client nullable:false
-		payments nullable:true
+		payments nullable:true, min:0.0
   }
 
   static mapping = {
@@ -23,5 +25,5 @@ class Sale implements Serializable {
   List payments
   static hasMany = [ items:Item, payments:Payment ]
 
-  String toString() { "by $client at $dateCreated" }
+  String toString() { invoice }
 }

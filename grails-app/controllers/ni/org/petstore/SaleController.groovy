@@ -11,7 +11,9 @@ class SaleController {
 		list:["GET", "POST"],
     pay:"POST",
     detail:"GET",
-		buildSale:["GET", "POST"]
+		buildSale:["GET", "POST"],
+    show:"GET",
+    changeSaleStatus:"GET"
 	]
 
 	def list() {
@@ -262,6 +264,28 @@ class SaleController {
     }
 
     redirect action:"list", params:[status:false, clientId:sale.client.id]
+  }
+
+  def show(Integer id) {
+    def sale = Sale.get(id)
+
+    if (!sale) { response.sendError 404 }
+
+    [sale:sale]
+  }
+
+  def changeSaleStatus(Integer id) {
+    def sale = Sale.get(id)
+
+    if (!sale) { response.sendError 404 }
+
+    if (!sale.payments) {
+      sale.status = !sale.status
+    } else {
+      flash.message = "Accion no permitida porque ya existen abonos en esta cuenta"
+    }
+
+    redirect action:"show", id:id
   }
 }
 

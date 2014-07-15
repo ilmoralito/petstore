@@ -51,4 +51,14 @@ class AppTagLib {
 	   	out << render(template: "/layouts/inStock", model:[results:results])
     }
 	}
+
+	def saleStatus = { attrs ->
+		def status = attrs.boolean("status")
+
+		if (status) {
+			out << "Cancelado"
+		} else {
+			out << "Credito"
+		}
+	}
 }

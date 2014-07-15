@@ -53,7 +53,7 @@ class ProviderController {
         provider.save()
       }.to "done"
 
-      on("addTelephone") { TelephoneCommand cmd ->
+      on("addTelephone") { ProviderTelephoneCommand cmd ->
         if (cmd.hasErrors() || flow.telephones.find { it.number == cmd.number }) {
           cmd.errors.allErrors.each { println it }
           return error()
@@ -140,7 +140,7 @@ class ProviderController {
   }
 }
 
-class TelephoneCommand {
+class ProviderTelephoneCommand {
   String telephoneCarrier
   String number
 

@@ -25,9 +25,7 @@ class SaleController {
     if (request.method == "POST" || (params.status && params.clientId)) {
       def client = Client.get(params.int("clientId"))
 
-      if (!client) {
-        response.sendError 404
-      }
+      if (!client) { response.sendError 404 }
 
       def query = Sale.where {
         client == client && status == params.boolean("status")
@@ -39,17 +37,15 @@ class SaleController {
     [clients:clients]
 	}
 
-  def pay(PayCommand cmd) {
+  def pay(Integer clientId, Integer saleId ,Boolean status, PayCommand cmd) {
     if (cmd.hasErrors()) {
-      cmd.errors.allErrors.each { println it.defaultMessage }
+      cmd.errors.allErrors.each { println it }
     } else {
-      def sale = Sale.get(cmd.saleId)
+      def sale = Sale.get(saleId)
 
-      if (!sale) {
-        response.sendError 404
-      }
+      if (!sale) { response.sendError 404 }
 
-      def paidUp = sale.payments.payment.sum() ?: 0
+      def paidUp = sale?.payments?.payment?.sum() ?: 0
       def debt = sale.items.total.sum() - paidUp
 
       if (cmd.payment <= debt) {
@@ -57,18 +53,18 @@ class SaleController {
           sale.status = true
         }
 
-        def payment = new Payment(payment:cmd.payment)
+        def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt)
 
         sale.addToPayments payment
 
         if (!sale.save()) {
-          sale.errors.allErrors.each { println it.defaultMessage }
+          sale.errors.allErrors.each { println it }
           redirect action:"list"
         }
       }
     }
 
-    redirect action:"list", params:[status:cmd.status, clientId:cmd.clientId]
+    redirect action:"list", params:[status:status, clientId:clientId]
   }
 
   def detail(Integer clientId) {
@@ -133,53 +129,29 @@ class SaleController {
       on("pay") { PaymentCommand cmd ->
         if (cmd.hasErrors()) { return error() }
 
-        def totalToPay = flow.sales.total.sum()
+        def sale = new Sale(invoice:cmd.invoice, client:flow.client, status:cmd.status)
 
-        if (cmd.payment <= totalToPay) {
-          def sale = new Sale(invoice:cmd.invoice, client:flow.client, status:cmd.payment == totalToPay ? true : false)
+        flow.sales.each {
+          def item = new Item(
+            product:it.product,
+            presentation:it.presentation,
+            measure:it.measure,
+            quantity:it.quantity,
+            total:it.total
+          )
 
-          if (!sale.save()) {
-            flash.message = "A ocurrido un error"
-            return error()
+          sale.addToItems item
+        }
+        
+        if (!sale.save()) { return error() }
+
+        //update product detail
+        flow.sales.each {
+          it.detail.quantity = it.detail.quantity.toInteger() - it.quantity.toInteger()
+          
+          if (!it.detail.save()) {
+            it.detail.errors.allErrors.each { println it }  
           }
-
-          flow.sales.each {
-            def item = new Item(
-              product:it.product,
-              presentation:it.presentation,
-              measure:it.measure,
-              quantity:it.quantity,
-              total:it.total
-            )
-
-            sale.addToItems item
-
-            if (!item.save()) {
-              flash.message = "A ocurrido un error"
-              return error()
-            }
-          }
-
-          //update product detail
-          flow.sales.each {
-            it.detail.quantity = it.detail.quantity.toInteger() - it.quantity.toInteger()
-            
-            if (!it.detail.save()) {
-              it.detail.errors.allErrors.each { println it.defaultMessage }  
-            }
-          }
-
-          def payment = new Payment(payment:cmd.payment)
-
-          sale.addToPayments payment
-
-          if (!payment.save()) {
-            payment.errors.allErrors.each { println it.defaultMessage }
-            flash.message = "A ocurrido un error"
-            return error()
-          }
-        } else {
-          return error()
         }
       }.to "done"
 
@@ -295,8 +267,8 @@ class SaleController {
 
 
 class PaymentCommand {
+  Boolean status
   String invoice
-  BigDecimal payment
 
   static constraints = {
     importFrom Sale
@@ -312,15 +284,10 @@ class AddQuantityCommand {
 }
 
 class PayCommand {
+  String receipt
   BigDecimal payment
 
-  Integer clientId
-  Integer saleId
-  Boolean status
-
   static constraints = {
-    payment nullable:false, min:1.0
-    clientId nullable:false
-    saleId nullable:false
+    importFrom Payment
   }
 }

@@ -11,10 +11,10 @@
 		<div class="col-md-9">
 			<g:if test="${sales}">
 				<g:each in="${sales}" var="sale">
-					<h4>#${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}</h4>
+					<h4>Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}</h4>
 
 					<div class="row">
-						<div class="col-md-8">
+						<div class="col-md-7">
 							<table class="table table-striped">
 								<thead>
 									<th>Compra</th>
@@ -34,10 +34,11 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="col-md-4">
-							<table class="table table-striped">
+						<div class="col-md-5">
+							<table class="table table-striped table-hover">
 								<thead>
-									<th>Fecha abono</th>
+									<th>Fecha</th>
+									<th>Recibo</th>
 									<th width="1">Abono</th>
 									<!--Display only in credit-->
 									<g:if test="${!params?.status?.toBoolean()}">
@@ -48,6 +49,7 @@
 									<g:each in="${sale.payments}" var="payment">
 										<tr>
 											<td>${payment.dateCreated.format("yyyy-MM-dd")}</td>
+											<td>${payment.receipt}</td>
 											<td>${payment.payment}</td>
 											<!--Display only in credit sale-->
 											<g:if test="${!params?.status?.toBoolean()}">
@@ -62,8 +64,7 @@
 									<g:if test="${!sale.status}">
 										<tr>
 											<td>Pendiente</td>
-											<td>${sale?.items?.total?.sum() - sale?.payments?.payment?.sum()}</td>
-											<td></td>
+											<td colspan="3"><div class="pull-right">${sale?.items?.total?.sum() - (sale?.payments?.payment?.sum() ?: 0)}</div></td>
 										</tr>
 									</g:if>
 								</tbody>
@@ -71,12 +72,16 @@
 							<g:if test="${!sale.status}">
 								<g:form action="pay" autocomplete="off">
 									<g:hiddenField name="clientId" value="${params?.clientId}"/>
-									<g:hiddenField name="status" value="${params?.status}"/>
 									<g:hiddenField name="saleId" value="${sale.id}"/>
+									<g:hiddenField name="status" value="${params?.status}"/>
 
+								  <div class="form-group">
+								    <label class="sr-only" for="receipt">Recibo</label>
+										<g:textField name="receipt" class="form-control input-sm" placeholder="Numero de recibo"/>
+								  </div>
 									<div class="form-group">
 								    <label class="sr-only" for="payment">Abono</label>
-										<g:textField name="payment" class="form-control input-sm"/>
+										<g:textField name="payment" class="form-control input-sm" placeholder="Abono"/>
 								  </div>
 									<g:submitButton name="send" value="Abonar" class="btn btn-default btn-xs"/>
 								</g:form>

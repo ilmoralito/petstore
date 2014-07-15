@@ -24,12 +24,12 @@
 				<br>
 				<g:form>
 					<div class="form-group">
-						<input type="number" name="payment" id="payment" min="0.0" step="0.5" max="${sales.total.sum()}" class="form-control" placeholder="Pago">
+						<g:select name="status" from="['Contado', 'Credito']" keys="[true, false]" class="form-control"/>
 					</div>
 					<div class="form-group">
-						<g:textField name="invoice" class="form-control" placeholder="Numero de factura"/>
+						<g:textField name="invoice" class="form-control" placeholder="Numero de factura" autofocus="true"/>
 					</div>
-					<g:submitButton name="pay" value="Confirmar" class="btn btn-primary"/>
+					<g:submitButton name="pay" value="Confirmar venta" class="btn btn-primary btn-block"/>
 				</g:form>
 			</g:if>
 		</div>

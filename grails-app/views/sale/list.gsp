@@ -14,10 +14,10 @@
 					<h4><g:link action="show" id="${sale.id}">Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}</g:link></h4>
 
 					<div class="row">
-						<div class="col-md-7">
+						<div class="col-md-6">
 							<g:render template="items" model="[items:sale.items]"/>
 						</div>
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<table class="table table-striped table-hover">
 								<thead>
 									<th>Fecha</th>
@@ -25,6 +25,7 @@
 									<th width="1">Abono</th>
 									<!--Display only in credit-->
 									<g:if test="${!params?.status?.toBoolean()}">
+										<th width="1"></th>
 										<th width="1"></th>
 									</g:if>
 								</thead>
@@ -38,7 +39,12 @@
 											<g:if test="${!params?.status?.toBoolean()}">
 												<td>
 												  <g:link action="deletePayment" params="[paymentId:payment.id, saleId:sale.id]">
-												    <span class="glyphicon glyphicon-trash"></span>
+												    <span style="padding:0;" class="glyphicon glyphicon-trash btn-sm"></span>
+												  </g:link>
+												</td>
+												<td>
+													<g:link controller="payment" action="show" id="${payment.id}">
+												    <span style="padding:0;" class="glyphicon glyphicon-print btn-sm"></span>
 												  </g:link>
 												</td>
 											</g:if>
@@ -47,7 +53,7 @@
 									<g:if test="${!sale.status}">
 										<tr>
 											<td>Pendiente</td>
-											<td colspan="3"><div class="pull-right">${sale?.items?.total?.sum() - (sale?.payments?.payment?.sum() ?: 0)}</div></td>
+											<td colspan="4"><div class="pull-right">${sale?.items?.total?.sum() - (sale?.payments?.payment?.sum() ?: 0)}</div></td>
 										</tr>
 									</g:if>
 								</tbody>

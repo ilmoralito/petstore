@@ -8,7 +8,7 @@ class Payment implements Serializable {
 
   static constraints = {
   	receipt blank:false, unique:true
-  	payment nullable:true, min:0.0
+  	payment nullable:false, min:0.1
   }
 
   static belongsTo = [sale:Sale]

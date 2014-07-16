@@ -2,7 +2,7 @@ var Town = (function() {
 	var init = function(city) {
 		$.ajax({
 			type:"GET",
-			url:"/provetnicsa/client/townsByCity/" + city,
+			url:"townsByCity/" + city,
 			data:{city:city},
 			dataType:"JSON",
 			success:function(res) {

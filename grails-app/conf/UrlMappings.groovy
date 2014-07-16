@@ -10,10 +10,8 @@ class UrlMappings {
     }
 
     //client
-    "/client/townsByCity/$city"(controller:"client", action:"townsByCity") {
-      constraints {
-        city inList:Holders.config.ni.org.petstore.cities.keySet() as List
-      }
+    "/townsByCity/$city"(controller:"client", action:"townsByCity") {
+      
     }
 
     "/"(controller:"login")

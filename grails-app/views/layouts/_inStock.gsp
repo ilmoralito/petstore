@@ -1,14 +1,12 @@
-<g:each in="${results}" var="k">
-	<h4>${k.key}</h4>
-	<g:each in="${k.value}" var="v">
-		<table class="table table-striped">
-			<tbody>
-				<g:each in="${v.details.findAll { it.quantity <= 10 }}" var="l">
-					<tr>
-						<td>${l.quantity} ${v} ${l}</td>
-					</tr>
-				</g:each>
-			</tbody>
-		</table>
+<g:each in="${results}" var="product">
+	<h4>${product.key}</h4>
+	<g:each in="${product.value}" var="presentation">
+		<g:each in="${presentation.details.findAll { it.quantity <= 10 }}" var="detail">
+			<p>
+				<g:link controller="detail" action="edit" id="${detail.id}">
+					${detail.quantity} ${presentation} ${detail}
+				</g:link>
+			</p>
+		</g:each>
 	</g:each>
 </g:each>

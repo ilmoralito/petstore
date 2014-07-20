@@ -11,8 +11,11 @@
 		<div class="col-md-9">
 			<g:if test="${sales}">
 				<g:each in="${sales}" var="sale">
-					<h4><g:link action="show" id="${sale.id}">Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}</g:link></h4>
-
+					<h4>
+						<g:link action="show" params="[id:sale.id, status:params?.status]">
+							Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}
+						</g:link>
+					</h4>
 					<div class="row">
 						<div class="col-md-${sale.status && !sale.payments ? '12' : '6'}">
 							<g:render template="items" model="[items:sale.items]"/>

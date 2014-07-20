@@ -9,7 +9,7 @@
 <body>
 	<div class="row">
 		<div class="col-md-12">
-			<div class="btn-group pull-right">
+			<div class="pull-right">
 				<a href="" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-print"></span></a>
 				<g:if test="${!sale?.payments}">
 					<g:link action="changeSaleStatus" id="${params?.id}" class="btn btn-default btn-sm"><ps:saleStatus status="${sale.status}"/></g:link>

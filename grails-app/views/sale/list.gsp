@@ -27,8 +27,8 @@
 									<!--Display only in credit-->
 									<g:if test="${!params?.status?.toBoolean()}">
 										<th width="1"></th>
-										<th width="1"></th>
 									</g:if>
+									<th width="1"></th>
 								</thead>
 								<tbody>
 									<g:each in="${sale.payments}" var="payment">
@@ -43,12 +43,12 @@
 												    <span style="padding:0;" class="glyphicon glyphicon-trash btn-sm"></span>
 												  </g:link>
 												</td>
-												<td>
-													<g:link controller="payment" action="show" id="${payment.id}">
-												    <span style="padding:0;" class="glyphicon glyphicon-print btn-sm"></span>
-												  </g:link>
-												</td>
 											</g:if>
+											<td>
+												<g:link controller="payment" action="show" id="${payment.id}">
+											    <span style="padding:0;" class="glyphicon glyphicon-print btn-sm"></span>
+											  </g:link>
+											</td>
 										</tr>
 									</g:each>
 									<g:if test="${!sale.status}">

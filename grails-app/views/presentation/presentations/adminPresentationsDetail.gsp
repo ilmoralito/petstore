@@ -10,9 +10,10 @@
 	<g:link event="goBackToAdminPresentation" class="pull-right btn btn-default btn-sm">Regresar a ${product}</g:link>
 	<br>
 	<g:each in="${product?.presentations}" var="presentation">
+		<g:set var="availableMeasure" value="${grailsApplication.config.ni.org.petstore.presentations[presentation.presentation] - presentation?.details?.measure}"/>
 		<br>
 		<div class="row">
-			<div class="col-md-9">
+			<div class="col-md-${availableMeasure ? '9' : '12'}">
 				<div class="row">
 					<div class="col-md-6">
 						${presentation}
@@ -42,20 +43,16 @@
 					</table>
 				</g:if>
 			</div>
-			<div class="col-md-3">
-				<g:set var="availableMeasure" value="${grailsApplication.config.ni.org.petstore.presentations[presentation.presentation] - presentation?.details?.measure}"/>
-				<g:if test="${availableMeasure}">
-					<g:form>
-						<g:hiddenField name="presentation" value="${presentation}"/>
-						<g:render template="/presentation/presentations/form"/>
+			<g:if test="${availableMeasure}">
+				<div class="col-md-3">
+						<g:form autocomplete="off">
+							<g:hiddenField name="presentation" value="${presentation}"/>
+							<g:render template="/presentation/presentations/form"/>
 
-						<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary btn-block"/>
-					</g:form>
-				</g:if>
-				<g:else>
-					<div class="alert alert-info">Sin unidades de medida</div>
-				</g:else>
-			</div>
+							<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary btn-block"/>
+						</g:form>
+				</div>
+			</g:if>
 		</div>
 	</g:each>
 </body>

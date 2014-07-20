@@ -61,7 +61,8 @@ class SaleController {
 
         if (!sale.save()) {
           sale.errors.allErrors.each { println it }
-          redirect action:"list"
+          redirect action:"list", params:[status:status, clientId:clientId]
+          return false
         }
       }
     }

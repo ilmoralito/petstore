@@ -14,9 +14,10 @@
 					<h4><g:link action="show" id="${sale.id}">Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}</g:link></h4>
 
 					<div class="row">
-						<div class="col-md-6">
+						<div class="col-md-${sale.status && !sale.payments ? '12' : '6'}">
 							<g:render template="items" model="[items:sale.items]"/>
 						</div>
+						<g:if test="${!params.status.toBoolean() || sale.payments}">
 						<div class="col-md-6">
 							<table class="table table-striped table-hover">
 								<thead>
@@ -76,6 +77,7 @@
 								</g:form>
 							</g:if>
 						</div>
+						</g:if>
 					</div>
 				</g:each>
 			</g:if>

@@ -33,7 +33,7 @@ class SaleController {
         client == client && status == params.boolean("status")
       }
 
-      return [clients:clients, sales:query.list()]
+      return [clients:clients, sales:query.list(sort:"dateCreated", order:"desc")]
     }
 
     [clients:clients]

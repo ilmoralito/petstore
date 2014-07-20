@@ -1,5 +1,5 @@
 <h4>Email</h4>
-<g:form action="addEmail" class="form-inline" role="form">
+<g:form action="addEmail">
 	<g:hiddenField name="id" value="${client.id}"/>
 	<div class="form-group">
 		<g:textField name="email" class="form-control" placeholder="Email"/>

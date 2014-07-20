@@ -5,7 +5,7 @@ import org.grails.databinding.BindUsing
 
 class Client implements Serializable {
   @BindUsing({ obj, source ->
-    source["fullName"]?.tokenize(" ")*.capitalize().join(" ")
+    source["fullName"]?.toLowerCase()?.tokenize(" ")*.capitalize().join(" ")
   })
 	String fullName
 

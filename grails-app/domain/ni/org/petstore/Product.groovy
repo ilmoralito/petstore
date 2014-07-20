@@ -4,7 +4,7 @@ import org.grails.databinding.BindUsing
 
 class Product implements Serializable {
 	@BindUsing({ obj, source ->
-		source["name"]?.toUpperCase()
+		source["name"]?.toLowerCase()?.tokenize(" ")*.capitalize().join(" ")
 	})
 	String name
 

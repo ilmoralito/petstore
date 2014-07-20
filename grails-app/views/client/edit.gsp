@@ -13,7 +13,7 @@
 		<g:hiddenField name="clientTown" value="${client?.town}"/>
 		<g:render template="form"/>
 		<g:submitButton name="send" value="Actualizar" class="btn btn-primary"/>
-		<g:link action="list" class="btn btn-default">Cancelar</g:link>
+		<g:link action="show"id="${params?.id}" class="btn btn-default">Cancelar</g:link>
 	</g:form>
 </body>
 </html>

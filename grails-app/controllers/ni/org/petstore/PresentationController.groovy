@@ -87,10 +87,7 @@ class PresentationController {
 
     editPresentationDetail {
       on("confirm") { DetailCommand cmd ->
-        if (!cmd.validate()) {
-          error()
-          return
-        }
+        if (!cmd.validate()) { return error() }
 
         flow.detail.properties["quantity", "price"] = params
 

@@ -58,9 +58,7 @@ class PresentationController {
       on("editPresentationDetail") {
         def detail = Detail.get(params.int("id"))
 
-        if (!detail) {
-          response.sendError 404
-        }
+        if (!detail) { response.sendError 404 }
 
         [detail:detail, flag:true]
       }.to "editPresentationDetail"
@@ -87,14 +85,11 @@ class PresentationController {
 
     editPresentationDetail {
       on("confirm") { DetailCommand cmd ->
-        if (!cmd.validate()) {
-          error()
-          return
-        }
+        if (!cmd.validate()) { return error() }
 
         flow.detail.properties["quantity", "price"] = params
 
-        if (!flow.detail.save()) {
+        if (!flow.detail.save(flush:true)) {
           flash.message = "A ocurrido un error"
         }
       }.to "editPresentationDetail"

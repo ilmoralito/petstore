@@ -9,7 +9,7 @@
 <body>
 	<g:link event="goBackToAdminPresentationDetail" class="pull-right">Regresar</g:link>
 	<br><br>
-	<g:form>
+	<g:form autocomplete="off">
 		<g:render template="/presentation/presentations/form"/>
 		<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 	</g:form>

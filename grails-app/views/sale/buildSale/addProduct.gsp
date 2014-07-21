@@ -22,9 +22,9 @@
 			</g:form>
 			<g:if test="${sales}">
 				<br>
-				<g:form>
+				<g:form autocomplete="off">
 					<div class="form-group">
-						<g:select name="status" from="['Contado', 'Credito']" keys="[true, false]" class="form-control"/>
+						<g:select name="status" from="['Contado', 'Credito']" keys="[true, false]" noSelection="[null:'Tipo de pago']" class="form-control"/>
 					</div>
 					<div class="form-group">
 						<g:textField name="invoice" class="form-control" placeholder="Numero de factura" autofocus="true"/>

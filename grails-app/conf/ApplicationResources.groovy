@@ -23,4 +23,9 @@ modules = {
     dependsOn "app, jquery"
     resource url:"js/providerStorage.js"
   }
+
+  printInvoice {
+    resource url:"css/bootstrap.min.css", attrs:[media:"print"]
+    resource url:"css/printInvoice.css", attrs:[media:"print"]
+  }
 }

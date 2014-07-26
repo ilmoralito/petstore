@@ -107,6 +107,39 @@ class BootStrap {
         }
 
         assert Provider.count() == 2
+
+        //sale
+        def sale1 = new Sale(invoice:"00545", client:client1, status:true)
+        def saleItem1 = new Item(
+          product:item1,
+          presentation:presentation1,
+          measure:detail1.measure,
+          quantity:5,
+          total:detail1.price * 5
+        )
+
+        sale1.addToItems saleItem1
+
+        if (sale1.save()) { sale1.errors.allErrors.each { println it } }
+
+        def sale2 = new Sale(invoice:"00546", client:client1, status:false)
+        def saleItem2 = new Item(
+          product:item1,
+          presentation:presentation1,
+          measure:detail1.measure,
+          quantity:10,
+          total:detail1.price * 10
+        )
+
+        sale2.addToItems saleItem2
+
+        if (sale2.save()) { sale2.errors.allErrors.each { println it } }
+
+        //rest in detail quantity
+        detail1.quantity - 15
+        detail1.save()
+
+        assert Sale.count() == 2
    		break
       case Environment.PRODUCTION:
         def adminUser = User.findByUsername("adminUser") ?: new User(username:"adminUser", password:"h&p").save()
@@ -121,7 +154,7 @@ class BootStrap {
       break
    	}
   }
-  def destroy = {
+  def detail1 = {
 
   }
 }

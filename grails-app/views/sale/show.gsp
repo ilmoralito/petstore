@@ -38,6 +38,25 @@
 	</div>
 
 	<div class="row">
+		<div class="col-md-12">
+			<div class="pull-right">
+				<div class="checkbox">
+					<label>
+						<input type="checkbox" ${sale.status ? 'checked' : ''} disabled="true">
+						Contado
+					</label>
+				</div>
+				<div class="checkbox">
+					<label>
+						Credito
+						<input type="checkbox" ${!sale.status ? 'checked' : ''} disabled="true">
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
 		<div class="col-md-6"><span class="pull-left"><b>Cliente:</b> ${sale.client}, ${sale.client.storeName}</span></div>
 		<div class="col-md-6"><span class="pull-right"><b>Dir:</b> ${sale.client.city}, ${sale.client.town}, ${sale.client.address}</span></div>
 	</div>

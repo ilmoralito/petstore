@@ -96,7 +96,7 @@
 					<div class="form-group">
 						<label for="status">Tipo de compra</label>
 						<br>
-						<g:radioGroup name="status" labels="['Cancelado', 'Credito']" values="[true, false]" value="${params?.status ?: true}">
+						<g:radioGroup name="status" labels="['Contado', 'Credito']" values="[true, false]" value="${params?.status ?: true}">
 							${it.radio} <g:message code="${it.label}"/>
 						</g:radioGroup>
 					</div>

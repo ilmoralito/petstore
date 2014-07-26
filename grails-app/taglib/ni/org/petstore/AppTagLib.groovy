@@ -56,7 +56,7 @@ class AppTagLib {
 		def status = attrs.boolean("status")
 
 		if (status) {
-			out << "Cancelado"
+			out << "Contado"
 		} else {
 			out << "Credito"
 		}

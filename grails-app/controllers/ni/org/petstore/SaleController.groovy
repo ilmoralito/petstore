@@ -24,7 +24,7 @@ class SaleController {
       }
     }
 
-    if (request.method == "POST" || (params.status && params.clientId)) {
+    if (request.method == "POST" || (params?.status && params?.clientId)) {
       def client = Client.get(params.int("clientId"))
 
       if (!client) { response.sendError 404 }
@@ -51,10 +51,6 @@ class SaleController {
       def debt = sale.items.total.sum() - paidUp
 
       if (cmd.payment <= debt) {
-        if (cmd.payment == debt) {
-          sale.status = true
-        }
-
         def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt)
 
         sale.addToPayments payment

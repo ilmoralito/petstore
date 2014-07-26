@@ -56,7 +56,7 @@
 									</g:each>
 									<g:if test="${!sale.status}">
 										<tr>
-											<td>Pendiente</td>
+											<td>Saldo</td>
 											<td colspan="4"><div class="pull-right">${sale?.items?.total?.sum() - (sale?.payments?.payment?.sum() ?: 0)}</div></td>
 										</tr>
 									</g:if>

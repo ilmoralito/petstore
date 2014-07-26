@@ -21,13 +21,19 @@
 
 	<div class="row">
 		<div class="col-md-12">
-			<span id="dateCreated" class="pull-right">${sale.dateCreated.format("yyyy-MM-dd")}</span>
+			<span class="pull-right">${sale.dateCreated.format("yyyy-MM-dd")}</span>
 		</div>
 	</div>
 
 	<div class="row">
 		<div class="col-md-12">
-			<span id="invoice" class="invoice pull-right">${sale.invoice}</span>
+			<span class="pull-right">#${sale.invoice}</span>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<span class="pull-right">${sale.client.id}</span>
 		</div>
 	</div>
 
@@ -35,8 +41,9 @@
 		<div class="col-md-6"><span class="pull-left"><b>Cliente:</b> ${sale.client}, ${sale.client.storeName}</span></div>
 		<div class="col-md-6"><span class="pull-right"><b>Dir:</b> ${sale.client.city}, ${sale.client.town}, ${sale.client.address}</span></div>
 	</div>
+
 	<br>
-	<table class="table table-bordered">
+	<table class="table table-striped">
 		<thead>
 			<th width="1">Cantidad</th>
 			<th>Descripcion</th>

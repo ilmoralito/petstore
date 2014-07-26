@@ -45,10 +45,12 @@
 		</thead>
 		<tbody>
 			<g:each in="${sale.items}" var="item">
+				<g:set var="presentation" value="${item.presentation.toString()}"/>
+				<g:set var="measure" value="${item.measure.toString()}"/>
 				<tr>
 					<td>${item.quantity}</td>
 					<td>${item.presentation} ${item.measure}</td>
-					<td></td>
+					<td>${item.product.presentations.find { it.presentation == presentation }.details.find{ it.measure == measure }.price}</td>
 					<td>${item.total}</td>
 				</tr>
 			</g:each>

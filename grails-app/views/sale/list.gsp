@@ -1,4 +1,3 @@
-<!doctype html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
@@ -90,17 +89,14 @@
 			<g:if test="${clients}">
 				<g:form action="list">
 					<div class="form-group">
-						<label for="client">Cliente</label>
-						<g:select name="clientId" from="${clients}" optionKey="id" value="${params?.client}" class="form-control"/>
+						<g:select name="clientId" from="${clients}" optionKey="id" value="${params?.clientId}" class="form-control"/>
 					</div>
 					<div class="form-group">
-						<label for="status">Tipo de compra</label>
-						<br>
 						<g:radioGroup name="status" labels="['Contado', 'Credito']" values="[true, false]" value="${params?.status ?: true}">
 							${it.radio} <g:message code="${it.label}"/>
 						</g:radioGroup>
 					</div>
-					<g:submitButton name="send" value="Listar" class="btn btn-primary"/>
+					<g:submitButton name="send" value="Listar" class="btn btn-block btn-primary"/>
 				</g:form>
 			</g:if>
 			<g:else>

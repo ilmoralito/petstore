@@ -66,6 +66,42 @@ class SaleController {
     redirect action:"list", params:[status:status, clientId:clientId]
   }
 
+  def paymentFlow = {
+    init {
+      action {
+        Sale sale = Sale.get(params.int("saleId"))
+        if (!sale) { response.sendError 404 }
+
+        [sale:sale, checks:[], bancs:["BAC", "BANCENTRO", "CITI", "BANPRO", "PROCREDIT"]]
+      }
+
+      on("success").to "receipt"
+    }
+
+    receipt {
+      on("confirm") {
+
+      }.to "done"
+
+      on("addCheck") {
+        def check = [:]
+
+        check.checkNumber = params.checkNumber
+        check.banc = params.banc
+        check.checkValue = params.checkValue
+
+        flow.checks << check
+        flow.bancs -= params.banc
+      }.to "receipt"
+
+      on("deleteCheck") {
+        Integer index = params.int("index")
+
+        flow.checks -= flow.checks[index]
+      }.to "receipt"
+    }
+  }
+
   def detail(Integer clientId) {
     def client = Client.get(clientId)
     def from = params.date("from", "yyyy-MM-dd")

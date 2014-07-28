@@ -77,6 +77,7 @@
 								  </div>
 									<g:submitButton name="send" value="Abonar" class="btn btn-default btn-xs"/>
 								</g:form>
+								<g:link action="payment" params="[saleId:sale.id]" class="btn btn-default btn-sm">Abonar</g:link>
 							</g:if>
 						</div>
 						</g:if>

@@ -5,6 +5,7 @@ import grails.plugin.springsecurity.annotation.Secured
 @Secured(["ROLE_ADMIN"])
 class SaleController {
 	def presentationService
+  def grailsApplication
 
 	static defaultAction = "buildSale"
 	static allowedMethods = [
@@ -70,28 +71,33 @@ class SaleController {
     init {
       action {
         Sale sale = Sale.get(params.int("saleId"))
+        
         if (!sale) { response.sendError 404 }
 
-        [sale:sale, checks:[], bancs:["BAC", "BANCENTRO", "CITI", "BANPRO", "PROCREDIT"]]
+        [sale:sale, checks:[], bancs:grailsApplication.config.ni.org.petstore.bancs]
       }
 
       on("success").to "receipt"
     }
 
     receipt {
-      on("confirm") {
+      on("confirm") { PayCommand cmd ->
+        if (cmd.hasErrors()) { return error() }
+        def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt, discount:cmd.discount)
 
+        flow.checks.each { check -> payment.addToChecks check }
+        payment.save()
+
+        flow.sale.addToPayments payment
+        flow.sale.save()
       }.to "done"
 
-      on("addCheck") {
-        def check = [:]
-
-        check.checkNumber = params.checkNumber
-        check.banc = params.banc
-        check.checkValue = params.checkValue
+      on("addCheck") { CheckCommand cmd ->
+        if (cmd.hasErrors()) { return error() }
+        def check = new Check(checkNumber:cmd.checkNumber, banc:cmd.banc, checkValue:cmd.checkValue)
 
         flow.checks << check
-        flow.bancs -= params.banc
+        flow.bancs -= cmd.banc
       }.to "receipt"
 
       on("deleteCheck") {
@@ -99,6 +105,10 @@ class SaleController {
 
         flow.checks -= flow.checks[index]
       }.to "receipt"
+    }
+
+    done() {
+      redirect action:"list", params:[status:flow.sale.status, clientId:flow.sale.client.id]
     }
   }
 
@@ -343,8 +353,20 @@ class AddQuantityCommand {
 class PayCommand {
   String receipt
   BigDecimal payment
+  Integer discount
+  List checks
 
   static constraints = {
     importFrom Payment
+  }
+}
+
+class CheckCommand {
+  String checkNumber
+  String banc
+  BigDecimal checkValue
+
+  static constraints = {
+    importFrom Check
   }
 }

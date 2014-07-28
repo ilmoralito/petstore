@@ -13,10 +13,10 @@
 		</div>
 	</div>
 
-	<h4>Factura #${sale.invoice}</h4>
+	<h4>#${sale.invoice}</h4>
 	<div class="row">
 		<div class="col-md-6">
-			<g:form>
+			<g:form autocomplete="off">
 				<div class="form-group">
 					<g:textField name="receipt" class="form-control" placeholder="# Recibo" autofocus="true"/>
 				</div>
@@ -30,7 +30,7 @@
 			</g:form>		
 		</div>
 		<div class="col-md-6">
-			<g:form>
+			<g:form autocomplete="off">
 				<div class="form-group">
 					<g:textField name="checkNumber" class="form-control" placeholder="# cheque"/>
 				</div>

@@ -25,11 +25,15 @@ class Sale implements Serializable {
   List payments
   static hasMany = [ items:Item, payments:Payment ]
 
-  Double getSaldo(Payment payment) {
+  BigDecimal getBalance(Payment payment) {
     items.total.sum() - payments.findAll { it.dateCreated <= payment.dateCreated }.payment.sum()
   }
 
-  static transients = ["saldo"]
+  BigDecimal getDebt() {
+    items.total.sum()
+  }
+
+  static transients = ["balance", "debt"]
 
   String toString() { invoice }
 }

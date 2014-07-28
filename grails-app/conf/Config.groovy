@@ -144,6 +144,7 @@ ni.org.petstore.cities = [
   "Esteli":["Condega", "Esteli", "La Trinidad", "Pueblo Nuevo", "San Juan de Limay", "San Nicolas"],
   "Atlantico Norte":["Bilwi", "Bonanza", "Mulukuku", "Prinzapolka", "Rosita", "Siuna", "Waslala", "Waspam"]
 ]
+ni.org.petstore.bancs = ["BAC", "BANCENTRO", "CITI", "BANPRO", "PROCREDIT"]
 
 grails {
   mail {

@@ -20,11 +20,11 @@
 	<table class="table table-bordered">
 		<tbody>
 			<tr>
-				<td style="width:20%;">Recibimos de</td>
+				<td style="width:16%;">Recibimos de</td>
 				<td colspan="3">${payment.sale.client.storeName}, ${payment.sale.client}</td>
 			</tr>
 			<tr>
-				<td style="width:20%;">La cantidad de</td>
+				<td style="width:16%;">La cantidad de</td>
 				<td colspan="3">${payment.payment} cordobas</td>
 			</tr>
 			<tr>
@@ -34,9 +34,9 @@
 				<td>${payment.sale.client.id}</td>
 			</tr>
 			<tr>
-				<td style="width:20%;">Concepto de pago</td>
+				<td style="width:16%;">Concepto de pago</td>
 				<td colspan="3">
-					<g:if test="${payment.sale.getSaldo(payment)}">
+					<g:if test="${payment.sale.getBalance(payment)}">
 						Abono
 					</g:if>
 					<g:else>
@@ -44,11 +44,31 @@
 					</g:else>
 				</td>
 			</tr>
-			<tr>
-				<td>Saldo</td>
-				<td colspan="3">${payment.sale.getSaldo(payment)}</td>
-			</tr>
 		</tbody>
 	</table>
+
+	<g:if test="${payment.checks}">
+		<h4>Cheques</h4>
+		<table class="table table-bordered">
+			<thead>
+				<th style="width:16%;">Cheque</th>
+				<th>Banco</th>
+				<th>Valor</th>
+			</thead>
+			<tbody>
+				<g:each in="${payment.checks}" var="check">
+					<tr>
+						<td>${check.checkNumber}</td>
+						<td>${check.banc}</td>
+						<td>${check.checkValue}</td>
+					</tr>
+				</g:each>
+				<tr>
+					<td></td>
+					<td colspan="2">258</td>
+				</tr>
+			</tbody>
+		</table>
+	</g:if>
 </body>
 </html>

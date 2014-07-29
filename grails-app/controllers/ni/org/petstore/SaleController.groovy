@@ -40,33 +40,6 @@ class SaleController {
     [clients:clients]
 	}
 
-  def pay(Integer clientId, Integer saleId ,Boolean status, PayCommand cmd) {
-    if (cmd.hasErrors()) {
-      cmd.errors.allErrors.each { println it }
-    } else {
-      def sale = Sale.get(saleId)
-
-      if (!sale) { response.sendError 404 }
-
-      def paidUp = sale?.payments?.payment?.sum() ?: 0
-      def debt = sale.items.total.sum() - paidUp
-
-      if (cmd.payment <= debt) {
-        def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt)
-
-        sale.addToPayments payment
-
-        if (!sale.save()) {
-          sale.errors.allErrors.each { println it }
-          redirect action:"list", params:[status:status, clientId:clientId]
-          return false
-        }
-      }
-    }
-
-    redirect action:"list", params:[status:status, clientId:clientId]
-  }
-
   def paymentFlow = {
     init {
       action {

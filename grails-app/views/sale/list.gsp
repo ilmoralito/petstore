@@ -62,21 +62,6 @@
 								</tbody>
 							</table>
 							<g:if test="${!sale.status}">
-								<g:form action="pay" autocomplete="off">
-									<g:hiddenField name="clientId" value="${params?.clientId}"/>
-									<g:hiddenField name="saleId" value="${sale.id}"/>
-									<g:hiddenField name="status" value="${params?.status}"/>
-
-								  <div class="form-group">
-								    <label class="sr-only" for="receipt">Recibo</label>
-										<g:textField name="receipt" class="form-control input-sm" placeholder="Numero de recibo"/>
-								  </div>
-									<div class="form-group">
-								    <label class="sr-only" for="payment">Abono</label>
-										<g:textField name="payment" class="form-control input-sm" placeholder="Abono"/>
-								  </div>
-									<g:submitButton name="send" value="Abonar" class="btn btn-default btn-xs"/>
-								</g:form>
 								<g:link action="payment" params="[saleId:sale.id]" class="btn btn-default btn-sm">Abonar</g:link>
 							</g:if>
 						</div>

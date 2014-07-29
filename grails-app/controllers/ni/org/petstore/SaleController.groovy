@@ -56,14 +56,31 @@ class SaleController {
     receipt {
       on("confirm") { PayCommand cmd ->
         if (cmd.hasErrors()) { return error() }
-        def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt, discount:cmd.discount)
+       
+        def payment = cmd.payment ?: 0
+        def discount = (cmd.discount ?: 0) / 100
+        def checksValuesTotal = flow?.checks?.checkValue?.sum() ?: 0
+        def total = payment + checksValuesTotal
+        def totalPaid = total - (total * discount)
 
-        flow.checks.each { check -> payment.addToChecks check }
-        payment.save()
+        if (totalPaid <= flow.sale.getBalance()) {
+          def paymentInstance = new Payment(receipt:cmd.receipt, payment:payment, discount:cmd.discount)
 
-        flow.sale.addToPayments payment
-        flow.sale.save()
-      }.to "done"
+          if (flow.checks) {
+            flow.checks.each { check ->
+              def checkInstance = new Check(checkNumber:check.checkNumber, banc:check.banc, checkValue:check.checkValue)
+
+              paymentInstance.addToChecks checkInstance
+            }
+          }
+
+          flow.sale.addToPayments paymentInstance
+          
+          flow.sale.save(flush:true)
+        } else {
+          flash.message = "Verifica que el abono no sea mayor que la deuda"
+        }
+      }.to "receipt"
 
       on("addCheck") { CheckCommand cmd ->
         if (cmd.hasErrors()) { return error() }
@@ -331,15 +348,6 @@ class PayCommand {
 
   static constraints = {
     importFrom Payment
-  }
-
-  BigDecimal calcTotalToPay() {
-    def payment = payment ?: 0
-    def checks = checks?.checkValue?.sum() ?: 0
-    def discount = discount ?: 0 / 100
-    def total = payment + checks
-
-    total - ((total) * discount)
   }
 }
 

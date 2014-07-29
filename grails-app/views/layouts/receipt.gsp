@@ -12,11 +12,9 @@
 			<div class="col-md-8 col-md-offset-2">
 				<g:layoutBody/>
 
-				<!--flash message-->
 				<g:if test="${flash.message}">
 					<br><div class="alert alert-info">${flash.message}</div>
 				</g:if>
-				<!--flash message-->
 			</div>
 		</div>
 	</div>

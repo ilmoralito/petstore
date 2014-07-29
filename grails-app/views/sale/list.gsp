@@ -56,13 +56,17 @@
 									<g:if test="${!sale.status}">
 										<tr>
 											<td>Saldo</td>
-											<td colspan="4"><div class="pull-right">${sale?.items?.total?.sum() - (sale?.payments?.payment?.sum() ?: 0)}</div></td>
+											<td colspan="4">
+												<div class="pull-right">
+													${sale}
+												</div>
+											</td>
 										</tr>
 									</g:if>
 								</tbody>
 							</table>
 							<g:if test="${!sale.status}">
-								<g:link action="payment" params="[saleId:sale.id]" class="btn btn-default btn-sm">Abonar</g:link>
+								<g:link action="payment" params="[saleId:sale.id]" class="btn btn-default btn-sm pull-right">Abonar</g:link>
 							</g:if>
 						</div>
 						</g:if>

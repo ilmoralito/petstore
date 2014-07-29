@@ -83,18 +83,13 @@ class SaleController {
     receipt {
       on("confirm") { PayCommand cmd ->
         if (cmd.hasErrors()) { return error() }
+        def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt, discount:cmd.discount)
 
-        if (cmd.calcTotalToPay() <= flow.sale.getDebt()) {
-          def payment = new Payment(payment:cmd.payment, receipt:cmd.receipt, discount:cmd.discount)
+        flow.checks.each { check -> payment.addToChecks check }
+        payment.save()
 
-          flow.checks.each { check -> payment.addToChecks check }
-          payment.save()
-
-          flow.sale.addToPayments payment
-          flow.sale.save()
-        } else {
-          flash.message = "Corregir datos"
-        }
+        flow.sale.addToPayments payment
+        flow.sale.save()
       }.to "done"
 
       on("addCheck") { CheckCommand cmd ->
@@ -364,6 +359,7 @@ class PayCommand {
   static constraints = {
     importFrom Payment
   }
+<<<<<<< HEAD
 
   BigDecimal calcTotalToPay() {
     def payment = payment ?: 0
@@ -373,6 +369,8 @@ class PayCommand {
 
     total - ((total) * discount)
   }
+=======
+>>>>>>> 673715933952fb1bd9b167a412a4cae5d7f56cf9
 }
 
 class CheckCommand {

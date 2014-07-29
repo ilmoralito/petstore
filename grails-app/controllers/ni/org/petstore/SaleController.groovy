@@ -359,7 +359,6 @@ class PayCommand {
   static constraints = {
     importFrom Payment
   }
-<<<<<<< HEAD
 
   BigDecimal calcTotalToPay() {
     def payment = payment ?: 0
@@ -369,8 +368,6 @@ class PayCommand {
 
     total - ((total) * discount)
   }
-=======
->>>>>>> 673715933952fb1bd9b167a412a4cae5d7f56cf9
 }
 
 class CheckCommand {

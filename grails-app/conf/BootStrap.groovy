@@ -120,7 +120,7 @@ class BootStrap {
 
         sale1.addToItems saleItem1
 
-        if (sale1.save()) { sale1.errors.allErrors.each { println it } }
+        if (!sale1.save()) { sale1.errors.allErrors.each { println it } }
 
         def sale2 = new Sale(invoice:"00546", client:client1, status:false)
         def saleItem2 = new Item(
@@ -133,7 +133,7 @@ class BootStrap {
 
         sale2.addToItems saleItem2
 
-        if (sale2.save()) { sale2.errors.allErrors.each { println it } }
+        if (!sale2.save()) { sale2.errors.allErrors.each { println it } }
 
         //rest in detail quantity
         detail1.quantity - 15

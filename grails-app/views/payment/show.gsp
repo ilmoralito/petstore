@@ -36,7 +36,7 @@
 			<tr>
 				<td style="width:16%;">Concepto de pago</td>
 				<td colspan="3">
-					<g:if test="${payment.sale.getBalance()}">
+					<g:if test="${payment.sale.balance}">
 						Abono
 					</g:if>
 					<g:else>

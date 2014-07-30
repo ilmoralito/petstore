@@ -58,27 +58,34 @@ class SaleController {
         if (cmd.hasErrors()) { return error() }
        
         def payment = cmd.payment ?: 0
-        def discount = (cmd.discount ?: 0) / 100
+        def discount = cmd.discount ?: 0
         def checksValuesTotal = flow?.checks?.checkValue?.sum() ?: 0
         def total = payment + checksValuesTotal
-        def totalPaid = total - (total * discount)
+        def totalPaid = total - (total * (discount / 100))
 
-        if (totalPaid <= flow.sale.getBalance()) {
-          def paymentInstance = new Payment(receipt:cmd.receipt, payment:payment, discount:cmd.discount)
-
-          if (flow.checks) {
+        if (totalPaid <= flow.sale.balance) {
+          def paymentInstance = new Payment(payment:payment, receipt:cmd.receipt, discount:discount)
+          
+          //add checks to payments
+          if (flow?.checks) {
             flow.checks.each { check ->
-              def checkInstance = new Check(checkNumber:check.checkNumber, banc:check.banc, checkValue:check.checkValue)
-
-              paymentInstance.addToChecks checkInstance
+              paymentInstance.addToChecks check
             }
           }
 
           flow.sale.addToPayments paymentInstance
+
+          //remove all check in checks list
+          flow.checks = []
+
+          //update sale balance
+          flow.sale.balance -= totalPaid
           
-          flow.sale.save(flush:true)
+          if (!flow.sale.save(flush:true)) {
+            flow.sale.errors.allErrors.each { println it }
+          }
         } else {
-          flash.message = "Verifica que el abono no sea mayor que la deuda"
+          flash.message = "El abono es mayor que el saldo"
         }
       }.to "receipt"
 
@@ -93,6 +100,8 @@ class SaleController {
       on("deleteCheck") {
         Integer index = params.int("index")
 
+        //restore banc to bancs list
+        flow.bancs << flow.checks[index].banc
         flow.checks -= flow.checks[index]
       }.to "receipt"
     }

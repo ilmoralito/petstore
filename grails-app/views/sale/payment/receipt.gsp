@@ -35,7 +35,7 @@
 					<g:textField name="checkNumber" class="form-control" placeholder="# cheque"/>
 				</div>
 				<div class="form-group">
-					<g:select name="banc" from="${bancs}" class="form-control"/>
+					<g:select name="banc" from="${bancs.sort()}" class="form-control"/>
 				</div>
 				<div class="form-group">
 					<g:textField name="checkValue" class="form-control" placeholder="Cantidad"/>

@@ -9,8 +9,8 @@ class Payment implements Serializable {
 
   static constraints = {
   	receipt blank:false, unique:true
-  	payment nullable:true, min:0.1
-    discount nullable:true, min:1, max:100
+  	payment nullable:true, min:0.0
+    discount nullable:true, min:0, max:100
     checks nullable:true
   }
 

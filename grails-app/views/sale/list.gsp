@@ -58,14 +58,14 @@
 											<td>Saldo</td>
 											<td colspan="4">
 												<div class="pull-right">
-													${sale}
+													${sale.balance}
 												</div>
 											</td>
 										</tr>
 									</g:if>
 								</tbody>
 							</table>
-							<g:if test="${!sale.status}">
+							<g:if test="${!sale.status && sale.balance}">
 								<g:link action="payment" params="[saleId:sale.id]" class="btn btn-default btn-sm pull-right">Abonar</g:link>
 							</g:if>
 						</div>

@@ -30,6 +30,10 @@ class Client implements Serializable {
     "$city, $town, $address"
   }
 
+  String getClientAndStoreInfo() {
+    "$fullName , $storeName"
+  }
+
   static searchable = true
 
   static hasMany = [emails:String, telephones:Telephone]
@@ -39,7 +43,7 @@ class Client implements Serializable {
     telephones sort:"type", order:"desc"
   }
 
-  static transients = ["fullAddressl"]
+  static transients = ["fullAddress", "clientAndStoreInfo"]
 
   String toString() { fullName }
 }

@@ -26,10 +26,6 @@
 									<th>Fecha</th>
 									<th>Recibo</th>
 									<th width="1">Abono</th>
-									<!--Display only in credit-->
-									<g:if test="${!params?.status?.toBoolean()}">
-										<th width="1"></th>
-									</g:if>
 									<th width="1"></th>
 								</thead>
 								<tbody>
@@ -38,14 +34,6 @@
 											<td>${payment.dateCreated.format("yyyy-MM-dd")}</td>
 											<td>${payment.receipt}</td>
 											<td>${payment?.getTotalPaid()}</td>
-											<!--Display only in credit sale-->
-											<g:if test="${!params?.status?.toBoolean()}">
-												<td>
-												  <g:link action="deletePayment" params="[id:payment.id]">
-												    <span style="padding:0;" class="glyphicon glyphicon-trash btn-sm"></span>
-												  </g:link>
-												</td>
-											</g:if>
 											<td>
 												<g:link controller="payment" action="show" id="${payment.id}">
 											    <span style="padding:0;" class="glyphicon glyphicon-print btn-sm"></span>

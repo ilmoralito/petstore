@@ -10,7 +10,6 @@ class SaleController {
 	static defaultAction = "buildSale"
 	static allowedMethods = [
 		list:["GET", "POST"],
-    pay:"POST",
     detail:"GET",
 		buildSale:["GET", "POST"],
     show:"GET",
@@ -287,29 +286,6 @@ class SaleController {
     done() {
       redirect action:"buildSale"
     }
-  }
-
-  def deletePayment(Integer id) {
-    def payment = Payment.get id
-
-    if (!payment) { response sendError 404 }
-
-    def sale = payment.sale
-
-    //remove payment from sale
-    sale.removeFromPayments payment
-  
-    //confirm delete payment
-    if (!payment.delete()) {
-      payment.errors.allErrors.each { println it.defaultMessage }
-    }
-
-    //update sale balance -> balance + payment (total) <- cash + checks.checksValue.sum() ?: 0
-    sale.balance += payment.getTotalPaid()
-    sale.save()
-
-    flash.message = "Abono eliminado"
-    redirect action:"list", params:[status:false, clientId:sale.client.id]
   }
 
   def show(Integer id) {

@@ -9,7 +9,11 @@
 <body>
 	<div class="row toolbar">
 		<div class="col-md-12">
-			<a href="#" onclick="window.print()" class="btn btn-default btn-sm pull-right"><span class="glyphicon glyphicon-print"></span></a>
+		  <span class="pull-right">
+		  	<g:link action="delete" params="[id:payment.id]" class="btn btn-default btn-sm">
+		  	  <span style="padding:0;" class="glyphicon glyphicon-trash"></span>
+		  	</g:link>
+		  	<a href="#" onclick="window.print()" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-print"></span></a></span>
 		</div>
 	</div>
 	<div class="row">

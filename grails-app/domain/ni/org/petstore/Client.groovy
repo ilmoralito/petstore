@@ -26,6 +26,10 @@ class Client implements Serializable {
     telephones nullable:true
   }
 
+  String getFullAddress() {
+    "$city, $town, $address"
+  }
+
   static searchable = true
 
   static hasMany = [emails:String, telephones:Telephone]
@@ -34,6 +38,8 @@ class Client implements Serializable {
     version false
     telephones sort:"type", order:"desc"
   }
+
+  static transients = ["fullAddressl"]
 
   String toString() { fullName }
 }

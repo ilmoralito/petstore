@@ -37,11 +37,11 @@
 										<tr>
 											<td>${payment.dateCreated.format("yyyy-MM-dd")}</td>
 											<td>${payment.receipt}</td>
-											<td>${payment.payment}</td>
+											<td>${payment?.getTotalPaid()}</td>
 											<!--Display only in credit sale-->
 											<g:if test="${!params?.status?.toBoolean()}">
 												<td>
-												  <g:link action="deletePayment" params="[paymentId:payment.id, saleId:sale.id]">
+												  <g:link action="deletePayment" params="[id:payment.id]">
 												    <span style="padding:0;" class="glyphicon glyphicon-trash btn-sm"></span>
 												  </g:link>
 												</td>

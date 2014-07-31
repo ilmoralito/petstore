@@ -289,22 +289,26 @@ class SaleController {
     }
   }
 
-  def deletePayment(Integer paymentId, Integer saleId) {
-    def sale = Sale.get saleId
-    def payment = Payment.get paymentId
+  def deletePayment(Integer id) {
+    def payment = Payment.get id
 
-    if (!sale || !payment) { response sendError 404 }
+    if (!payment) { response sendError 404 }
 
-    if (sale.payments.size() > 1) {
-      sale.removeFromPayments payment
-    
-      if (payment.delete()) { payment.errors.allErrors.each { println it.defaultMessage } }
+    def sale = payment.sale
 
-      flash.message = "Abono eliminado"
-    } else {
-      flash.message = "No se puede eliminar el abono, debido a que solo hay uno"
+    //remove payment from sale
+    sale.removeFromPayments payment
+  
+    //confirm delete payment
+    if (!payment.delete()) {
+      payment.errors.allErrors.each { println it.defaultMessage }
     }
 
+    //update sale balance -> balance + payment (total) <- cash + checks.checksValue.sum() ?: 0
+    sale.balance += payment.getTotalPaid()
+    sale.save()
+
+    flash.message = "Abono eliminado"
     redirect action:"list", params:[status:false, clientId:sale.client.id]
   }
 

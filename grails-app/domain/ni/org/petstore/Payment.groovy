@@ -18,5 +18,13 @@ class Payment implements Serializable {
   static belongsTo = [sale:Sale]
   static hasMany = [checks:Check]
 
+  BigDecimal getTotalPaid() {
+    def checksValuesTotal = checks?.checkValue?.sum() ?: 0
+    
+    payment + checksValuesTotal
+  }
+
+  static transients = ["totalPaid"]
+
   String toString() { receipt }
 }

@@ -25,11 +25,11 @@
 			</tr>
 			<tr>
 				<td style="width:16%;">La cantidad de</td>
-				<td colspan="3">${payment.payment} cordobas</td>
+				<td colspan="3">${payment.getTotalPaid()} cordobas</td>
 			</tr>
 			<tr>
 				<td>Direccion</td>
-				<td>${payment.sale.client.address}</td>
+				<td>${payment.sale.client.getFullAddress()}</td>
 				<td>Codigo</td>
 				<td>${payment.sale.client.id}</td>
 			</tr>
@@ -51,9 +51,9 @@
 		<h4>Cheques</h4>
 		<table class="table table-bordered">
 			<thead>
-				<th style="width:16%;">Cheque</th>
+				<th style="width:16%;">Numero de cheque</th>
 				<th>Banco</th>
-				<th>Valor</th>
+				<th width="1">Valor</th>
 			</thead>
 			<tbody>
 				<g:each in="${payment.checks}" var="check">
@@ -64,8 +64,16 @@
 					</tr>
 				</g:each>
 				<tr>
-					<td></td>
-					<td colspan="2">258</td>
+					<td colspan="2">TOTAL CHEQUES</td>
+					<td><b>${payment.getTotalChecksValues()}</b></td>
+				</tr>
+				<tr>
+					<td colspan="2">EFECTIVO</td>
+					<td>${payment.payment}</td>
+				</tr>
+				<tr>
+					<td colspan="2">TOTAL</td>
+					<td>${payment.getTotalPaid()}</td>
 				</tr>
 			</tbody>
 		</table>

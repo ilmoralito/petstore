@@ -19,12 +19,14 @@ class Payment implements Serializable {
   static hasMany = [checks:Check]
 
   BigDecimal getTotalPaid() {
-    def checksValuesTotal = checks?.checkValue?.sum() ?: 0
-    
-    payment + checksValuesTotal
+    payment + this.getTotalChecksValues()
   }
 
-  static transients = ["totalPaid"]
+  BigDecimal getTotalChecksValues() {
+    checks?.checkValue?.sum() ?: 0
+  }
+
+  static transients = ["totalPaid", "totalChecksValues"]
 
   String toString() { receipt }
 }

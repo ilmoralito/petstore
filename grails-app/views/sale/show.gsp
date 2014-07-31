@@ -40,18 +40,15 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="pull-right">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" ${sale.status ? 'checked' : ''} disabled="true">
-						Contado
-					</label>
-				</div>
-				<div class="checkbox">
-					<label>
-						Credito
-						<input type="checkbox" ${!sale.status ? 'checked' : ''} disabled="true">
-					</label>
-				</div>
+				<label class="checkbox-inline">
+					<input type="checkbox" ${sale.status ? 'checked' : ''} disabled="true">
+					Contado
+				</label>
+
+				<label class="checkbox-inline">
+					Credito
+					<input type="checkbox" ${!sale.status ? 'checked' : ''} disabled="true">
+				</label>
 			</div>
 		</div>
 	</div>

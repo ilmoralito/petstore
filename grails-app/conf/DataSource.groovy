@@ -32,7 +32,7 @@ environments {
         dbCreate = "update"
         driverClassName = "com.mysql.jdbc.Driver"
         dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-        uri = new URI(System.env.CLEARDB_DATABASE_URL?:"//b0f66301cb72fc:9f159dd0@us-cdbr-east-06.cleardb.net/heroku_58fa5c68b592248?reconnect=true")
+        uri = new URI(System.env.CLEARDB_DATABASE_URL?:"//b5692bc8af8f5e:d0a592ee@us-cdbr-iron-east-01.cleardb.net/heroku_8c2bec35d6ce924?reconnect=true")
         url = "jdbc:mysql://"+uri.host+uri.path
         username = uri.userInfo.split(":")[0]
         password = uri.userInfo.split(":")[1]

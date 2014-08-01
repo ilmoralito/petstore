@@ -60,7 +60,8 @@ class SaleController {
         def discount = cmd.discount ?: 0
         def checksValuesTotal = flow?.checks?.checkValue?.sum() ?: 0
         def total = payment + checksValuesTotal
-        def totalPaid = total - (total * (discount / 100))
+        def computedDiscount = total * (discount / 100)
+        def totalPaid = (total - computedDiscount) + computedDiscount
 
         if (totalPaid <= flow.sale.balance) {
           def paymentInstance = new Payment(payment:payment, receipt:cmd.receipt, discount:discount)

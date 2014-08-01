@@ -67,20 +67,31 @@
 						<td>${check.checkValue}</td>
 					</tr>
 				</g:each>
-				<tr>
-					<td colspan="2">TOTAL CHEQUES</td>
-					<td><b>${payment.getTotalChecksValues()}</b></td>
+			</tbody>
+		</table>
+	</g:if>
+
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td colspan="2">TOTAL CHEQUES</td>
+					<td width="1">${payment.getTotalChecksValues()}</td>
 				</tr>
 				<tr>
 					<td colspan="2">EFECTIVO</td>
 					<td>${payment.payment}</td>
 				</tr>
+				<g:if test="${payment?.discount}">
+					<tr>
+						<td colspan="2">DESCUENTO</td>
+						<td>${payment.discount}%</td>
+					</tr>
+				</g:if>
 				<tr>
 					<td colspan="2">TOTAL</td>
 					<td>${payment.getTotalPaid()}</td>
 				</tr>
-			</tbody>
-		</table>
-	</g:if>
+		</tbody>
+	</table>
 </body>
 </html>

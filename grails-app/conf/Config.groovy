@@ -124,17 +124,19 @@ log4j = {
 ni.org.petstore.owner = [email:"provetnicsa@yahoo.es", name:"Hector Salinas"]
 ni.org.petstore.presentations = [
   "Crema":
-    ["1ml", "2ml", "3ml","5ml"],
+    ["5g", "15g", "30g","50g"],
+  "Talco":
+    ["80gm"],
   "Spray":
-    ["Habracadabra", "b", "c", "d"],
+    ["120ml", "150ml", "250ml", "356ml", "475ml", "159gm"],
   "Tableta":
-    ["123", "456"],
+    ["2tabs", "4tabs", "6tabs", "8tabs", "10tabs", "24tabs", "50tabs", "60tabs", "100tabs", "300tabs"],
   "Soluble":
-    ["1234567", "001"],
+    ["20g", "25g", "100g", "125g", "200g", "1kg"],
   "Suspencion":
-    ["Oz", "GOKU"],
+    ["120ml", "360ml"],
   "Inyectable":
-    ["locations", "plugins"]
+    ["10ml", "20ml", "50ml", "100ml", "250ml", "500ml"]
 ]
 ni.org.petstore.cities = [
   "Leon":["Achuapa", "El Jicaral", "El Sauce", "La Paz Centro", "Larreynaga", "Leon", "Nagarote", "Quezalguaque", "Santa Rosa del Penon", "Telica"],

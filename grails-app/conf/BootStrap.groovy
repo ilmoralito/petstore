@@ -79,9 +79,9 @@ class BootStrap {
         assert item1.presentations.size() == 2
 
         //presentation details
-        def detail1 = new Detail(measure:"1ml", quantity:200, price:15.5)
-        def detail2 = new Detail(measure:"2ml", quantity:80, price:17.6)
-        def detail3 = new Detail(measure:"Habracadabra", quantity:80, price:17.6)
+        def detail1 = new Detail(measure:"5g", quantity:200, price:15.5)
+        def detail2 = new Detail(measure:"15g", quantity:80, price:10.6)
+        def detail3 = new Detail(measure:"80gm", quantity:80, price:17.6)
 
         presentation1.addToDetails detail1
         presentation1.addToDetails detail2

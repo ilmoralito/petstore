@@ -56,7 +56,7 @@ class BootStrap {
         }
 
         //products
-        def item1 = new Product(name:"item1")
+        def item1 = new Product(name:"item1", code:"001410")
 
         provider1.addToProducts(item1)
 
@@ -90,7 +90,7 @@ class BootStrap {
         assert presentation1.details.size() == 2
         assert presentation2.details.size() == 1
 
-        def item2 = new Product(name:"item2")
+        def item2 = new Product(name:"item2", code:"001510")
 
         provider1.addToProducts(item2)
 

@@ -7,9 +7,11 @@ class Product implements Serializable {
 		source["name"]?.toLowerCase()?.tokenize(" ")*.capitalize().join(" ")
 	})
 	String name
+  String code
 
   static constraints = {
   	name blank:false
+    code blank:false, unique:true
   }
 
   List presentations

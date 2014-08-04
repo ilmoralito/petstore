@@ -40,11 +40,10 @@ class ProviderController {
     addProvider {
       on("confirm") { ProviderCommand cmd ->
         if (cmd.hasErrors()) {
-          cmd.errors.allErrors.each { println it }
           return error()
         }
 
-        Provider provider = new Provider(name:cmd.name, contactName:cmd.contactName)
+        Provider provider = new Provider(name:cmd.name, contactName:cmd.contactName, currencyOfPayment:cmd.currencyOfPayment)
         
         if (flow.telephones) {
           flow.telephones.each { telephone ->  provider.addToProviderTelephones telephone }
@@ -55,7 +54,6 @@ class ProviderController {
 
       on("addTelephone") { ProviderTelephoneCommand cmd ->
         if (cmd.hasErrors() || flow.telephones.find { it.number == cmd.number }) {
-          cmd.errors.allErrors.each { println it }
           return error()
         }
         
@@ -152,6 +150,7 @@ class ProviderTelephoneCommand {
 class ProviderCommand {
   String name
   String contactName
+  String currencyOfPayment
 
   static constraints = {
     importFrom Provider

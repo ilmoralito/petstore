@@ -7,6 +7,7 @@ class Provider implements Serializable {
     source["name"]?.capitalize()
   })
 	String name
+  String currencyOfPayment
 
   @BindUsing({ obj, source ->
     source["contactName"]?.toLowerCase()?.tokenize(" ")*.capitalize()?.join(" ")
@@ -15,6 +16,7 @@ class Provider implements Serializable {
 
   static constraints = {
   	name blank:false, unique:true
+    currencyOfPayment inList:["Cordoba", "Dolar"], maxSize:255
   	contactName blank:false
     providerTelephones nullable:true
   }

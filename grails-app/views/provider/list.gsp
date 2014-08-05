@@ -20,7 +20,11 @@
 					<tr>
 						<td><g:link action="edit" id="${provider.id}">${provider}</g:link></td>
 						<td><g:link controller="product" params="[providerId:provider.id]">Administrar productos</g:link></td>
-						<td><g:link action="delete" id="${provider.id}"><span class="glyphicon glyphicon-trash"></span></g:link></td>
+						<td>
+							<g:link controller="message" params="[id:provider.id, ctrl:controllerName, act:actionName]">
+								<span class="glyphicon glyphicon-trash"></span>
+							</g:link>
+						</td>
 					</tr>
 				</g:each>
 			</tbody>

@@ -18,7 +18,11 @@
 				<g:each in="${clients}" var="client">
 					<tr>
 						<td><g:link action="show" params="[id:client.id]">${client.fullName}, ${client.storeName}</g:link></td>
-						<td><g:link action="delete" params="[id:client.id]"><span class="glyphicon glyphicon-trash"></span></g:link></td>
+						<td>
+							<g:link controller="message" params="[id:client.id, ctrl:controllerName, act:actionName]">
+								<span class="glyphicon glyphicon-trash"></span>
+							</g:link>
+						</td>
 					</tr>
 				</g:each>
 			</tbody>

@@ -17,7 +17,7 @@ class Provider implements Serializable {
   static constraints = {
   	name blank:false, unique:true
     currencyOfPayment inList:["Cordoba", "Dolar"], maxSize:255
-  	contactName blank:false
+  	contactName nullable:true
     providerTelephones nullable:true
   }
 

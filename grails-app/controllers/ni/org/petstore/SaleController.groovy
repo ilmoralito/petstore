@@ -136,24 +136,35 @@ class SaleController {
 	def buildSaleFlow = {
     init {
       action {
-        def clients = Client.list()
+        flow.clients = Client.list()
+        flow.providers = Provider.list()
+
         session.sale = [:]
         flow.sales = []
-
-        [clients:clients]
       }
 
-      on("success").to "selectClient"
+      on("success").to "selectClientAndProvider"
     }
 
-    selectClient {
-      on("confirm") {
-        def client = Client.get(params?.client)
+    selectClientAndProvider{
+      on("confirm") { SelectClientAndProviderCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
+        }
+
         def products = Product.where {
           presentations.size() > 0
         }
 
-        [client:client, products:products.list()]
+        def productsByProvider = products.where {
+          provider == Provider.findByName(params.provider)
+        }
+
+        [client:cmd.client, products:productsByProvider.list()]
       }.to "addProduct"
     }
 
@@ -348,5 +359,15 @@ class CheckCommand {
 
   static constraints = {
     importFrom Check
+  }
+}
+
+class SelectClientAndProviderCommand {
+  Client client
+  Provider provider
+
+  static constraints = {
+    client nullable:false
+    provider nullable:false
   }
 }

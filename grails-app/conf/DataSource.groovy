@@ -32,7 +32,7 @@ environments {
         dbCreate = "update"
         driverClassName = "com.mysql.jdbc.Driver"
         dialect = org.hibernate.dialect.MySQL5InnoDBDialect
-        uri = new URI(System.env.CLEARDB_DATABASE_URL)
+        uri = new URI(System.env.CLEARDB_DATABASE_URL ?: "//root:hotch@localhost/provetnicsa?reconnect=true")
         url = "jdbc:mysql://"+uri.host+uri.path
         username = uri.userInfo.split(":")[0]
         password = uri.userInfo.split(":")[1]

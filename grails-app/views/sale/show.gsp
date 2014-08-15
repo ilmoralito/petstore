@@ -20,20 +20,25 @@
 	<br>
 
 	<div class="row">
-		<div class="col-md-12">
-			<span class="pull-right">${sale.dateCreated.format("yyyy-MM-dd")}</span>
+		<div class="col-md-3">
+			<g:img dir="images" file="grails_logo.png"/>
+			<p>Ruc 2810412840012F</p>
 		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<span class="pull-right">#${sale.invoice}</span>
+		<div class="col-md-6">
+			<div style="text-align:center;">
+				<h2 style="margin-top:0;">PROVETNIC, S.A</h2>
+				<p>Productos Veterinarios de Nicaragua</p>
+				<p>Plaza el Sol 3c. al sur, 35 vrs. arriba. Managua, Nicaragua</p>
+				<p>Telf.: 2231-4129 - Cel: 8614 4136 / 8774 4597</p>
+				<p>FACTURA</p>
+			</div>
 		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<span class="pull-right">${sale.client.id}</span>
+		<div class="col-md-3">
+			<div class="pull-right">
+				<h4 style="margin-top:0;">${sale.dateCreated.format("yyyy-MM-dd")}</h4>
+				<h4>#${sale.invoice}</h4>
+				<h4>${sale.client.id}</h4>
+			</div>
 		</div>
 	</div>
 
@@ -59,10 +64,10 @@
 	</div>
 
 	<br>
-	<table class="table table-striped">
+	<table class="table table-striped table-bordered">
 		<thead>
 			<th width="1">Cantidad</th>
-			<th>Descripcion</th>
+			<th colspan="3">Descripcion</th>
 			<th width="1">P.Unit</th>
 			<th width="1">Total</th>
 		</thead>
@@ -72,14 +77,41 @@
 				<g:set var="measure" value="${item.measure.toString()}"/>
 				<tr>
 					<td>${item.quantity}</td>
-					<td>${item.presentation} ${item.measure}</td>
+					<td colspan="3">${item.presentation} ${item.measure}</td>
 					<td>${item.product.presentations.find { it.presentation == presentation }.details.find{ it.measure == measure }.price}</td>
 					<td>${item.total}</td>
 				</tr>
 			</g:each>
 			<tr>
-				<td></td>
-				<td></td>
+				<td>
+					<div class="info">
+						<p>NO ACEPTAMOS DEVOLUCIONES</p>
+						<p>FAVOR EMITIR CHECQUE A NOMBRE DE PROVETNIC, S.A</p>
+					</div>
+				</td>
+				<td style="width:30%;">
+					<div class="info" style="text-align:justify;">
+						Pagare a la orden de: PROVETNIC, S.A en la fecha de vencimiento.
+						En caso de faltar en pago en la fecha indicada incurrire(mos)
+						en mora de 3% mensual sin nececidad de requerimiento o
+						intimidacion judicial o extrajudicial, y desde que la mora principie
+						y hasta el total y efectivo pago reconocere(mos) a los acreedores,
+						intereses moratorios al tipo legal sobre la cantidad que estuviese
+						pendiente de pago.
+					</div>
+				</td>
+				<td style="padding:0;">
+					<br>
+					<br>
+					<hr>
+					<p class="info" style="position:relative; top:0;">ENTREGE CONFORME</p>
+				</td>
+				<td style="padding:0;">
+					<br>
+					<br>
+					<hr>
+					<p class="info">RECIBI CONFORME</p>
+				</td>
 				<td></td>
 				<td>${sale.items.total.sum()}</td>
 			</tr>

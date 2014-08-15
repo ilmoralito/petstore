@@ -156,15 +156,20 @@ class SaleController {
           return error()
         }
 
-        def products = Product.where {
-          presentations.size() > 0
+        def client = Client.get cmd.client
+        def provider = Provider.get cmd.provider
+
+        if (!client || !provider) {
+          flash.message = "No se localizo cliente o proveedor"
+
+          return error()
         }
 
-        def productsByProvider = products.where {
-          provider == Provider.findByName(params.provider)
+        def productsByProvider = Product.where {
+          provider == provider && presentations.size() > 0
         }
 
-        [client:cmd.client, products:productsByProvider.list()]
+        [client:client, products:productsByProvider.list()]
       }.to "addProduct"
     }
 
@@ -182,7 +187,13 @@ class SaleController {
       }.to "addPresentation"
 
       on("pay") { PaymentCommand cmd ->
-        if (cmd.hasErrors()) { return error() }
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
+        }
 
         def sale = new Sale(invoice:cmd.invoice, client:flow.client, status:cmd.status)
 
@@ -198,7 +209,14 @@ class SaleController {
           sale.addToItems item
         }
         
-        if (!sale.save()) { return error() }
+        if (!sale.save()) {
+          sale.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
+        }
+
 
         //update product detail
         flow.sales.each {
@@ -208,6 +226,7 @@ class SaleController {
             it.detail.errors.allErrors.each { println it }  
           }
         }
+
       }.to "done"
 
       on("deleteDetail") {
@@ -363,8 +382,8 @@ class CheckCommand {
 }
 
 class SelectClientAndProviderCommand {
-  Client client
-  Provider provider
+  Integer client
+  Integer provider
 
   static constraints = {
     client nullable:false

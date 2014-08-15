@@ -14,10 +14,10 @@
 		<div class="col-md-3">
 			<g:form>
 				<div class="form-group">
-					<g:select name="client" from="${clients}" noSelection="['':'Selecciona cliente']" class="form-control"/>
+					<g:select name="client" from="${clients}" optionKey="id" noSelection="['':'Selecciona cliente']" class="form-control"/>
 				</div>
 				<div class="form-group">
-					<g:select name="provider" from="${providers}" noSelection="['':'Selecciona proveedor']" class="form-control"/>
+					<g:select name="provider" from="${providers}" optionKey="id" noSelection="['':'Selecciona proveedor']" class="form-control"/>
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
 			</g:form>

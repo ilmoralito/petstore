@@ -136,24 +136,40 @@ class SaleController {
 	def buildSaleFlow = {
     init {
       action {
-        def clients = Client.list()
+        flow.clients = Client.list()
+        flow.providers = Provider.list()
+
         session.sale = [:]
         flow.sales = []
-
-        [clients:clients]
       }
 
-      on("success").to "selectClient"
+      on("success").to "selectClientAndProvider"
     }
 
-    selectClient {
-      on("confirm") {
-        def client = Client.get(params?.client)
-        def products = Product.where {
-          presentations.size() > 0
+    selectClientAndProvider{
+      on("confirm") { SelectClientAndProviderCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
         }
 
-        [client:client, products:products.list()]
+        def client = Client.get cmd.client
+        def provider = Provider.get cmd.provider
+
+        if (!client || !provider) {
+          flash.message = "No se localizo cliente o proveedor"
+
+          return error()
+        }
+
+        def productsByProvider = Product.where {
+          provider == provider && presentations.size() > 0
+        }
+
+        [client:client, products:productsByProvider.list()]
       }.to "addProduct"
     }
 
@@ -171,7 +187,13 @@ class SaleController {
       }.to "addPresentation"
 
       on("pay") { PaymentCommand cmd ->
-        if (cmd.hasErrors()) { return error() }
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
+        }
 
         def sale = new Sale(invoice:cmd.invoice, client:flow.client, status:cmd.status)
 
@@ -187,7 +209,14 @@ class SaleController {
           sale.addToItems item
         }
         
-        if (!sale.save()) { return error() }
+        if (!sale.save()) {
+          sale.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          return error()
+        }
+
 
         //update product detail
         flow.sales.each {
@@ -197,6 +226,7 @@ class SaleController {
             it.detail.errors.allErrors.each { println it }  
           }
         }
+
       }.to "done"
 
       on("deleteDetail") {
@@ -348,5 +378,15 @@ class CheckCommand {
 
   static constraints = {
     importFrom Check
+  }
+}
+
+class SelectClientAndProviderCommand {
+  Integer client
+  Integer provider
+
+  static constraints = {
+    client nullable:false
+    provider nullable:false
   }
 }

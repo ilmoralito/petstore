@@ -23,7 +23,7 @@
 				<g:link event="cancel" class="btn btn-block btn-warning">Cancelar</g:link>
 			</g:form>
 			<g:if test="${sales}">
-				<br>
+				<hr>
 				<g:form autocomplete="off">
 					<div class="form-group">
 						<g:select name="status" from="['Contado', 'Credito']" keys="[true, false]" noSelection="[null:'Tipo de pago']" class="form-control"/>

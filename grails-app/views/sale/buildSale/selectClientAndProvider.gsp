@@ -19,7 +19,7 @@
 				<div class="form-group">
 					<g:select name="provider" from="${providers}" optionKey="id" noSelection="['':'Selecciona proveedor']" class="form-control"/>
 				</div>
-				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
+				<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-primary"/>
 			</g:form>
 		</div>
 	</div>

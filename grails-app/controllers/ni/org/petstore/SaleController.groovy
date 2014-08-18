@@ -169,13 +169,19 @@ class SaleController {
           provider == provider && presentations.size() > 0
         }
 
-        [client:client, products:productsByProvider.list()]
+        [client:client, products:productsByProvider.list(), provider:provider]
       }.to "addProduct"
     }
 
     addProduct {
-      on("confirm") {
-        def product = Product.get(params?.product)
+      on("confirm") { AddProductCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
+
+          return error()
+        }
+
+        def product = Product.get(cmd.product)
         def presentations = Presentation.where {
           product == product && details.quantity > 0
         }
@@ -244,8 +250,14 @@ class SaleController {
     }
 
     addPresentation {
-      on("confirm") {
-        def presentation = Presentation.get(params?.presentation)
+      on("confirm") { AddPresentationCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
+
+          return error()
+        }
+
+        def presentation = Presentation.get(cmd.presentation)
 
         if (!presentation) {
           return error()
@@ -262,10 +274,16 @@ class SaleController {
     }
 
     addMeasure {
-      on("confirm") {
-        def detail = Detail.findByPresentationAndMeasure(flow.presentation, params?.measure)
+      on("confirm") { AddMeasureCommand cmd ->
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
 
-        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == params?.measure }
+          return error()
+        }
+
+        def detail = Detail.findByPresentationAndMeasure(flow.presentation, cmd.measure)
+
+        def target = flow.sales.find { it.product == flow.product && it.presentation == flow.presentation && it.measure == cmd.measure }
         def quantity = target ? detail.quantity - target.quantity.toInteger() : detail.quantity
 
         [detail:detail, quantity:quantity]
@@ -388,5 +406,29 @@ class SelectClientAndProviderCommand {
   static constraints = {
     client nullable:false
     provider nullable:false
+  }
+}
+
+class AddProductCommand {
+  Integer product
+
+  static constraints = {
+    product nullable:false, min:1
+  }
+}
+
+class AddPresentationCommand {
+  Integer presentation
+
+  static constraints = {
+    presentation nullable:false, min:1
+  }
+}
+
+class AddMeasureCommand {
+  String measure
+
+  static constraints = {
+    measure blank:false
   }
 }

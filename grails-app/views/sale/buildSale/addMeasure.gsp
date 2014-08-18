@@ -14,11 +14,13 @@
 		<div class="col-md-3">
 			<g:form>
 				<div class="form-group">
-					<label for="measure">Medidas</label>
-					<g:select name="measure" from="${measures}" class="form-control"/>
+					<label for="measure">${provider} / ${product} / ${presentation} / Medidas</label>
+					<g:radioGroup name="measure" labels="${measures}" values="${measures}">
+						<p>${it.radio} <g:message code="${it.label}"/></p>
+					</g:radioGroup>
 				</div>
-				<g:submitButton name="confirm" value="Confirmar" class="btn btn-primary"/>
-				<g:link event="cancel" class="btn btn-warning">Cancelar</g:link>
+				<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-primary"/>
+				<g:link event="cancel" class="btn btn-block btn-warning">Cancelar</g:link>
 			</g:form>
 		</div>
 	</div>

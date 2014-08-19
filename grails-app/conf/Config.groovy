@@ -147,6 +147,7 @@ ni.org.petstore.cities = [
   "Atlantico Norte":["Bilwi", "Bonanza", "Mulukuku", "Prinzapolka", "Rosita", "Siuna", "Waslala", "Waspam"]
 ]
 ni.org.petstore.bancs = ["BAC", "BANCENTRO", "CITI", "BANPRO", "PROCREDIT"]
+ni.org.petstore.defaultInvoiceNumber = 5920
 
 grails {
   mail {

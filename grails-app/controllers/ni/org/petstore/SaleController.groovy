@@ -189,7 +189,10 @@ class SaleController {
         //state
         flow.state = false
 
-        [product:product, presentations:presentations.list()]
+        //propose next invoice number
+        def nextInvoiceNumber = Sale.count() ? Sale.list().invoice.max().toInteger() + 1 : grailsApplication.ni.org.petstore.defaultInvoiceNumber
+
+        [product:product, presentations:presentations.list(), nextInvoiceNumber:nextInvoiceNumber]
       }.to "addPresentation"
 
       on("pay") { PaymentCommand cmd ->

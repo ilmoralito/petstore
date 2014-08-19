@@ -29,7 +29,7 @@
 						<g:select name="status" from="['Contado', 'Credito']" keys="[true, false]" noSelection="[null:'Tipo de pago']" class="form-control"/>
 					</div>
 					<div class="form-group">
-						<g:textField name="invoice" class="form-control" placeholder="Numero de factura" autofocus="true"/>
+						<g:textField name="invoice" value="${nextInvoiceNumber}" class="form-control" placeholder="Numero de factura" autofocus="true"/>
 					</div>
 					<g:submitButton name="pay" value="Confirmar venta" class="btn btn-primary btn-block"/>
 				</g:form>

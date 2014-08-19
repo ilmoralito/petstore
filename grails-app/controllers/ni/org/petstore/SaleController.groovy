@@ -298,7 +298,7 @@ class SaleController {
     addQuantity {
       on("confirm") { AddQuantityCommand cmd ->
         if (cmd.hasErrors()) {
-          cmd.errors.allErrors.each { println it.defaultMessage }
+          cmd.errors.allErrors.each { error -> "[$error.field: $error.defaultMessage]" }
           return error()
         }
 
@@ -312,14 +312,14 @@ class SaleController {
         }
 
         if (target) {
-          target.quantity = target.quantity.toInteger() + params?.quantity?.toInteger()
+          target.quantity = target.quantity + cmd.quantity
           target.total = flow.detail.price * target.quantity.toInteger()
         } else {
           session.sale["product"] = flow.product
           session.sale["presentation"] = flow.presentation
           session.sale["measure"] = flow.detail.measure
-          session.sale["quantity"] = params?.quantity
-          session.sale["total"] = flow.detail.price * params.int("quantity")
+          session.sale["quantity"] = cmd.quantity
+          session.sale["total"] = flow.detail.price * cmd.quantity
           session.sale["detail"] = flow.detail
 
           flow.sales.add(session.sale)

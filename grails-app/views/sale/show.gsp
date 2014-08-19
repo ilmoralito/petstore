@@ -7,27 +7,30 @@
 	<r:require modules="bootstrap-css, app, printInvoice"/>
 </head>
 <body>
-	<div class="row">
-		<div class="col-md-6">
-			<div class="pull-left">
-				<g:img dir="images" file="grails_logo.png"/>
+	<table style="width:100%;">
+		<tr>
+			<td>
+				<g:img dir="images" file="provetnicsalogo.png"/>
 				<p>Ruc 2810412840012F</p>
-
-				<h2>PROVETNIC, S.A</h2>
-				<p>Productos Veterinarios de Nicaragua</p>
-				<p>Plaza el Sol 3c. al sur, 35 vrs. arriba. Managua, Nicaragua</p>
-				<p>Telf.: 2231-4129 - Cel: 8614 4136 / 8774 4597</p>
-				<p>FACTURA</p>
-			</div>
-		</div>
-		<div class="col-md-6">
-			<div class="pull-right" style="text-align:right;">
-				<h4>${sale.dateCreated.format("yyyy-MM-dd")}</h4>
-				<h4>#${sale.invoice}</h4>
-				<h4>${sale.client.id}</h4>
-			</div>
-		</div>
-	</div>
+			</td>
+			<td>
+				<span style="text-align:center;">
+					<h2>PROVETNIC, S.A</h2>
+					<p>Productos Veterinarios de Nicaragua</p>
+					<p>Plaza el Sol 3c. al sur, 35 vrs. arriba. Managua, Nicaragua</p>
+					<p>Telf.: 2231-4129 - Cel: 8614 4136 / 8774 4597</p>
+					<p>FACTURA</p>
+				</span>
+			</td>
+			<td>
+				<span class="pull-right">
+					<h4>${sale.dateCreated.format("yyyy-MM-dd")}</h4>
+					<h4>#${sale.invoice}</h4>
+					<h4>${sale.client.id}</h4>
+				</span>
+			</td>
+		</tr>
+	</table>
 
 	<div class="row">
 		<div class="col-md-12">

@@ -136,7 +136,7 @@ ni.org.petstore.presentations = [
   "Suspencion":
     ["120ml", "360ml"],
   "Inyectable":
-    ["10ml", "20ml", "50ml", "100ml", "250ml", "500ml"]
+    ["10ml", "20ml", "25ml", "50ml", "100ml", "250ml", "500ml"]
 ]
 ni.org.petstore.cities = [
   "Leon":["Achuapa", "El Jicaral", "El Sauce", "La Paz Centro", "Larreynaga", "Leon", "Nagarote", "Quezalguaque", "Santa Rosa del Penon", "Telica"],

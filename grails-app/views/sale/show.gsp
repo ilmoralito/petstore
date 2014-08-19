@@ -46,8 +46,8 @@
 	</div>
 	<br>
 	<div class="row">
-		<div class="col-md-6"><span class="pull-left"><b>Cliente:</b>${sale.client.getClientAndStoreInfo()}</span></div>
-		<div class="col-md-6"><span class="pull-right"><b>Dir:</b>${sale.client.getFullAddress()}</span></div>
+		<div class="col-md-6"><span class="pull-left"><b>Cliente: </b>${sale.client.getClientAndStoreInfo()}</span></div>
+		<div class="col-md-6"><span class="pull-right"><b>Dir: </b>${sale.client.getFullAddress()}</span></div>
 	</div>
 	<br>
 	<table class="table table-bordered">
@@ -69,14 +69,12 @@
 				</tr>
 			</g:each>
 			<tr>
-				<td>
-					<div class="info" style="font-size:.6em;">
-						<p>NO ACEPTAMOS DEVOLUCIONES</p>
-						<p>FAVOR EMITIR CHECQUE A NOMBRE DE PROVETNIC, S.A</p>
-					</div>
+				<td style="text-align:center;">
+					<small>NO ACEPTAMOS DEVOLUCIONES</small>
+					<small>FAVOR EMITIR CHECQUE A NOMBRE DE PROVETNIC, S.A</small>
 				</td>
 				<td style="width:30%;">
-					<div class="info" style="text-align:justify; font-size:.6em;">
+					<small style="text-align:justify;">
 						Pagare a la orden de: PROVETNIC, S.A en la fecha de vencimiento.
 						En caso de faltar en pago en la fecha indicada incurrire(mos)
 						en mora de 3% mensual sin nececidad de requerimiento o
@@ -84,24 +82,25 @@
 						y hasta el total y efectivo pago reconocere(mos) a los acreedores,
 						intereses moratorios al tipo legal sobre la cantidad que estuviese
 						pendiente de pago.
-					</div>
+					</small>
 				</td>
 				<td style="padding:0;">
 					<br>
 					<br>
 					<hr>
-					<p class="info" style="position:relative; top:0; text-align:center;">ENTREGE CONFORME</p>
+					<p style="position:relative; top:0; text-align:center;"><small>ENTREGE CONFORME</small></p>
 				</td>
 				<td style="padding:0;">
 					<br>
 					<br>
 					<hr>
-					<p class="info" style="text-align:center;">RECIBI CONFORME</p>
+					<p style="text-align:center;"><small>RECIBI CONFORME</small></p>
 				</td>
 				<td></td>
 				<td>${sale.items.total.sum()}</td>
 			</tr>
 		</tbody>
 	</table>
+	<small>I.G - RUC 091064 - 2588 - AUT. 378 - OT. 289 - TRIP. #003,001/006000. - 04/02/7</small>
 </body>
 </html>

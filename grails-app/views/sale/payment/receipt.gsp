@@ -10,7 +10,7 @@
 	<div class="row">
 		<div class="col-md-12">
 			<g:link action="list" params="[status:sale.status, clientId:sale.clientId]" class="btn btn-default btn-sm">Regresar</g:link>
-			<a href="#" id="invoicePopover" class="btn btn-default btn-sm pull-right" data-content="<h4>Cliente:</h4> ${sale.client}<h4>Saldo:</h4> &nbsp;&nbsp;${sale.balance} <h4>Fecha</h4> ${sale.dateCreated.format('yyyy-MM-dd')}" data-toggle="popover" data-original-title="Factura" data-placement="bottom">
+			<a href="#" id="invoicePopover" class="btn btn-default btn-sm pull-right" data-content="<h4>Cliente:</h4> ${sale.client}<h4>Saldo:</h4> ${sale.balance} <h4>Fecha</h4> ${sale.dateCreated.format('yyyy-MM-dd')}" data-toggle="popover" data-original-title="Factura" data-placement="bottom">
 				#${sale.invoice}
 			</a>
 		</div>

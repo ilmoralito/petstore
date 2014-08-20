@@ -34,6 +34,7 @@
 					<g:submitButton name="pay" value="Confirmar venta" class="btn btn-primary btn-block"/>
 				</g:form>
 			</g:if>
+			<g:render template="buildSale/errors"/>
 		</div>
 	</div>
 </body>

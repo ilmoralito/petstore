@@ -21,6 +21,7 @@
 				</div>
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-primary"/>
 			</g:form>
+			<g:render template="buildSale/errors"/>
 		</div>
 	</div>
 </body>

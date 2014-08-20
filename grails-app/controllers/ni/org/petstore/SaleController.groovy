@@ -153,6 +153,8 @@ class SaleController {
             log.error "[$error.field: $error.defaultMessage]"
           }
 
+          flow.errors = cmd
+
           return error()
         }
 
@@ -177,6 +179,8 @@ class SaleController {
       on("confirm") { AddProductCommand cmd ->
         if (cmd.hasErrors()) {
           cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
+
+          flow.errors = cmd
 
           return error()
         }
@@ -257,6 +261,8 @@ class SaleController {
         if (cmd.hasErrors()) {
           cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
 
+          flow.errors = cmd
+
           return error()
         }
 
@@ -281,6 +287,8 @@ class SaleController {
         if (cmd.hasErrors()) {
           cmd.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
 
+          flow.errors = cmd
+
           return error()
         }
 
@@ -299,6 +307,9 @@ class SaleController {
       on("confirm") { AddQuantityCommand cmd ->
         if (cmd.hasErrors()) {
           cmd.errors.allErrors.each { error -> "[$error.field: $error.defaultMessage]" }
+
+          flow.errors = cmd
+
           return error()
         }
 
@@ -373,14 +384,6 @@ class PaymentCommand {
   }
 }
 
-class AddQuantityCommand {
-  Integer quantity
-
-  static constraints = {
-    quantity min:1, nullable:false
-  }
-}
-
 class PayCommand {
   String receipt
   BigDecimal payment
@@ -402,7 +405,7 @@ class CheckCommand {
   }
 }
 
-class SelectClientAndProviderCommand {
+class SelectClientAndProviderCommand implements Serializable {
   Integer client
   Integer provider
 
@@ -412,7 +415,7 @@ class SelectClientAndProviderCommand {
   }
 }
 
-class AddProductCommand {
+class AddProductCommand implements Serializable {
   Integer product
 
   static constraints = {
@@ -420,7 +423,7 @@ class AddProductCommand {
   }
 }
 
-class AddPresentationCommand {
+class AddPresentationCommand implements Serializable {
   Integer presentation
 
   static constraints = {
@@ -428,10 +431,18 @@ class AddPresentationCommand {
   }
 }
 
-class AddMeasureCommand {
+class AddMeasureCommand implements Serializable {
   String measure
 
   static constraints = {
     measure blank:false
+  }
+}
+
+class AddQuantityCommand implements Serializable {
+  Integer quantity
+
+  static constraints = {
+    quantity nullable:false, min:1
   }
 }

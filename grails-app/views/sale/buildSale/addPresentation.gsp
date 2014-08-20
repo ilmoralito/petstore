@@ -22,6 +22,7 @@
 				<g:submitButton name="confirm" value="Confirmar" class="btn btn-block btn-primary"/>
 				<g:link event="cancel" class="btn btn-block btn-warning">Cancelar</g:link>
 			</g:form>
+			<g:render template="buildSale/errors"/>
 		</div>
 	</div>
 </body>

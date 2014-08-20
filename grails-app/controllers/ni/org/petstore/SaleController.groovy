@@ -205,6 +205,8 @@ class SaleController {
             log.error "[$error.field: $error.defaultMessage]"
           }
 
+          flow.errors = cmd
+
           return error()
         }
 
@@ -374,16 +376,6 @@ class SaleController {
   }
 }
 
-
-class PaymentCommand {
-  Boolean status
-  String invoice
-
-  static constraints = {
-    importFrom Sale
-  }
-}
-
 class PayCommand {
   String receipt
   BigDecimal payment
@@ -444,5 +436,14 @@ class AddQuantityCommand implements Serializable {
 
   static constraints = {
     quantity nullable:false, min:1
+  }
+}
+
+class PaymentCommand implements Serializable {
+  Boolean status
+  String invoice
+
+  static constraints = {
+    importFrom Sale
   }
 }

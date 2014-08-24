@@ -12,6 +12,11 @@
 			<div class="col-md-8 col-md-offset-2">
 				<g:layoutBody/>
 
+				<br>
+				<g:hasErrors bean="${errors}">
+					<small><g:renderErrors bean="${errors}"/></small>
+				</g:hasErrors>
+
 				<g:if test="${flash.message}">
 					<br><div class="alert alert-info">${flash.message}</div>
 				</g:if>

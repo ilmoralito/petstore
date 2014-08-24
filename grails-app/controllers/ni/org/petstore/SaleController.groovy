@@ -55,7 +55,13 @@ class SaleController {
 
     receipt {
       on("confirm") { PayCommand cmd ->
-        if (cmd.hasErrors()) { return error() }
+        if (cmd.hasErrors()) { 
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          flow.errors = cmd
+        }
        
         def payment = cmd.payment ?: 0
         def discount = cmd.discount ?: 0
@@ -91,7 +97,15 @@ class SaleController {
       }.to "receipt"
 
       on("addCheck") { CheckCommand cmd ->
-        if (cmd.hasErrors()) { return error() }
+        if (cmd.hasErrors()) {
+          cmd.errors.allErrors.each { error ->
+            log.error "[$error.field: $error.defaultMessage]"
+          }
+
+          flow.errors = cmd
+
+          return error()
+        }
         def check = new Check(checkNumber:cmd.checkNumber, banc:cmd.banc, checkValue:cmd.checkValue)
 
         flow.checks << check
@@ -395,7 +409,7 @@ class SaleController {
   }
 }
 
-class PayCommand {
+class PayCommand implements Serializable {
   String receipt
   BigDecimal payment
   Integer discount
@@ -406,7 +420,7 @@ class PayCommand {
   }
 }
 
-class CheckCommand {
+class CheckCommand implements Serializable {
   String checkNumber
   String banc
   BigDecimal checkValue

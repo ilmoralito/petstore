@@ -61,6 +61,8 @@ class SaleController {
           }
 
           flow.errors = cmd
+
+          return error()
         }
        
         def payment = cmd.payment ?: 0

@@ -8,8 +8,7 @@ class MessageController {
 	static defaultAction = "message"
 	static allowedMethods = [
 		message:"GET",
-		confirm:"POST",
-		cancel:"POST"
+		confirm:"POST"
 	]
 
   def message() {
@@ -20,7 +19,7 @@ class MessageController {
   	redirect controller:ctrl, action:"delete", id:id
   }
 
-  def cancel(String ctrl, String act) {
-  	redirect controller:ctrl, action:act
+  def cancel(params) {
+    redirect controller:params.ctrl, action: params?.act ?: "list", params:[status:params?.status, id:params?.id]
   }
 }

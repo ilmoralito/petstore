@@ -13,7 +13,8 @@ class SaleController {
     detail:"GET",
 		buildSale:["GET", "POST"],
     show:"GET",
-    changeSaleStatus:"GET"
+    changeSaleStatus:"GET",
+    delete:"GET"
 	]
 
 	def list() {
@@ -373,6 +374,24 @@ class SaleController {
     }
 
     redirect action:"show", id:id
+  }
+
+  def delete(Integer id) {
+    def sale = Sale.get(id)
+
+    if (!sale) { response.sendError 404 }
+
+    if (!sale.delete()) {
+      sale.errors.allErrors.each { error ->
+        log.error "[$error.field: $error.defaultMessage]"
+
+        flash.message = "A ocurrido un error."
+      }
+    } else {
+      flash.message = "Venta eliminada"
+    }
+
+    redirect action:"list", params:[status:sale.status, clientId:sale.client.id]
   }
 }
 

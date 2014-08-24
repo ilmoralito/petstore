@@ -7,7 +7,7 @@
 	<r:require modules="bootstrap-css, app"/>
 </head>
 <body>
-	<g:form params="[id:params?.id, ctrl:params?.ctrl, act:params?.act]">
+	<g:form params="${params}">
 		<h4>Si eliminas este registro no podras deshacer los cambios. Deseas continuar?</h4>
 
 		<g:actionSubmit value="Confirmar" action="confirm" class="btn btn-warning"/>

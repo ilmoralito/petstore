@@ -72,7 +72,7 @@ class SaleController {
         def computedDiscount = total * (discount / 100)
         def totalPaid = (total - computedDiscount) + computedDiscount
 
-        if (totalPaid <= flow.sale.balance) {
+        if (totalPaid && totalPaid <= flow.sale.balance) {
           def paymentInstance = new Payment(payment:payment, receipt:cmd.receipt, discount:discount)
           
           //add checks to payments
@@ -91,10 +91,16 @@ class SaleController {
           flow.sale.balance -= totalPaid
           
           if (!flow.sale.save(flush:true)) {
-            flow.sale.errors.allErrors.each { println it }
+            flow.sale.errors.allErrors.each { error ->
+              log.error "[$error.field: $error.defaultMessage]"
+
+              flow.errors = flow.sale
+
+              return false
+            }
           }
         } else {
-          flash.message = "El abono es mayor que el saldo"
+          flash.message = "El abono es mayor que el saldo. O agrega cantidades a abonar"
         }
       }.to "receipt"
 

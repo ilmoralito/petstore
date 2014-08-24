@@ -17,8 +17,8 @@
 					<small><g:renderErrors bean="${errors}"/></small>
 				</g:hasErrors>
 
-				<g:if test="${flash.message}">
-					<br><div class="alert alert-info">${flash.message}</div>
+				<g:if test="${message}">
+					<small>${message}</small>
 				</g:if>
 			</div>
 		</div>

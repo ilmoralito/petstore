@@ -26,7 +26,7 @@ class SaleController {
     }
 
     def sales = {
-      if (request.method == "POST" || status && clientId) {
+      if (request.method == "POST" || ((status || !status) && clientId)) {
         def client = Client.get clientId
 
         if (!client) { response.sendError 404 }

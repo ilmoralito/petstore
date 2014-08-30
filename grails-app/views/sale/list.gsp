@@ -11,7 +11,7 @@
 			<g:if test="${sales}">
 				<g:each in="${sales}" var="sale">
 					<h4>
-						<g:link action="show" params="[id:sale.id, status:params?.status]">
+						<g:link action="show" params="[id:sale.id, clientId:params?.clientId, status:params?.status]">
 							Factura #${sale.invoice}, ${sale.dateCreated.format("yyyy-MM-dd HH:mm:ss")}
 						</g:link>
 					</h4>

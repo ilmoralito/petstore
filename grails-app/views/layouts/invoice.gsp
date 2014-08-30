@@ -10,7 +10,9 @@
 	<div class="container">
 		<div class="row toolbar">
 			<div class="col-md-6">
-				<g:link action="list" class="btn btn-default btn-sm">Regresar</g:link>
+				<g:link action="list" params="[status:params?.status, clientId:params?.clientId]" class="btn btn-default btn-sm">
+					Regresar
+				</g:link>
 			</div>
 			<div class="col-md-6">
 				<div class="pull-right">

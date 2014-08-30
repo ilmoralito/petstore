@@ -46,18 +46,15 @@ class ClientController {
 
     addClient {
       on("addClient") {
+        params.emails = flow.emails
         def client = new Client(params)
-
-        if (flow.emails) {
-          flow.emails.each { email -> client.addToEmails email }
-        }
 
         if (flow.telephones) {
           flow.telephones.each { telephone -> client.addToTelephones telephone }
         }
 
         if (!client.save()) {
-          client.errors.allErrors.each { println it }
+          client.errors.allErrors.each { error -> log.error "[$error.field: $error.defaultMessage]" }
 
           flow.client = client
           return error()

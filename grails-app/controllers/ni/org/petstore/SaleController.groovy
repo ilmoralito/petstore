@@ -17,7 +17,7 @@ class SaleController {
     delete:"GET"
 	]
 
-	def list() {
+	def list(Boolean status, Integer clientId) {
     def criteria = Sale.createCriteria()
     def clients = criteria.list {
       projections {
@@ -25,19 +25,21 @@ class SaleController {
       }
     }
 
-    if (request.method == "POST" || (params?.status && params?.clientId)) {
-      def client = Client.get(params.int("clientId"))
+    def sales = {
+      if (request.method == "POST" || status && clientId) {
+        def client = Client.get clientId
 
-      if (!client) { response.sendError 404 }
+        if (!client) { response.sendError 404 }
 
-      def query = Sale.where {
-        client == client && status == params.boolean("status")
+        def query = Sale.where {
+          client == client && status == status
+        }
+
+        query.list(sort:"dateCreated", order:"desc")
       }
-
-      return [clients:clients, sales:query.list(sort:"dateCreated", order:"desc")]
     }
 
-    [clients:clients]
+    [clients:clients, sales:sales.call()]
 	}
 
   def paymentFlow = {

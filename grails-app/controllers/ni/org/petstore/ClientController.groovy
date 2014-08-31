@@ -105,13 +105,15 @@ class ClientController {
   def delete(Integer id) {
   	def client = Client.get(id)
 
-  	if (!client) {
-  		response.sendError 404
-  		return
-  	}
+  	if (!client) { response.sendError 404 }
 
-  	client.delete()
-
+  	try {
+      client.delete(flush:true)      
+    }
+    catch(org.springframework.dao.DataIntegrityViolationException e) {
+      flash.message = "No se pudo borrar el cliente $e"
+    }
+    
   	redirect action:"list"
   }
 

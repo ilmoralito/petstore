@@ -86,6 +86,7 @@ class ClientController {
 
         def telephone = new Telephone(type:cmd.type, number:cmd.number)
 
+        flow.type = cmd.type
         flow.telephones.add telephone
       }.to "addClient"
 

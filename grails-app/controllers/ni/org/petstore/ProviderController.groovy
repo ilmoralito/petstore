@@ -132,7 +132,12 @@ class ProviderController {
 
   	if (!provider) { response.sendError 404 }
 
-  	provider.delete()
+  	try {
+      provider.delete(flush:true)      
+    }
+    catch(org.springframework.dao.DataIntegrityViolationException e) {
+      flash.message = "No se pudo borrar el proveedor $e"
+    }
 
   	redirect action:"list"
   }

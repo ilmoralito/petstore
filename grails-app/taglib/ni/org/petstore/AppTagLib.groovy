@@ -43,8 +43,9 @@ class AppTagLib {
 
 	def productInStock = {
 		def details = Detail.findAllByQuantityLessThan(10)
+		def notValidActionNames = ["buildSale", "createClient", "createProvider"]
 
-    if (details && actionName != "buildSale" && actionName != "presentations") {
+    if (details && !actionName in notValidActionNames && actionName != "presentations") {
     	def detailsGroupedByPresentation = details.groupBy() { it.presentation }
 			def results = detailsGroupedByPresentation.keySet().groupBy() { it.product }
 

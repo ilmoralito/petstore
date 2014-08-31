@@ -15,9 +15,6 @@
 				<g:submitButton name="addClient" value="Guardar" class="btn btn-primary"/>
 				<g:link controller="client" action="list" class="btn btn-default">Cancelar</g:link>
 			</g:form>
-			<p>
-				<g:hasErrors bean="${client}"><g:renderErrors bean="${client}"></g:renderErrors></g:hasErrors>
-			</p>
 		</div>
 		<div class="col-md-4">
 			<h4>Emails</h4>

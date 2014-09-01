@@ -128,15 +128,17 @@ ni.org.petstore.presentations = [
   "Talco":
     ["80gm"],
   "Spray":
-    ["120ml", "150ml", "250ml", "356ml", "475ml", "159gm"],
+    ["30ml", "120ml", "150ml", "250ml", "356ml", "475ml", "159gm", "295gm"],
   "Tableta":
-    ["2tabs", "4tabs", "6tabs", "8tabs", "10tabs", "24tabs", "50tabs", "60tabs", "100tabs", "300tabs"],
+    ["2tabs", "4tabs", "6tabs", "8tabs", "10tabs", "7tabs", "14tabs", "24tabs", "40tabs", "50tabs", "60tabs", "100tabs", "300tabs", "500tabs"],
   "Soluble":
-    ["20g", "25g", "100g", "125g", "200g", "1kg"],
+    ["20g", "25g", "100g", "125g", "200g", "1kg", "2kg", "10kg", "20kg"],
   "Suspencion":
-    ["120ml", "360ml"],
+    ["12g" ,"5ml" ,"10ml" ,"15ml", "20ml", "30ml", "120ml", "250ml", "360ml", "500ml", "1Lt", "1.8Lt", "3.78Lt"],
   "Inyectable":
-    ["10ml", "20ml", "25ml", "50ml", "100ml", "250ml", "500ml"]
+    ["10ml", "20ml", "25ml", "30ml", "50ml", "60ml", "100ml", "240ml", "250ml", "500ml", "600ml"],
+  "Solucion":
+    ["0.52ml", "3.25ml", "9.60ml", "10ml", "200ml", "250ml", "1Lt", "3.78Lt"]
 ]
 ni.org.petstore.cities = [
   "Leon":["Achuapa", "El Jicaral", "El Sauce", "La Paz Centro", "Larreynaga", "Leon", "Nagarote", "Quezalguaque", "Santa Rosa del Penon", "Telica"],
